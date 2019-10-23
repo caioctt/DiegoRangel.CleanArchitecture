@@ -5,21 +5,25 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - API", "1 - API", "{82F67196-9608-4EB2-B6DF-A6639EFEE571}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Dominio", "2 - Dominio", "{F6144579-EA90-4589-85A8-274ED6CD1561}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{F6144579-EA90-4589-85A8-274ED6CD1561}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{CC41A00D-FE00-4FC2-B708-48233478F5E3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Testes", "4 - Testes", "{FDD0A790-F3BE-45CC-89E7-7AC1580A128F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Test", "4 - Test", "{FDD0A790-F3BE-45CC-89E7-7AC1580A128F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.1 - Data", "3.1 - Data", "{B8BD1683-1506-40D7-8917-F704D3049964}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2 - CrossCutting", "3.2 - CrossCutting", "{4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Domain", "src\DiegoRangel.DotNet.Framework.CQRS.Domain\DiegoRangel.DotNet.Framework.CQRS.Domain.csproj", "{79C0D865-3AF2-4289-AFC9-5D8EFA253996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Domain.Core", "src\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj", "{37349550-BDBA-4050-9BC1-7A6E8CC2936B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Domain.Core", "src\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj", "{37349550-BDBA-4050-9BC1-7A6E8CC2936B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj", "{F430AFB3-CE55-4440-A820-52614E87BE86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.csproj", "{E25334EA-BF9D-466F-9F2B-270F3A2A35F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.csproj", "{B0DFEB1A-9AEF-4675-819F-83514E371D56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +35,22 @@ Global
 		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79C0D865-3AF2-4289-AFC9-5D8EFA253996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79C0D865-3AF2-4289-AFC9-5D8EFA253996}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79C0D865-3AF2-4289-AFC9-5D8EFA253996}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79C0D865-3AF2-4289-AFC9-5D8EFA253996}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F430AFB3-CE55-4440-A820-52614E87BE86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F430AFB3-CE55-4440-A820-52614E87BE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F430AFB3-CE55-4440-A820-52614E87BE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F430AFB3-CE55-4440-A820-52614E87BE86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0DFEB1A-9AEF-4675-819F-83514E371D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0DFEB1A-9AEF-4675-819F-83514E371D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0DFEB1A-9AEF-4675-819F-83514E371D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0DFEB1A-9AEF-4675-819F-83514E371D56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,8 +59,10 @@ Global
 		{B8BD1683-1506-40D7-8917-F704D3049964} = {CC41A00D-FE00-4FC2-B708-48233478F5E3}
 		{4196CB00-8FC7-4120-9AA4-02D1B4FB75D3} = {CC41A00D-FE00-4FC2-B708-48233478F5E3}
 		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF} = {82F67196-9608-4EB2-B6DF-A6639EFEE571}
-		{79C0D865-3AF2-4289-AFC9-5D8EFA253996} = {F6144579-EA90-4589-85A8-274ED6CD1561}
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B} = {F6144579-EA90-4589-85A8-274ED6CD1561}
+		{F430AFB3-CE55-4440-A820-52614E87BE86} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
+		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
+		{B0DFEB1A-9AEF-4675-819F-83514E371D56} = {B8BD1683-1506-40D7-8917-F704D3049964}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFECDDC6-80FD-4AF6-8A14-40503E9C8C47}

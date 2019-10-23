@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Domain\DiegoRangel.DotNet.Framework.CQRS.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

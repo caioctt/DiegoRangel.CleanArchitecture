@@ -1,5 +1,6 @@
 ﻿using System;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
@@ -36,10 +37,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <summary>
     /// Implements <see cref="IFullAudited{TUser}"/> to be a base class for full-audited entities.
     /// </summary>
-    /// <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
+    /// <typeparam name="TUserPrimaryKey">Type of the primary key of the entity</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
-    public abstract class FullAuditedEntity<TUser, TPrimaryKey> : FullAuditedEntity<TPrimaryKey>, IFullAudited<TUser, TPrimaryKey>
-        where TUser : IEntity<TPrimaryKey>
+    public abstract class FullAuditedEntity<TUser, TUserPrimaryKey> : FullAuditedEntity<TUserPrimaryKey>, IFullAudited<TUser, TUserPrimaryKey>
+        where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         /// <summary>
         /// Reference to the creator user of this entity.

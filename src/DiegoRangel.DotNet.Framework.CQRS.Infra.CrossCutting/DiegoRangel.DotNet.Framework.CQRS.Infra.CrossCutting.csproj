@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.1" />
   </ItemGroup>
 
 </Project>

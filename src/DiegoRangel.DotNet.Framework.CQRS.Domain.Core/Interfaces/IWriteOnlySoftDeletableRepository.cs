@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces
@@ -8,7 +9,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
     {
         Task MoveToTrash(TPrimaryKey id);
-        Task MoveToTrash(TEntity obj);
+        Task MoveToTrash(TEntity entity);
+        Task MoveToTrash(IList<TEntity> entities);
     }
 
     public interface IWriteOnlySoftDeletableRepository<TEntity> : IWriteOnlySoftDeletableRepository<TEntity, int>
