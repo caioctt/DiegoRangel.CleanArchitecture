@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 {
-    public abstract class EntityMap<TEntity, TPrimaryKey> : IEntityTypeConfiguration<TEntity>
-        where TPrimaryKey : struct
-        where TEntity : Entity<TPrimaryKey>
+    public abstract class EntityMap<TEntity, TEntityKey> : IEntityTypeConfiguration<TEntity>
+        where TEntityKey : struct
+        where TEntity : Entity<TEntityKey>
     {
         public void Configure(EntityTypeBuilder<TEntity> builder)
         {

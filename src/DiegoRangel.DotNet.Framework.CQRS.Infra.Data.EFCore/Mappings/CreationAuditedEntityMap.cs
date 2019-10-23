@@ -5,25 +5,28 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 {
-    public abstract class CreationAuditedEntityMap<TEntity, TPrimaryKey> : EntityMap<TEntity, TPrimaryKey>
-        where TPrimaryKey : struct
-        where TEntity : CreationAuditedEntity<TPrimaryKey>
+    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
+        where TEntityKey : struct
+        where TUserPrimaryKey : struct
+        where TEntity : Entity<TEntityKey>, ICreationAudited<TUserPrimaryKey>
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
             ConfigureCreationAuditedEntityBuilder(builder);
 
             builder.Property(x => x.CreationTime).IsRequired();
+            builder.Property(x => x.CreatorUserId).IsRequired();
         }
 
         public abstract void ConfigureCreationAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
 
 
-    public abstract class CreationAuditedEntityMap<TEntity, TUser, TPrimaryKey> : CreationAuditedEntityMap<TEntity, TPrimaryKey>
-        where TPrimaryKey : struct
-        where TEntity : CreationAuditedEntity<TUser, TPrimaryKey>
-        where TUser : Entity<TPrimaryKey>, IUser<TPrimaryKey>
+    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUser, TUserPrimaryKey> : CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
+        where TEntityKey : struct
+        where TUserPrimaryKey : struct
+        where TEntity : Entity<TEntityKey>, ICreationAudited<TUser, TUserPrimaryKey>
+        where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
@@ -34,8 +37,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         }
     }
 
-    public abstract class CreationAuditedEntityMap<TEntity> : CreationAuditedEntityMap<TEntity, int>
-        where TEntity : CreationAuditedEntity<int>
+    public abstract class CreationAuditedEntityMap<TEntity> : CreationAuditedEntityMap<TEntity, int, int>
+        where TEntity : Entity<int>, ICreationAudited<int>
     {
 
     }
