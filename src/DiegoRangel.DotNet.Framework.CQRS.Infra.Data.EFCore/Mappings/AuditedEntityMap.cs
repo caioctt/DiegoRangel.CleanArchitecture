@@ -29,15 +29,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         where TEntity : Entity<TEntityKey>, IAudited<TUser, TUserPrimaryKey>
         where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
-        public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
+        public override void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
-            ConfigureAuditedEntityBuilder(builder);
+            ConfigureAuditedEntityWithUserBuilder(builder);
 
-            builder.Property(x => x.CreationTime).IsRequired();
-            builder.Property(x => x.LastModificationTime).IsRequired();
             builder.HasOne(x => x.CreatorUser).WithMany();
             builder.HasOne(x => x.LastModifierUser).WithMany();
         }
+
+        public abstract void ConfigureAuditedEntityWithUserBuilder(EntityTypeBuilder<TEntity> builder);
     }
 
     public abstract class AuditedEntityMap<TEntity> : AuditedEntityMap<TEntity, int, int>
