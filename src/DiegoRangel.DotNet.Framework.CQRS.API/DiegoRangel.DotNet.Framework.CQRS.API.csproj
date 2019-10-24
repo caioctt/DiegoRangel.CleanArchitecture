@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Diego Rangel</Authors>
+    <Company>Diego Rangel</Company>
+    <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A common library for implementing CQRS based NetCore Api layer.</Description>
   </PropertyGroup>
 
   <ItemGroup>
