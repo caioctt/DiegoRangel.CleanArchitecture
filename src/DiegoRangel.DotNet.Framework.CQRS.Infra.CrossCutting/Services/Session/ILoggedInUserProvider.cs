@@ -1,6 +1,6 @@
 ﻿namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session
 {
-    public interface ILoggedInUser
+    public interface ILoggedInUserProvider
     {
         IUser GetLoggedInUser();
     }

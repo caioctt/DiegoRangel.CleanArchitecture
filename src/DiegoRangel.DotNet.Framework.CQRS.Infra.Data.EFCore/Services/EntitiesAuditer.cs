@@ -10,8 +10,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services
 {
     public class EntitiesAuditer : IEntitiesAuditer
     {
-        private readonly ILoggedInUser _loggedInUser;
-        public EntitiesAuditer(ILoggedInUser loggedInUser)
+        private readonly ILoggedInUserProvider _loggedInUser;
+        public EntitiesAuditer(ILoggedInUserProvider loggedInUser)
         {
             _loggedInUser = loggedInUser;
         }
