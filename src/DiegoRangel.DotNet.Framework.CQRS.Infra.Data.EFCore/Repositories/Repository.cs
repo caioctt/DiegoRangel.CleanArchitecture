@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
+﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +13,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
     {
         protected readonly DbContext Context;
         protected readonly DbSet<TEntity> DbSet;
-
-        protected virtual IQueryable<TEntity> Query => Context.Set<TEntity>();
-
+        
         protected Repository(DbContext context)
         {
             Context = context;

@@ -14,6 +14,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
+        protected virtual IQueryable<TEntity> Query => Context.Set<TEntity>();
+
         protected ReadOnlyRepository(DbContext context) : base(context)
         {
         }
