@@ -4,6 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers

@@ -1,6 +1,6 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces
+namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
 {
     public interface ICrudSoftDeletableRepository<TEntity, in TPrimaryKey> :
         IReadOnlyRepository<TEntity, TPrimaryKey>,

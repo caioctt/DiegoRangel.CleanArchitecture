@@ -5,7 +5,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
 
     /// <summary>
-    /// A shortcut of <see cref="IAudited{TPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="IAudited{TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
     public interface IAudited : IAudited<int>
     {

@@ -1,5 +1,6 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Security;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services;

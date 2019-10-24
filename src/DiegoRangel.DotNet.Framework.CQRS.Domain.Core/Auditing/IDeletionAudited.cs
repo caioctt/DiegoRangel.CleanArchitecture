@@ -4,7 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     /// <summary>
-    /// A shortcut of <see cref="IDeletionAudited{TPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="IDeletionAudited{TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
     public interface IDeletionAudited : IDeletionAudited<int>
     {

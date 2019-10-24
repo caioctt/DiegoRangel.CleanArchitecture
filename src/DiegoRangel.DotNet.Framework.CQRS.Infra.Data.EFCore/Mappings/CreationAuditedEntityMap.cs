@@ -20,21 +20,21 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 
         public abstract void ConfigureCreationAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
-
-
+    
     public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUser, TUserPrimaryKey> : CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
         where TEntityKey : struct
         where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>, ICreationAudited<TUser, TUserPrimaryKey>
         where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
-        public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
+        public override void ConfigureCreationAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
-            ConfigureCreationAuditedEntityBuilder(builder);
+            ConfigureCreationAuditedEntityWithUserBuilder(builder);
 
-            builder.Property(x => x.CreationTime).IsRequired();
             builder.HasOne(x => x.CreatorUser).WithMany();
         }
+
+        public abstract void ConfigureCreationAuditedEntityWithUserBuilder(EntityTypeBuilder<TEntity> builder);
     }
 
     public abstract class CreationAuditedEntityMap<TEntity> : CreationAuditedEntityMap<TEntity, int, int>
