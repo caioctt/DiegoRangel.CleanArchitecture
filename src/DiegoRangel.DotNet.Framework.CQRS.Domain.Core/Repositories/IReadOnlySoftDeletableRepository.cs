@@ -2,16 +2,14 @@
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
 {
-    public interface ICrudSoftDeletableRepository<TEntity, in TPrimaryKey> :
-        IReadOnlyRepository<TEntity, TPrimaryKey>,
-        IWriteOnlySoftDeletableRepository<TEntity, TPrimaryKey>
+    public interface IReadOnlySoftDeletableRepository<TEntity, in TPrimaryKey> : IReadOnlyRepository<TEntity, TPrimaryKey>
         where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
     {
-
+        
     }
 
-    public interface ICrudSoftDeletableRepository<TEntity> : ICrudSoftDeletableRepository<TEntity, int>
+    public interface IReadOnlySoftDeletableRepository<TEntity> : IReadOnlySoftDeletableRepository<TEntity, int>
         where TEntity : IEntity<int>, ISoftDelete
     {
 

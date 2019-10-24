@@ -20,13 +20,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
 
         public virtual Task<List<TEntity>> FindAllAsync()
         {
-            return DbSet.ToListAsync();
+            return Query.ToListAsync();
         }
 
         public virtual async Task<PagedSearchList<TEntity>> FindAllPagedAsync(int currentPage, int pageSize)
         {
-            var count = await DbSet.CountAsync();
-            var data = await DbSet
+            var count = await Query.CountAsync();
+            var data = await Query
                 .Take(pageSize)
                 .Skip((currentPage - 1) * pageSize)
                 .ToListAsync();
@@ -42,19 +42,19 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
 
         public virtual Task<TEntity> FindByIdAsync(TEntityKey id)
         {
-            return DbSet.FindAsync(id);
+            return Query.FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public virtual Task<List<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> condition)
         {
-            return DbSet
+            return Query
                 .Where(condition)
                 .ToListAsync();
         }
 
         public virtual async Task<PagedSearchList<TEntity>> SearchPagedAsync(Expression<Func<TEntity, bool>> condition, int currentPage, int pageSize)
         {
-            var query = DbSet.Where(condition);
+            var query = Query.Where(condition);
             var count = await query.CountAsync();
             var data = await query
                 .Take(pageSize)
