@@ -16,18 +16,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// This class can be used to simplify implementing <see cref="IAudited"/>.
     /// </summary>
     /// <typeparam name="TUserPrimaryKey">Type of the primary key of the entity</typeparam>
-    public abstract class AuditedEntity<TUserPrimaryKey> : ICreationAudited<TUserPrimaryKey>, IModificationAudited<TUserPrimaryKey>
+    public abstract class AuditedEntity<TUserPrimaryKey> : CreationAuditedEntity<TUserPrimaryKey>, IModificationAudited<TUserPrimaryKey>
     {
-        /// <summary>
-        /// Creation time of this entity.
-        /// </summary>
-        public virtual DateTime CreationTime { get; set; }
-
-        /// <summary>
-        /// Id of the creator user of this entity.
-        /// </summary>
-        public virtual TUserPrimaryKey CreatorUserId { get; set; }
-
         /// <summary>
         /// Last modification date of this entity.
         /// </summary>
