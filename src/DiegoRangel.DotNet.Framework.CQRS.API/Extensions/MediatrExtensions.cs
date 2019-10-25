@@ -8,8 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
     {
         public static void AddMediatr(this IServiceCollection services, Type assemblyScanner)
         {
-            var assembly = AppDomain.CurrentDomain.Load(assemblyScanner.Namespace);
-            services.AddMediatR(assembly);
+            services.AddMediatR(assemblyScanner.Assembly);
         }
     }
 }

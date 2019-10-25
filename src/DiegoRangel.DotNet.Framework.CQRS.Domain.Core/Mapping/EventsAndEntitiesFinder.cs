@@ -10,7 +10,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Mapping
         public static List<Tuple<Type, Type>> GetMappingsFrom(Type assemblyScanner)
         {
             var mappings = new List<Tuple<Type, Type>>();
-            var types = AppDomain.CurrentDomain.Load(assemblyScanner.Namespace).GetTypes().ToList();
+            var types = assemblyScanner.Assembly.GetTypes().ToList();
 
             var events = types
                 .Where(x =>
