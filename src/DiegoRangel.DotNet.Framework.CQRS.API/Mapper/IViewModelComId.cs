@@ -1,6 +1,6 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.API.AutoMapperSetup
+namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 {
     public interface IViewModelWithId<T, K> : IViewModel<T>
         where K : struct

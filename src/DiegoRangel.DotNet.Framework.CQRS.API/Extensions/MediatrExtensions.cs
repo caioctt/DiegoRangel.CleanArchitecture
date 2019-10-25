@@ -6,9 +6,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {
     public static class MediatrExtensions
     {
-        public static void AddMediatr(this IServiceCollection services, string projectName)
+        public static void AddMediatr(this IServiceCollection services, Type assemblyScanner)
         {
-            var assembly = AppDomain.CurrentDomain.Load(projectName);
+            var assembly = AppDomain.CurrentDomain.Load(assemblyScanner.Namespace);
             services.AddMediatR(assembly);
         }
     }

@@ -12,7 +12,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
 {
     public static class Bootstrapper
     {
-        public static void RegisterServicesBasedOn(IServiceCollection services, string projectName)
+        public static void RegisterServicesBasedOn(IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();
@@ -22,9 +22,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddScoped<IEntitiesAuditer, EntitiesAuditer>();
             services.AddScoped<DomainNotificationContext>();
 
-            services.RegisterStateMachines(projectName);
-            services.RegisterWhoImplements(typeof(IRepository), projectName);
-            services.RegisterWhoImplements(typeof(IDomainService), projectName);
+            services.RegisterStateMachines();
+            services.RegisterWhoImplements(typeof(IRepository));
+            services.RegisterWhoImplements(typeof(IDomainService));
         }
     }
 }

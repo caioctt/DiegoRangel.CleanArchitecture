@@ -7,10 +7,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Mapping
 {
     public static class CommandsAndEntitiesFinder
     {
-        public static List<Tuple<Type, Type>> GetMappingsFrom(string projectName)
+        public static List<Tuple<Type, Type>> GetMappingsFrom(Type assemblyScanner)
         {
             var mappings = new List<Tuple<Type, Type>>();
-            var types = AppDomain.CurrentDomain.Load(projectName).GetTypes().ToList();
+            var types = AppDomain.CurrentDomain.Load(assemblyScanner.Namespace).GetTypes().ToList();
 
             var commands = types.Where(x =>
                 x.IsClass && x.GetInterfaces()

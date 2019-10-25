@@ -1,4 +1,4 @@
-﻿using DiegoRangel.DotNet.Framework.CQRS.API.AutoMapperSetup;
+﻿using DiegoRangel.DotNet.Framework.CQRS.API.Mapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.IO;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.BinaryObjects

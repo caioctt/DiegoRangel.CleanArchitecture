@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.API.AutoMapperSetup
+namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 {
     public static class MapperHelper
     {

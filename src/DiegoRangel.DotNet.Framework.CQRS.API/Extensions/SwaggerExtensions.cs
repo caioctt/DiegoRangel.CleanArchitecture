@@ -8,7 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {
     public static class SwaggerExtensions
     {
-        public static void AddSwaggerConfig(this IServiceCollection services, string apiName, string contactInfo)
+        public static void AddSwaggerConfig(this IServiceCollection services, string apiName, string contactInfo, bool useJwtAuth)
         {
             services.AddSwaggerGen(c =>
             {
@@ -19,6 +19,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
                     Contact = new Contact { Name = contactInfo }
                 });
 
+                if (!useJwtAuth) return;
                 var security = new Dictionary<string, IEnumerable<string>>
                 {
                     {"Bearer", new string[] { }},

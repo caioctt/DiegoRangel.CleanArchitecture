@@ -8,9 +8,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection RegisterWhoImplements(this IServiceCollection service, Type interfaceType, string projectName)
+        public static IServiceCollection RegisterWhoImplements(this IServiceCollection service, Type interfaceType)
         {
-            var types = GetAssembliesFrom(projectName);
+            var types = GetAssembliesFrom();
 
             var interfaces = types
                 .Where(x => !x.IsClass && x.GetInterfaces().Contains(interfaceType)).Select(x => x).ToList();
@@ -30,9 +30,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
             return service;
         }
 
-        public static void RegisterStateMachines(this IServiceCollection service, string projectName)
+        public static void RegisterStateMachines(this IServiceCollection service)
         {
-            var types = GetAssembliesFrom(projectName);
+            var types = GetAssembliesFrom();
             var stateMachines = types
                 .Where(x =>
                     x.IsClass && !x.IsAbstract && x.GetInterfaces().Contains(typeof(IStateMachine))
@@ -44,9 +44,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
             }
         }
 
-        private static IList<Type> GetAssembliesFrom(string projectName)
+        private static IList<Type> GetAssembliesFrom()
         {
-            return AppDomain.CurrentDomain.Load(projectName).GetTypes().ToList();
+            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToList();
         }
     }
 }
