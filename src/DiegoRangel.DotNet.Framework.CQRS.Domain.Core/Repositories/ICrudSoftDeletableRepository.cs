@@ -4,7 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
 {
-    public interface IWriteOnlySoftDeletableRepository<TEntity, in TPrimaryKey> : IWriteOnlyRepository<TEntity, TPrimaryKey>
+    public interface ICrudSoftDeletableRepository<TEntity, in TPrimaryKey> : ICrudRepository<TEntity, TPrimaryKey>
         where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
     {
@@ -13,9 +13,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
         Task MoveToTrashAsync(IList<TEntity> entities);
     }
 
-    public interface IWriteOnlySoftDeletableRepository<TEntity> : IWriteOnlySoftDeletableRepository<TEntity, int>
+    public interface ICrudSoftDeletableRepository<TEntity> : ICrudSoftDeletableRepository<TEntity, int>
         where TEntity : IEntity<int>, ISoftDelete
     {
-        
+
     }
 }

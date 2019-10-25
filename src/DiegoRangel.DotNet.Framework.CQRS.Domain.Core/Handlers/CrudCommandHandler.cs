@@ -17,31 +17,28 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : IEntity<TPrimaryKey>
         where TDelete : ICommandWithId<TPrimaryKey>
     {
-        private readonly IReadOnlyRepository<TEntity, TPrimaryKey> _readOnlyRepository;
-        private readonly IWriteOnlyRepository<TEntity, TPrimaryKey> _writeOnlyRepository;
+        private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
 
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
-            IReadOnlyRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlyRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow)
         {
-            _readOnlyRepository = readOnlyRepository;
-            _writeOnlyRepository = writeOnlyRepository;
+            _repository = repository;
             _domainNotificationContext = domainNotificationContext;
         }
 
         public virtual async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
         {
-            var entity = await _readOnlyRepository.FindByIdAsync(request.Id);
+            var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
                 _domainNotificationContext.AddNotification("Not found");
                 return Fail();
             }
 
-            await _writeOnlyRepository.DeleteAsync(entity);
+            await _repository.DeleteAsync(entity);
 
             if (await Commit())
                 return NoContent();
@@ -58,26 +55,23 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TDelete : ICommandWithId<TPrimaryKey>
     {
         private readonly IMapper _mapper;
-        private readonly IReadOnlyRepository<TEntity, TPrimaryKey> _readOnlyRepository;
-        private readonly IWriteOnlyRepository<TEntity, TPrimaryKey> _writeOnlyRepository;
+        private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
 
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
             IMapper mapper,
-            IReadOnlyRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlyRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow, readOnlyRepository, writeOnlyRepository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, repository)
         {
             _mapper = mapper;
-            _readOnlyRepository = readOnlyRepository;
-            _writeOnlyRepository = writeOnlyRepository;
+            _repository = repository;
             _domainNotificationContext = domainNotificationContext;
         }
 
         public virtual async Task<IResponse> Handle(TUpdate request, CancellationToken cancellationToken)
         {
-            var entity = await _readOnlyRepository.FindByIdAsync(request.Id);
+            var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
                 _domainNotificationContext.AddNotification("Not found");
@@ -88,7 +82,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
             if (!IsValid<TEntity, TPrimaryKey>(entity)) return Fail();
 
-            await _writeOnlyRepository.UpdateAsync(entity);
+            await _repository.UpdateAsync(entity);
 
             if (await Commit())
                 return Ok(entity);
@@ -106,17 +100,16 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TDelete : ICommandWithId<TPrimaryKey>
     {
         private readonly IMapper _mapper;
-        private readonly IWriteOnlyRepository<TEntity, TPrimaryKey> _writeOnlyRepository;
+        private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
 
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
             IMapper mapper,
-            IReadOnlyRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlyRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow, mapper, readOnlyRepository, writeOnlyRepository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
         {
             _mapper = mapper;
-            _writeOnlyRepository = writeOnlyRepository;
+            _repository = repository;
         }
 
         public virtual async Task<IResponse> Handle(TRegister request, CancellationToken cancellationToken)
@@ -126,7 +119,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             if (!IsValid<TEntity, TPrimaryKey>(entity))
                 return Fail();
 
-            await _writeOnlyRepository.AddAsync(entity);
+            await _repository.AddAsync(entity);
 
             if (await Commit())
                 return Ok(entity);
@@ -145,8 +138,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
             IMapper mapper,
-            IReadOnlyRepository<TEntity, int> readOnlyRepository,
-            IWriteOnlyRepository<TEntity, int> writeOnlyRepository) : base(domainNotificationContext, uow, mapper, readOnlyRepository, writeOnlyRepository)
+            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, uow, mapper, repository)
         {
         }
     }

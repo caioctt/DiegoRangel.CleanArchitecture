@@ -16,31 +16,28 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
         where TDelete : ICommandWithId<TPrimaryKey>
     {
-        private readonly IReadOnlySoftDeletableRepository<TEntity, TPrimaryKey> _readOnlyRepository;
-        private readonly IWriteOnlySoftDeletableRepository<TEntity, TPrimaryKey> _writeOnlyRepository;
+        private readonly ICrudSoftDeletableRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
 
         protected CrudSoftDeletableCommandHandler(
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
-            IReadOnlySoftDeletableRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlySoftDeletableRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow, readOnlyRepository, writeOnlyRepository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, repository)
         {
-            _readOnlyRepository = readOnlyRepository;
-            _writeOnlyRepository = writeOnlyRepository;
+            _repository = repository;
             _domainNotificationContext = domainNotificationContext;
         }
 
         public override async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
         {
-            var entity = await _readOnlyRepository.FindByIdAsync(request.Id);
+            var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
                 _domainNotificationContext.AddNotification("Not found");
                 return Fail();
             }
 
-            await _writeOnlyRepository.MoveToTrashAsync(entity);
+            await _repository.MoveToTrashAsync(entity);
 
             if (await Commit())
                 return NoContent();
@@ -59,8 +56,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow, 
             IMapper mapper,
-            IReadOnlySoftDeletableRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlySoftDeletableRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow, mapper, readOnlyRepository, writeOnlyRepository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
         {
         }
     }
@@ -77,8 +73,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
             IMapper mapper,
-            IReadOnlySoftDeletableRepository<TEntity, TPrimaryKey> readOnlyRepository,
-            IWriteOnlySoftDeletableRepository<TEntity, TPrimaryKey> writeOnlyRepository) : base(domainNotificationContext, uow, mapper, readOnlyRepository, writeOnlyRepository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
         {
         }
     }
@@ -94,8 +89,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             DomainNotificationContext domainNotificationContext,
             IUnitOfWork uow,
             IMapper mapper,
-            IReadOnlySoftDeletableRepository<TEntity, int> readOnlyRepository,
-            IWriteOnlySoftDeletableRepository<TEntity, int> writeOnlyRepository) : base(domainNotificationContext, uow, mapper, readOnlyRepository, writeOnlyRepository)
+            ICrudSoftDeletableRepository<TEntity, int> repository) : base(domainNotificationContext, uow, mapper, repository)
         {
         }
     }

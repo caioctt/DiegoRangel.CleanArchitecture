@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
 {
-    public abstract class ReadOnlyRepository<TEntity, TEntityKey> : Repository<TEntity, TEntityKey>, IReadOnlyRepository<TEntity, TEntityKey>
+    public abstract class CrudRepository<TEntity, TEntityKey> : Repository<TEntity, TEntityKey>, ICrudRepository<TEntity, TEntityKey>
         where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
         protected virtual IQueryable<TEntity> Query => Context.Set<TEntity>();
 
-        protected ReadOnlyRepository(DbContext context) : base(context)
+        protected CrudRepository(DbContext context) : base(context)
         {
         }
 
@@ -71,12 +71,52 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
                 List = data
             };
         }
+
+        public virtual Task AddAsync(TEntity entity)
+        {
+            return DbSet.AddAsync(entity);
+        }
+
+        public virtual Task AddAsync(IList<TEntity> entities)
+        {
+            return DbSet.AddRangeAsync(entities);
+        }
+
+        public virtual Task UpdateAsync(TEntity entity)
+        {
+            DbSet.Update(entity);
+            return Task.CompletedTask;
+        }
+
+        public virtual Task UpdateAsync(IList<TEntity> entities)
+        {
+            DbSet.UpdateRange(entities);
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task DeleteAsync(TEntityKey id)
+        {
+            var obj = await DbSet.FindAsync(id);
+            DbSet.Remove(obj);
+        }
+
+        public virtual Task DeleteAsync(TEntity entity)
+        {
+            DbSet.Remove(entity);
+            return Task.CompletedTask;
+        }
+
+        public virtual Task DeleteAsync(IList<TEntity> entities)
+        {
+            DbSet.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
     }
 
-    public abstract class ReadOnlyRepository<TEntity> : ReadOnlyRepository<TEntity, int>
+    public abstract class CrudRepository<TEntity> : CrudRepository<TEntity, int>
         where TEntity : Entity<int>
     {
-        protected ReadOnlyRepository(DbContext context) : base(context)
+        protected CrudRepository(DbContext context) : base(context)
         {
         }
     }

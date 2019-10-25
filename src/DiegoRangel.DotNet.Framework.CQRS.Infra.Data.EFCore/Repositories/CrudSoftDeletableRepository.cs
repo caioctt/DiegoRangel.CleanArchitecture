@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
@@ -6,11 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
 {
-    public abstract class WriteOnlySoftDeletableRepository<TEntity, TEntityKey> : WriteOnlyRepository<TEntity, TEntityKey>, IWriteOnlySoftDeletableRepository<TEntity, TEntityKey>
+    public abstract class CrudSoftDeletableRepository<TEntity, TEntityKey> : CrudRepository<TEntity, TEntityKey>, ICrudSoftDeletableRepository<TEntity, TEntityKey>
         where TEntityKey : struct
         where TEntity : Entity<TEntityKey>, ISoftDelete
     {
-        protected WriteOnlySoftDeletableRepository(DbContext context) : base(context)
+        protected override IQueryable<TEntity> Query => DbSet.Where(x => !x.IsDeleted);
+
+        protected CrudSoftDeletableRepository(DbContext context) : base(context)
         {
         }
 
@@ -41,10 +44,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         }
     }
 
-    public abstract class WriteOnlySoftDeletableRepository<TEntity> : WriteOnlySoftDeletableRepository<TEntity, int>
+    public abstract class CrudSoftDeletableRepository<TEntity> : CrudSoftDeletableRepository<TEntity, int>
         where TEntity : Entity<int>, ISoftDelete
     {
-        protected WriteOnlySoftDeletableRepository(DbContext context) : base(context)
+        protected CrudSoftDeletableRepository(DbContext context) : base(context)
         {
         }
     }
