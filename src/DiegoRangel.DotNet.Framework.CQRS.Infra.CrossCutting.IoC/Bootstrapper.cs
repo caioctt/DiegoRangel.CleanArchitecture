@@ -4,7 +4,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Security;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.UoW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +17,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();
             services.AddSingleton<ITokenProvider, TokenProvider>();
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEntitiesAuditer, EntitiesAuditer>();
             services.AddScoped<DomainNotificationContext>();
 
