@@ -7,6 +7,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -18,13 +19,16 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         private readonly ICrudSoftDeletableRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
+        private readonly CommonMessages _commonMessages;
 
         protected CrudSoftDeletableCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            DomainNotificationContext domainNotificationContext, 
+            CommonMessages commonMessages,
             IUnitOfWork uow,
-            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, repository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
             _repository = repository;
+            _commonMessages = commonMessages;
             _domainNotificationContext = domainNotificationContext;
         }
 
@@ -33,7 +37,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
-                _domainNotificationContext.AddNotification("Not found");
+                _domainNotificationContext.AddNotification(_commonMessages.NotFound ?? "Not found");
                 return Fail();
             }
 
@@ -54,9 +58,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         protected CrudSoftDeletableCommandHandler(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow, 
             IMapper mapper,
-            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
         {
         }
     }
@@ -71,9 +76,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         protected CrudSoftDeletableCommandHandler(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow,
             IMapper mapper,
-            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
+            ICrudSoftDeletableRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
         {
         }
     }
@@ -87,9 +93,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         protected CrudSoftDeletableCommandHandlerBase(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow,
             IMapper mapper,
-            ICrudSoftDeletableRepository<TEntity, int> repository) : base(domainNotificationContext, uow, mapper, repository)
+            ICrudSoftDeletableRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
         {
         }
     }

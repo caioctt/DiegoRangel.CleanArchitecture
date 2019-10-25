@@ -3,6 +3,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -10,16 +11,19 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         private readonly IUnitOfWork _uow;
         private readonly DomainNotificationContext _notificationContext;
+        private readonly CommonMessages _commonMessages;
 
         protected IResponse Ok(object obj = null) => new Ok(obj);
         protected IResponse NoContent() => new NoContent();
         protected IResponse Fail() => new Fail();
 
         protected CommandHandlerBase(
-            DomainNotificationContext notificationContext,
+            DomainNotificationContext notificationContext, 
+            CommonMessages commonMessages,
             IUnitOfWork uow)
         {
             _uow = uow;
+            _commonMessages = commonMessages;
             _notificationContext = notificationContext;
         }
 
@@ -44,6 +48,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             if (await _uow.Commit())
                 return true;
 
+            _notificationContext.AddNotification(_commonMessages.UnhandledOperation ?? "Oops... We could't perform this operation at this time.");
             return false;
         }
     }

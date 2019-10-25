@@ -4,6 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 using MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
@@ -21,7 +22,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         where TViewModelInput : IViewModel<TEntity>
         where TViewModelUpdate : IViewModel<TEntity>
     {
-        protected CrudSoftDeletableApiController(DomainNotificationContext domainNotificationContext, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper, mediator, repository)
+        protected CrudSoftDeletableApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, commonMessages, mapper, mediator, repository)
         {
         }
     }
@@ -38,7 +39,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         where TViewModelInput : IViewModel<TEntity>
         where TViewModelUpdate : IViewModel<TEntity>
     {
-        protected CrudSoftDeletableApiController(DomainNotificationContext domainNotificationContext, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper, mediator, repository)
+        protected CrudSoftDeletableApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, commonMessages, mapper, mediator, repository)
         {
         }
     }

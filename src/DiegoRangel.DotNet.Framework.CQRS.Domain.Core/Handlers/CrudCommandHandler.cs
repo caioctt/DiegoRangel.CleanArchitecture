@@ -7,6 +7,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -19,13 +20,16 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
+        private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            DomainNotificationContext domainNotificationContext, 
+            CommonMessages commonMessages,
             IUnitOfWork uow,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow)
         {
             _repository = repository;
+            _commonMessages = commonMessages;
             _domainNotificationContext = domainNotificationContext;
         }
 
@@ -34,7 +38,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
-                _domainNotificationContext.AddNotification("Not found");
+                _domainNotificationContext.AddNotification(_commonMessages.NotFound ?? "Not found");
                 return Fail();
             }
 
@@ -57,16 +61,19 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly IMapper _mapper;
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
         private readonly DomainNotificationContext _domainNotificationContext;
+        private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow,
             IMapper mapper,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, repository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
             _mapper = mapper;
             _repository = repository;
             _domainNotificationContext = domainNotificationContext;
+            _commonMessages = commonMessages;
         }
 
         public virtual async Task<IResponse> Handle(TUpdate request, CancellationToken cancellationToken)
@@ -74,7 +81,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
             {
-                _domainNotificationContext.AddNotification("Not found");
+                _domainNotificationContext.AddNotification(_commonMessages.NotFound ?? "Not found");
                 return Fail();
             }
 
@@ -104,9 +111,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow,
             IMapper mapper,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, uow, mapper, repository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -136,9 +144,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         protected CrudCommandHandlerBase(
             DomainNotificationContext domainNotificationContext,
+            CommonMessages commonMessages,
             IUnitOfWork uow,
             IMapper mapper,
-            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, uow, mapper, repository)
+            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
         {
         }
     }

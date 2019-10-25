@@ -7,6 +7,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,15 +26,17 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         where TViewModelInput : IViewModel<TEntity>
         where TViewModelUpdate : IViewModel<TEntity>
     {
+        private readonly CommonMessages _commonMessages;
         private readonly TRepository _repository;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        protected CrudApiController(DomainNotificationContext domainNotificationContext, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper)
+        protected CrudApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper)
         {
             _mapper = mapper;
             _mediator = mediator;
             _repository = repository;
+            _commonMessages = commonMessages;
         }
 
         [HttpGet]
@@ -49,7 +52,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
             var result = await _repository.FindByIdAsync(id);
             if (result != null) return Ok(_mapper.Map<TViewModel>(result));
 
-            NotifyDomainError("Not found.");
+            NotifyDomainError(_commonMessages.NotFound ?? "Not found");
             return BadRequest();
         }
 
@@ -94,7 +97,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         where TViewModelInput : IViewModel<TEntity>
         where TViewModelUpdate : IViewModel<TEntity>
     {
-        protected CrudApiController(DomainNotificationContext domainNotificationContext, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper, mediator, repository)
+        protected CrudApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, commonMessages, mapper, mediator, repository)
         {
         }
     }
