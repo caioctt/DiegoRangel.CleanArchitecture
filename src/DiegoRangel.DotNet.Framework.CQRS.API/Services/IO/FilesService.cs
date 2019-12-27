@@ -12,9 +12,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Services.IO
     public class FilesService : IFilesService
     {
         private const string TempFolderName = "Temp\\Upload";
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostEnvironment _hostingEnvironment;
 
-        public FilesService(IHostingEnvironment hostingEnvironment)
+        public FilesService(IHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

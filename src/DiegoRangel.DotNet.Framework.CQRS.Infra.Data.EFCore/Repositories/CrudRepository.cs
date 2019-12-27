@@ -72,9 +72,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
             };
         }
 
-        public virtual Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            return DbSet.AddAsync(entity);
+            await DbSet.AddAsync(entity);
         }
 
         public virtual Task AddAsync(IList<TEntity> entities)

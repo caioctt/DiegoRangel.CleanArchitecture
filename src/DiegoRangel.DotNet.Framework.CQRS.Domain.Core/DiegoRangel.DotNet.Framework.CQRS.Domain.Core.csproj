@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Diego Rangel</Authors>
     <Company></Company>
     <Description>A common library for implementing CQRS based Domain layer.</Description>
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.5.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
-    <PackageReference Include="Stateless" Version="4.2.1" />
+    <PackageReference Include="Stateless" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

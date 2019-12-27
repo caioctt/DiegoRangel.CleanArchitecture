@@ -14,7 +14,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Extensions
                 foreach (var entity in entityType.GetProperties())
                 {
                     if (entity.ClrType == typeof(string) || entity.DeclaringEntityType.ClrType == typeof(string))
-                        entity.IsUnicode(false);
+                        entity.SetIsUnicode(false);
                 }
             }
         }
@@ -27,7 +27,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Extensions
                 {
                     if (entity.ClrType == typeof(DateTime) || entity.DeclaringEntityType.ClrType == typeof(DateTime) || entity.ClrType == typeof(DateTime?) || entity.DeclaringEntityType.ClrType == typeof(DateTime?))
                     {
-                        entity.Relational().ColumnType = "datetime2";
+                        entity.SetColumnType("datetime2");
                     }
                 }
             }

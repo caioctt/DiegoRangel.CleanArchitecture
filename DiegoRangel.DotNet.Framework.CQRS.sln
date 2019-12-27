@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.1 - Data", "3.1 - Data", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2 - CrossCutting", "3.2 - CrossCutting", "{4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Domain.Core", "src\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj", "{37349550-BDBA-4050-9BC1-7A6E8CC2936B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj", "{F430AFB3-CE55-4440-A820-52614E87BE86}"
@@ -27,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Test", "src\DiegoRangel.DotNet.Framework.CQRS.Test\DiegoRangel.DotNet.Framework.CQRS.Test.csproj", "{0F5672BB-2028-43A7-A5FE-A8986A9BE2E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.csproj", "{AC682066-49AB-44E3-97E1-E9376AC281B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.csproj", "{AC682066-49AB-44E3-97E1-E9376AC281B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{AC682066-49AB-44E3-97E1-E9376AC281B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC682066-49AB-44E3-97E1-E9376AC281B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC682066-49AB-44E3-97E1-E9376AC281B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,13 +70,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B8BD1683-1506-40D7-8917-F704D3049964} = {CC41A00D-FE00-4FC2-B708-48233478F5E3}
 		{4196CB00-8FC7-4120-9AA4-02D1B4FB75D3} = {CC41A00D-FE00-4FC2-B708-48233478F5E3}
-		{88B4AAC8-F80C-4DC6-A6B2-B0C3D930B9BF} = {82F67196-9608-4EB2-B6DF-A6639EFEE571}
 		{37349550-BDBA-4050-9BC1-7A6E8CC2936B} = {F6144579-EA90-4589-85A8-274ED6CD1561}
 		{F430AFB3-CE55-4440-A820-52614E87BE86} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
 		{E25334EA-BF9D-466F-9F2B-270F3A2A35F8} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
 		{B0DFEB1A-9AEF-4675-819F-83514E371D56} = {B8BD1683-1506-40D7-8917-F704D3049964}
 		{0F5672BB-2028-43A7-A5FE-A8986A9BE2E0} = {FDD0A790-F3BE-45CC-89E7-7AC1580A128F}
 		{AC682066-49AB-44E3-97E1-E9376AC281B6} = {B8BD1683-1506-40D7-8917-F704D3049964}
+		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A} = {82F67196-9608-4EB2-B6DF-A6639EFEE571}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFECDDC6-80FD-4AF6-8A14-40503E9C8C47}
