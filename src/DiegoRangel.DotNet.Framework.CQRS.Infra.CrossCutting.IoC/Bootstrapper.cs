@@ -16,8 +16,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();
             services.AddSingleton<ITokenProvider, TokenProvider>();
-            services.AddSingleton<IAuditManager, AuditManager>();
 
+            services.AddScoped<IAuditManager, AuditManager>();
             services.AddScoped<DomainNotificationContext>();
 
             services.RegisterStateMachines();
