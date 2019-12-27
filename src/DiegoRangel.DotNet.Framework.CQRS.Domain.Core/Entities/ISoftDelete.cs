@@ -3,8 +3,13 @@
     public interface ISoftDelete
     {
         /// <summary>
+        /// Indicates if the entity is on the "Trash".
+        /// </summary>
+        bool IsDeleted { get; }
+
+        /// <summary>
         /// Used to move an Entity to the "Trash".
         /// </summary>
-        bool IsDeleted { get; set; }
+        void MoveToTrash();
     }
 }

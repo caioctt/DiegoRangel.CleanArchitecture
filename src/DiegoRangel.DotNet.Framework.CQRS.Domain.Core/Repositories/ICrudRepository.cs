@@ -14,8 +14,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
         Task<TEntity> FindByIdAsync(TPrimaryKey id);
         Task<List<TEntity>> FindAllAsync();
         Task<PagedSearchList<TEntity>> FindAllPagedAsync(int currentPage, int pageSize);
-        Task<List<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> condition);
-        Task<PagedSearchList<TEntity>> SearchPagedAsync(Expression<Func<TEntity, bool>> condition, int currentPage, int pageSize);
+        Task<List<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<PagedSearchList<TEntity>> SearchPagedAsync(Expression<Func<TEntity, bool>> predicate, int currentPage, int pageSize);
         Task AddAsync(TEntity entity);
         Task AddAsync(IList<TEntity> entities);
         Task UpdateAsync(TEntity entity);

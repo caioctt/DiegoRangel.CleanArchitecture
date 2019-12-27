@@ -21,7 +21,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         /// <summary>
         /// Is this entity Deleted?
         /// </summary>
-        public virtual bool IsDeleted { get; set; }
+        public virtual bool IsDeleted { get; private set; }
+
+        public void MoveToTrash()
+        {
+            IsDeleted = true;
+        }
 
         /// <summary>
         /// Which user deleted this entity?

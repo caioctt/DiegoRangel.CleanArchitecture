@@ -19,28 +19,22 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
 
         public virtual async Task MoveToTrashAsync(TEntityKey id)
         {
-            var obj = await DbSet.FindAsync(id);
-            obj.IsDeleted = true;
-            DbSet.Update(obj);
+            var entity = await DbSet.FindAsync(id);
+            await MoveToTrashAsync(entity);
         }
 
         public virtual Task MoveToTrashAsync(TEntity entity)
         {
-            entity.IsDeleted = true;
+            entity.MoveToTrash();
             DbSet.Update(entity);
 
             return Task.CompletedTask;
         }
 
-        public virtual Task MoveToTrashAsync(IList<TEntity> entities)
+        public virtual async Task MoveToTrashAsync(IList<TEntity> entities)
         {
             foreach (var entity in entities)
-            {
-                entity.IsDeleted = true;
-                DbSet.Update(entity);
-            }
-
-            return Task.CompletedTask;
+                await MoveToTrashAsync(entity);
         }
     }
 

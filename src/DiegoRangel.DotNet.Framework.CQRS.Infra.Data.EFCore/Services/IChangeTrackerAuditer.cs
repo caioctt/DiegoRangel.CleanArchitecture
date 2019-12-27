@@ -2,8 +2,8 @@
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services
 {
-    public interface IEntitiesAuditer
+    public interface IChangeTrackerAuditer
     {
-        void Analise(ChangeTracker changeTracker);
+        void Audit(ChangeTracker changeTracker);
     }
 }

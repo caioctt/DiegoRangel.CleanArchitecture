@@ -6,7 +6,7 @@
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A common library for implementing CQRS based IoC layer.</Description>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.csproj" />
+    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.csproj" />
   </ItemGroup>
 
 </Project>
