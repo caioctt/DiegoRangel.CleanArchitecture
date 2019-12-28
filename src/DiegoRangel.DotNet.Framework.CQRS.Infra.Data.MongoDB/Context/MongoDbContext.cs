@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Mappings;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
@@ -14,11 +13,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Context
         private readonly IMongoDatabase _database;
         private readonly IList<Func<Task>> _commands;
 
-        public MongoDbContext(IMongoClient mongoClient, IMongoMapper mongoMapper)
+        public MongoDbContext(IMongoClient mongoClient)
         {
             _database = mongoClient.GetDatabase();
             _commands = new List<Func<Task>>();
-            mongoMapper.ApplyMappings();
 
             RegisterConventions();
         }

@@ -14,11 +14,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
     /// Defines interface for base entity type. All entities in the system must implement this interface.
     /// </summary>
     /// <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-    public interface IEntity<TPrimaryKey> : IMustHaveId<TPrimaryKey>
+    public interface IEntity<TPrimaryKey> : IMustHaveId<TPrimaryKey>, IDomainEntity
     {
-        ValidationResult ValidationResult { get; set; }
-
-        bool IsValid();
-        void AddValidationError(string prop, string message);
+        
     }
 }

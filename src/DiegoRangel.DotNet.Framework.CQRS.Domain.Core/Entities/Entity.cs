@@ -17,34 +17,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
     /// An entity can inherit this class of directly implement to IEntity interface.
     /// </summary>
     /// <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
+    public abstract class Entity<TPrimaryKey> : DomainEntity, IEntity<TPrimaryKey>
     {
-        protected Entity()
-        {
-            ValidationResult = new ValidationResult();
-        }
-
         /// <summary>
         /// Unique identifier for this entity.
         /// </summary>
         public TPrimaryKey Id { get; set; }
-
-        public ValidationResult ValidationResult { get; set; }
-        public bool IsValid()
-        {
-            var validador = ValidatorHelper.GetFrom(GetType());
-            var validationResult = validador.Validate(this);
-
-            if (!validationResult.Errors.Any()) return ValidationResult.IsValid;
-            foreach (var error in validationResult.Errors)
-                ValidationResult.Errors.Add(error);
-
-            return ValidationResult.IsValid;
-        }
-
-        public void AddValidationError(string prop, string message)
-        {
-            ValidationResult.Errors.Add(new ValidationFailure(prop, message));
-        }
     }
 }
