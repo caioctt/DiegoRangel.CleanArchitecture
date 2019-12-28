@@ -8,7 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
         where TEntityKey : struct
         where TUserPrimaryKey : struct
-        where TEntity : Entity<TEntityKey>, IAudited<TUserPrimaryKey>
+        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserPrimaryKey>
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
@@ -23,10 +23,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         public abstract void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
     
-    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUser, TUserPrimaryKey> : AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
+    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey, TUser> : AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
         where TEntityKey : struct
         where TUserPrimaryKey : struct
-        where TEntity : Entity<TEntityKey>, IAudited<TUser, TUserPrimaryKey>
+        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserPrimaryKey, TUser>
         where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         public override void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
@@ -41,7 +41,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     }
 
     public abstract class AuditedEntityMap<TEntity> : AuditedEntityMap<TEntity, int, int>
-        where TEntity : Entity<int>, IAudited<int>
+        where TEntity : Entity<int>, IAudited<int, int>
     {
 
     }

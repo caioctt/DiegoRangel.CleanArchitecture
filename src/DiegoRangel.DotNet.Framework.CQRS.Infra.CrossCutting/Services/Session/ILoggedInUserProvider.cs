@@ -2,6 +2,6 @@
 {
     public interface ILoggedInUserProvider
     {
-        IUser GetLoggedInUser();
+        IUser<TUserPrimaryKey> GetLoggedInUser<TUserPrimaryKey>() where TUserPrimaryKey : struct;
     }
 }

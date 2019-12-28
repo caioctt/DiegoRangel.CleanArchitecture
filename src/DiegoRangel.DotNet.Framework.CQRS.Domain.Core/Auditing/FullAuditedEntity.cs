@@ -5,9 +5,9 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     /// <summary>
-    /// A shortcut of <see cref="FullAuditedEntity{TPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="FullAuditedEntity{TEntityPrimaryKey, TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
-    public abstract class FullAuditedEntity : FullAuditedEntity<int>
+    public abstract class FullAuditedEntity : FullAuditedEntity<int, int>
     {
 
     }
@@ -15,8 +15,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <summary>
     /// Implements <see cref="IFullAudited"/> to be a base class for full-audited entities.
     /// </summary>
-    /// <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-    public abstract class FullAuditedEntity<TPrimaryKey> : AuditedEntity<TPrimaryKey>, IFullAudited<TPrimaryKey>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
+    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
+    public abstract class FullAuditedEntity<TEntityPrimaryKey, TUserPrimaryKey> : 
+        AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
+        IFullAudited<TEntityPrimaryKey, TUserPrimaryKey>
     {
         /// <summary>
         /// Is this entity Deleted?
@@ -31,7 +34,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         /// <summary>
         /// Which user deleted this entity?
         /// </summary>
-        public virtual TPrimaryKey DeleterUserId { get; set; }
+        public virtual TUserPrimaryKey DeleterUserId { get; set; }
 
         /// <summary>
         /// Deletion time of this entity.
@@ -40,11 +43,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     }
 
     /// <summary>
-    /// Implements <see cref="IFullAudited{TUser}"/> to be a base class for full-audited entities.
+    /// Implements <see cref="IFullAudited{TEntityPrimaryKey, TUserPrimaryKey, TUser}"/> to be a base class for full-audited entities.
     /// </summary>
-    /// <typeparam name="TUserPrimaryKey">Type of the primary key of the entity</typeparam>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
+    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
-    public abstract class FullAuditedEntity<TUser, TUserPrimaryKey> : FullAuditedEntity<TUserPrimaryKey>, IFullAudited<TUser, TUserPrimaryKey>
+    public abstract class FullAuditedEntity<TEntityPrimaryKey, TUserPrimaryKey, TUser> : 
+        FullAuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
+        IFullAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>
         where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         /// <summary>

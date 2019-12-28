@@ -8,7 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     public abstract class FullAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
         where TEntityKey : struct
         where TUserPrimaryKey : struct
-        where TEntity : Entity<TEntityKey>, IFullAudited<TUserPrimaryKey>
+        where TEntity : Entity<TEntityKey>, IFullAudited<TEntityKey, TUserPrimaryKey>
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
@@ -25,10 +25,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         public abstract void ConfigureFullAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
 
-    public abstract class FullAuditedEntityMap<TEntity, TEntityKey, TUser, TUserPrimaryKey> : FullAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
+    public abstract class FullAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey, TUser> : FullAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
         where TEntityKey : struct
         where TUserPrimaryKey : struct
-        where TEntity : Entity<TEntityKey>, IFullAudited<TUser, TUserPrimaryKey>
+        where TEntity : Entity<TEntityKey>, IFullAudited<TEntityKey, TUserPrimaryKey, TUser>
         where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         public override void ConfigureFullAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
@@ -44,7 +44,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     }
 
     public abstract class FullAuditedEntityMap<TEntity> : FullAuditedEntityMap<TEntity, int, int>
-        where TEntity : Entity<int>, IFullAudited<int>
+        where TEntity : Entity<int>, IFullAudited<int, int>
     {
 
     }

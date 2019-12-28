@@ -10,8 +10,11 @@ using MongoDB.Driver;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 {
-    public abstract class CrudSoftDeletableRepository<TEntity, TEntityKey> : CrudRepository<TEntity, TEntityKey>, ICrudSoftDeletableRepository<TEntity, TEntityKey>
+    public abstract class CrudSoftDeletableRepository<TEntity, TEntityKey, TUserPrimaryKey> : 
+        CrudRepository<TEntity, TEntityKey, TUserPrimaryKey>, 
+        ICrudSoftDeletableRepository<TEntity, TEntityKey>
         where TEntityKey : struct
+        where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>, ISoftDelete
     {
         private readonly IAuditManager _auditManager;
@@ -51,7 +54,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         }
     }
 
-    public abstract class CrudSoftDeletableRepository<TEntity> : CrudSoftDeletableRepository<TEntity, int>
+    public abstract class CrudSoftDeletableRepository<TEntity> : CrudSoftDeletableRepository<TEntity, int, int>
         where TEntity : Entity<int>, ISoftDelete
     {
         protected CrudSoftDeletableRepository(IMongoContext context, IAuditManager auditManager) : base(context, auditManager)

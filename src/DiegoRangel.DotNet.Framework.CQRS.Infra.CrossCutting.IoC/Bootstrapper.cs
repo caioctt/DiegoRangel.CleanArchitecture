@@ -1,4 +1,5 @@
-﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
+﻿using System.Reflection;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
@@ -12,7 +13,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
 {
     public static class Bootstrapper
     {
-        public static void RegisterServicesBasedOn(IServiceCollection services)
+        public static void RegisterServicesBasedOn(IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();
@@ -21,10 +22,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddScoped<IAuditManager, AuditManager>();
             services.AddScoped<DomainNotificationContext>();
 
-            services.RegisterStateMachines();
-            services.RegisterWhoImplements(typeof(IRepository));
-            services.RegisterWhoImplements(typeof(IDomainService));
-            services.RegisterWhoImplements(typeof(IService));
+            services.RegisterStateMachines(assemblies);
+            services.RegisterWhoImplements(typeof(IRepository), assemblies);
+            services.RegisterWhoImplements(typeof(IDomainService), assemblies);
+            services.RegisterWhoImplements(typeof(IService), assemblies);
         }
     }
 }

@@ -5,9 +5,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
 
     /// <summary>
-    /// A shortcut of <see cref="IAudited{TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="IAudited{TEntityPrimaryKey, TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
-    public interface IAudited : IAudited<int>
+    public interface IAudited : IAudited<int, int>
     {
 
     }
@@ -16,7 +16,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// This interface is implemented by entities which must be audited.
     /// Related properties automatically set when saving/updating <see cref="Entity"/> objects.
     /// </summary>
-    public interface IAudited<TUserPrimaryKey> : ICreationAudited<TUserPrimaryKey>, IModificationAudited<TUserPrimaryKey>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
+    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
+    public interface IAudited<TEntityPrimaryKey, TUserPrimaryKey> : 
+        ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey>, 
+        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey>
     {
 
     }
@@ -24,9 +28,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <summary>
     /// Adds navigation properties to <see cref="IAudited{TUser,TUserPrimaryKey}"/> interface for user.
     /// </summary>
-    /// <typeparam name="TUser">Type of the user</typeparam>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
     /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
-    public interface IAudited<TUser, TUserPrimaryKey> : IAudited<TUserPrimaryKey>, ICreationAudited<TUser, TUserPrimaryKey>, IModificationAudited<TUser, TUserPrimaryKey>
+    /// <typeparam name="TUser">Type of the user</typeparam>
+    public interface IAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser> : 
+        IAudited<TEntityPrimaryKey, TUserPrimaryKey>, 
+        ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>, 
+        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>
         where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
 

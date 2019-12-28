@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
@@ -11,8 +12,11 @@ using MongoDB.Driver;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 {
-    public abstract class CrudRepository<TEntity, TEntityKey> : Repository<TEntity, TEntityKey>, ICrudRepository<TEntity, TEntityKey>
+    public abstract class CrudRepository<TEntity, TEntityKey, TUserPrimaryKey> : 
+        Repository<TEntity, TEntityKey>, 
+        ICrudRepository<TEntity, TEntityKey>
         where TEntityKey : struct
+        where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>
     {
         private readonly IAuditManager _auditManager;
@@ -80,7 +84,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task AddAsync(TEntity entity)
         {
-            _auditManager.AuditCreation(entity as IEntity);
+            _auditManager.AuditCreation<TEntityKey, TUserPrimaryKey>(entity);
             Context.AddCommand(() => DbSet.InsertOneAsync(entity));
             return Task.CompletedTask;
         }
@@ -93,7 +97,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task UpdateAsync(TEntity entity)
         {
-            _auditManager.AuditModification(entity as IEntity);
+            _auditManager.AuditModification<TEntityKey, TUserPrimaryKey>(entity);
             Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id), entity));
             return Task.CompletedTask;
         }
@@ -136,10 +140,18 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
             if (findOptions == null)
                 findOptions = new FindOptions<TEntity>();
 
-            if (typeof(TEntity) is IHasCreationTime)
+            if (typeof(TEntity).GetInterfaces().Contains(typeof(IHasCreationTime)))
                 findOptions.Sort = Builders<TEntity>.Sort.Descending(x => (x as IHasCreationTime).CreationTime);
 
             return findOptions;
+        }
+    }
+
+    public abstract class CrudRepository<TEntity> : CrudRepository<TEntity, int, int>
+        where TEntity : Entity<int>
+    {
+        protected CrudRepository(IMongoContext context, IAuditManager auditManager) : base(context, auditManager)
+        {
         }
     }
 }

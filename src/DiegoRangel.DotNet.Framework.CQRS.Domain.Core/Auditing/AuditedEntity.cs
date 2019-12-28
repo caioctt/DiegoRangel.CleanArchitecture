@@ -5,9 +5,9 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     /// <summary>
-    /// A shortcut of <see cref="AuditedEntity{TPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="AuditedEntity{TEntityPrimaryKey, TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
-    public abstract class AuditedEntity : AuditedEntity<int>
+    public abstract class AuditedEntity : AuditedEntity<int, int>
     {
 
     }
@@ -15,8 +15,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <summary>
     /// This class can be used to simplify implementing <see cref="IAudited"/>.
     /// </summary>
-    /// <typeparam name="TUserPrimaryKey">Type of the primary key of the entity</typeparam>
-    public abstract class AuditedEntity<TUserPrimaryKey> : CreationAuditedEntity<TUserPrimaryKey>, IModificationAudited<TUserPrimaryKey>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
+    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
+    public abstract class AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey> : 
+        CreationAuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
+        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey>
     {
         /// <summary>
         /// Last modification date of this entity.
@@ -30,11 +33,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     }
 
     /// <summary>
-    /// This class can be used to simplify implementing <see cref="IAudited{TUser}"/>.
+    /// This class can be used to simplify implementing <see cref="IAudited{TEntityPrimaryKey, TUserPrimaryKey, TUser}"/>.
     /// </summary>
-    /// <typeparam name="TUserPrimaryKey">Type of the primary key of the entity</typeparam>
+    /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
+    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
-    public abstract class AuditedEntity<TUser, TUserPrimaryKey> : AuditedEntity<TUserPrimaryKey>, ICreationAudited<TUser, TUserPrimaryKey>, IModificationAudited<TUser, TUserPrimaryKey>
+    public abstract class AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey, TUser> : 
+        AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
+        ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>, 
+        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>
         where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {
         /// <summary>
