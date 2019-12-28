@@ -1,5 +1,6 @@
 ﻿using System;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Users;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
@@ -17,7 +18,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
             where TUserPrimaryKey : struct
         {
             if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey> creationAuditedEntity)) return;
-            var user = _loggedInUserProvider.GetLoggedInUser<TUserPrimaryKey>();
+            var user = _loggedInUserProvider.GetLoggedInUser<User<TUserPrimaryKey>, TUserPrimaryKey>();
             creationAuditedEntity.CreationTime = DateTime.Now;
             creationAuditedEntity.CreatorUserId = user.Id;
         }
@@ -31,7 +32,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
             where TUserPrimaryKey : struct
         {
             if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey> modificationAuditedEntity)) return;
-            var user = _loggedInUserProvider.GetLoggedInUser<TUserPrimaryKey>();
+            var user = _loggedInUserProvider.GetLoggedInUser<User<TUserPrimaryKey>, TUserPrimaryKey>();
             modificationAuditedEntity.LastModificationTime = DateTime.Now;
             modificationAuditedEntity.LastModifierUserId = user.Id;
         }
@@ -47,7 +48,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
             if (!(entity is IDeletionAudited<TEntityPrimaryKey, TUserPrimaryKey> deletionAuditedEntity)) return;
             if (!deletionAuditedEntity.IsDeleted || deletionAuditedEntity.DeletionTime.HasValue) return;
 
-            var user = _loggedInUserProvider.GetLoggedInUser<TUserPrimaryKey>();
+            var user = _loggedInUserProvider.GetLoggedInUser<User<TUserPrimaryKey>, TUserPrimaryKey>();
             deletionAuditedEntity.DeletionTime = DateTime.Now;
             deletionAuditedEntity.DeleterUserId = user.Id;
         }

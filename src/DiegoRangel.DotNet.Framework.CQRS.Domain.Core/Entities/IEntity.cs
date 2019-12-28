@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
+﻿namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
 {
     /// <summary>
     /// A shortcut of <see cref="IEntity{TPrimaryKey}"/> for most used primary key type (<see cref="int"/>).

@@ -1,7 +1,9 @@
 ﻿namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session
 {
-    public interface ILoggedInUserProvider
+    public interface ILoggedInUserProvider 
     {
-        IUser<TUserPrimaryKey> GetLoggedInUser<TUserPrimaryKey>() where TUserPrimaryKey : struct;
+        TUser GetLoggedInUser<TUser, TKey>() 
+            where TUser : IUser<TKey>
+            where TKey : struct;
     }
 }
