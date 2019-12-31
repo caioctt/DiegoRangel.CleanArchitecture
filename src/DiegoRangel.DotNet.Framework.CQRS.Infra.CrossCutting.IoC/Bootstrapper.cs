@@ -13,13 +13,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
 {
     public static class Bootstrapper
     {
-        public static void RegisterServicesBasedOn(IServiceCollection services, params Assembly[] assemblies)
+        public static void RegisterServicesBasedOn<TUserPrimaryKey>(IServiceCollection services, params Assembly[] assemblies)
+            where TUserPrimaryKey : struct
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();
             services.AddSingleton<ITokenProvider, TokenProvider>();
 
-            services.AddScoped<IAuditManager, AuditManager>();
+            services.AddScoped<IAuditManager, AuditManager<TUserPrimaryKey>>();
             services.AddScoped<DomainNotificationContext>();
 
             services.RegisterStateMachines(assemblies);

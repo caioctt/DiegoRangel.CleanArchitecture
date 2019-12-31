@@ -56,13 +56,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services
                            .Any(i => i.IsGenericType
                                      && i.GetGenericTypeDefinition() == auditableInterface);
         }
-        private static Type[] GetAuditableInterfaceArguments(EntityEntry entry, Type auditableInterface)
+        private static Type GetAuditableInterfaceArguments(EntityEntry entry, Type auditableInterface)
         {
             return entry.Entity
                        .GetType()
                        .GetInterfaces()
                        .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == auditableInterface)
-                       ?.GetGenericArguments();
+                       ?.GetGenericArguments().FirstOrDefault();
         }
     }
 }

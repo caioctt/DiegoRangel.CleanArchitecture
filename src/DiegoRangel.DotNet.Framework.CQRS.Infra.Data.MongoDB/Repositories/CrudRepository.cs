@@ -84,7 +84,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task AddAsync(TEntity entity)
         {
-            _auditManager.AuditCreation<TEntityKey, TUserPrimaryKey>(entity);
+            _auditManager.AuditCreation<TEntityKey>(entity);
             Context.AddCommand(() => DbSet.InsertOneAsync(entity));
             return Task.CompletedTask;
         }
@@ -97,7 +97,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task UpdateAsync(TEntity entity)
         {
-            _auditManager.AuditModification<TEntityKey, TUserPrimaryKey>(entity);
+            _auditManager.AuditModification<TEntityKey>(entity);
             Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id), entity));
             return Task.CompletedTask;
         }
@@ -138,10 +138,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         protected virtual FindOptions<TEntity> BuildFindOptions(FindOptions<TEntity> findOptions = null)
         {
             if (findOptions == null)
+            {
                 findOptions = new FindOptions<TEntity>();
 
-            if (typeof(TEntity).GetInterfaces().Contains(typeof(IHasCreationTime)))
-                findOptions.Sort = Builders<TEntity>.Sort.Descending(x => (x as IHasCreationTime).CreationTime);
+                if (typeof(TEntity).GetInterfaces().Contains(typeof(IHasCreationTime)))
+                {
+                    findOptions.Sort = Builders<TEntity>.Sort.Descending(x => (x as IHasCreationTime).CreationTime);
+                }
+            }
 
             return findOptions;
         }

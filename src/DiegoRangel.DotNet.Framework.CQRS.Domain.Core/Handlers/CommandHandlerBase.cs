@@ -16,6 +16,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected IResponse Ok(object obj = null) => new Ok(obj);
         protected IResponse NoContent() => new NoContent();
         protected IResponse Fail() => new Fail();
+        protected IResponse Fail(string message)
+        {
+            _notificationContext.AddNotification(message);
+            return new Fail();
+        }
 
         protected CommandHandlerBase(
             DomainNotificationContext notificationContext, 
