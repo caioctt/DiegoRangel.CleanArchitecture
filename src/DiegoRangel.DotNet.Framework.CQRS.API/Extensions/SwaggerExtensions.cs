@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -20,10 +19,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
                 });
 
                 if (!useJwtAuth) return;
-                var security = new Dictionary<string, IEnumerable<string>>
-                {
-                    {"Bearer", new string[] { }},
-                };
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

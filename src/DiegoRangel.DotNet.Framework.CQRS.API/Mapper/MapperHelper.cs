@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 {
     public static class MapperHelper
     {
-        public static List<Tuple<Type, Type>> GetViewModelMappings()
+        public static List<Tuple<Type, Type>> GetViewModelMappings(params Assembly[] assemblies)
         {
             var mappings = new List<Tuple<Type, Type>>();
-            var types = GetAllAssemblies();
+            var types = assemblies.SelectMany(x => x.GetTypes()).ToList();
 
             var viewModels = types
                 .Where(x => x.IsClass && x.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IViewModel<>))
@@ -21,33 +22,28 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
                 var viewModelInterface = viewModel.GetInterfaces()
                     .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IViewModel<>));
 
-                var classe = viewModelInterface?.GenericTypeArguments.First();
+                var classType = viewModelInterface?.GenericTypeArguments.First();
 
-                mappings.Add(new Tuple<Type, Type>(classe, viewModel));
-                mappings.Add(new Tuple<Type, Type>(viewModel, classe));
+                mappings.Add(new Tuple<Type, Type>(classType, viewModel));
+                mappings.Add(new Tuple<Type, Type>(viewModel, classType));
 
-                var comandos = types
+                var commands = types
                     .Where(x =>
                         x.IsClass
                         && !x.IsAbstract
                         && x.GetInterfaces().Any(i =>
                             i.IsGenericType
                             && i.GetGenericTypeDefinition() == typeof(ICommandMapped<>)
-                            && i.GetGenericArguments().FirstOrDefault() == classe)
+                            && i.GetGenericArguments().FirstOrDefault() == classType)
                     ).Select(x => x).ToList();
 
-                foreach (var comando in comandos)
+                foreach (var command in commands)
                 {
-                    mappings.Add(new Tuple<Type, Type>(viewModel, comando));
+                    mappings.Add(new Tuple<Type, Type>(viewModel, command));
                 }
             }
 
             return mappings;
-        }
-
-        private static IList<Type> GetAllAssemblies()
-        {
-            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToList();
         }
     }
 }
