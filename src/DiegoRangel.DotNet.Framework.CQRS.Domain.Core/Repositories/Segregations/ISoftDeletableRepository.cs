@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
+namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Segregations
 {
-    public interface ICrudSoftDeletableRepository<TEntity, in TPrimaryKey> : ICrudRepository<TEntity, TPrimaryKey>
+    public interface ISoftDeletableRepository<TEntity, in TPrimaryKey> : IRepository
         where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
     {
@@ -13,7 +13,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
         Task MoveToTrashAsync(IList<TEntity> entities);
     }
 
-    public interface ICrudSoftDeletableRepository<TEntity> : ICrudSoftDeletableRepository<TEntity, int>
+    public interface ISoftDeletableRepository<TEntity> : ISoftDeletableRepository<TEntity, int>
         where TEntity : IEntity<int>, ISoftDelete
     {
 

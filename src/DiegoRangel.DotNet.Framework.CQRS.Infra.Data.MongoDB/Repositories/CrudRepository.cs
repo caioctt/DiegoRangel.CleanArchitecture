@@ -12,11 +12,10 @@ using MongoDB.Driver;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 {
-    public abstract class CrudRepository<TEntity, TEntityKey, TUserPrimaryKey> : 
+    public abstract class CrudRepository<TEntity, TEntityKey> : 
         Repository<TEntity, TEntityKey>, 
         ICrudRepository<TEntity, TEntityKey>
         where TEntityKey : struct
-        where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>
     {
         private readonly IAuditManager _auditManager;
@@ -151,7 +150,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         }
     }
 
-    public abstract class CrudRepository<TEntity> : CrudRepository<TEntity, int, int>
+    public abstract class CrudRepository<TEntity> : CrudRepository<TEntity, int>
         where TEntity : Entity<int>
     {
         protected CrudRepository(IMongoContext context, IAuditManager auditManager) : base(context, auditManager)
