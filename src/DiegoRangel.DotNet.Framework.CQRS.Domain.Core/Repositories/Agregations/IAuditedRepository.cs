@@ -7,6 +7,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations
         IModificationAuditedRepository<TEntity, TEntityKey, TUserKey>
         where TEntityKey : struct
         where TUserKey : struct
+        where TEntity : IAudited<TEntityKey, TUserKey>
     {
 
     }
