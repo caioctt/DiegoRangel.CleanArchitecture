@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.PagedSearch;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
@@ -18,11 +16,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
-        private readonly IAuditManager _auditManager;
-
-        protected CrudRepository(IMongoContext context, IAuditManager auditManager) : base(context)
+        protected CrudRepository(IMongoContext context) : base(context)
         {
-            _auditManager = auditManager;
+            
         }
 
         public virtual async Task<TEntity> FindByIdAsync(TEntityKey id)
@@ -83,7 +79,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task AddAsync(TEntity entity)
         {
-            _auditManager.AuditCreation<TEntityKey>(entity);
             Context.AddCommand(() => DbSet.InsertOneAsync(entity));
             return Task.CompletedTask;
         }
@@ -96,7 +91,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
 
         public virtual Task UpdateAsync(TEntity entity)
         {
-            _auditManager.AuditModification<TEntityKey>(entity);
             Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id), entity));
             return Task.CompletedTask;
         }
@@ -128,32 +122,33 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         {
             return DbSet.FindAsync(BuildFindFilters(predicate), BuildFindOptions(findOptions));
         }
-        protected virtual FilterDefinition<TEntity> BuildFindFilters(Expression<Func<TEntity, bool>> predicate = null)
+        protected FilterDefinition<TEntity> BuildFindFilters(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return predicate == null 
-                ? Builders<TEntity>.Filter.Empty 
-                : Builders<TEntity>.Filter.Where(predicate);
+            return predicate == null
+                ? BuildDefaultFilterDefinition()
+                : Builders<TEntity>.Filter.And(
+                    BuildDefaultFilterDefinition(),
+                    Builders<TEntity>.Filter.Where(predicate));
         }
-        protected virtual FindOptions<TEntity> BuildFindOptions(FindOptions<TEntity> findOptions = null)
+        protected FindOptions<TEntity> BuildFindOptions(FindOptions<TEntity> findOptions = null)
         {
-            if (findOptions == null)
-            {
-                findOptions = new FindOptions<TEntity>();
-
-                if (typeof(TEntity).GetInterfaces().Contains(typeof(IHasCreationTime)))
-                {
-                    findOptions.Sort = Builders<TEntity>.Sort.Descending(x => (x as IHasCreationTime).CreationTime);
-                }
-            }
-
-            return findOptions;
+            return findOptions ?? new FindOptions<TEntity> {Sort = BuildDefaultSortDefinition()};
+        }
+        
+        protected virtual FilterDefinition<TEntity> BuildDefaultFilterDefinition()
+        {
+            return Builders<TEntity>.Filter.Empty;
+        }
+        protected virtual SortDefinition<TEntity> BuildDefaultSortDefinition()
+        {
+            return null;
         }
     }
 
     public abstract class CrudRepository<TEntity> : CrudRepository<TEntity, int>
         where TEntity : Entity<int>
     {
-        protected CrudRepository(IMongoContext context, IAuditManager auditManager) : base(context, auditManager)
+        protected CrudRepository(IMongoContext context) : base(context)
         {
         }
     }
