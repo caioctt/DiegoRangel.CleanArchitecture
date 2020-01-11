@@ -12,7 +12,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
 {
     public static class DatabaseExtensions
     {
-        public static void AddEfCore(this IServiceCollection services)
+        public static void AddEfCoreServices(this IServiceCollection services)
         {
             services.AddScoped<IChangeTrackerAuditer, ChangeTrackerAuditer>();
         }

@@ -11,12 +11,12 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Analytics.Handlers
 {
-    public class AnalyticsCommandHandler : CommandHandlerBase, ICommandHandler<TrackResponseCommand>
+    public abstract class AnalyticsCommandHandler : CommandHandlerBase, ICommandHandler<TrackResponseCommand>
     {
         private readonly IMapper _mapper;
         private readonly IResponseTrackingRepository _repository;
 
-        public AnalyticsCommandHandler(
+        protected AnalyticsCommandHandler(
             DomainNotificationContext notificationContext,
             CommonMessages commonMessages,
             IUnitOfWork uow,
@@ -26,7 +26,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Analytics.Handlers
             _repository = responseTrackingRepository;
             _mapper = mapper;
         }
-
 
         public async Task<IResponse> Handle(TrackResponseCommand request, CancellationToken cancellationToken)
         {

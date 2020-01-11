@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Analytics.Commands;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using UserAgentParser;
 
@@ -11,13 +11,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Middlewares
     {
         private const string RESPONSE_HEADER_RESPONSE_TIME = "X-Response-Time-ms";
         private readonly RequestDelegate _next;
+        private readonly Action<TrackResponseCommand> _callbackAction;
 
-        public ResponseTimeMiddleware(RequestDelegate next)
+        public ResponseTimeMiddleware(RequestDelegate next, Action<TrackResponseCommand> callbackAction)
         {
             _next = next;
+            _callbackAction = callbackAction;
         }
 
-        public Task InvokeAsync(HttpContext context, IMediator mediator)
+        public Task InvokeAsync(HttpContext context)
         {
             var watch = new Stopwatch();
             watch.Start();
@@ -27,9 +29,18 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Middlewares
 
                 var userAgent = UserAgent.Parse(context.Request.Headers["User-Agent"].ToString());
 
-                mediator.Send(new TrackResponseCommand(context.Request.Path, context.Request.Scheme,
-                    context.Request.Method, userAgent.Platform, userAgent.Browser, userAgent.Mobile, userAgent.Robot,
-                    userAgent.IsMobile, userAgent.IsBrowser, userAgent.IsRobot, watch.ElapsedMilliseconds,
+                _callbackAction(new TrackResponseCommand(
+                    context.Request.Path, 
+                    context.Request.Scheme,
+                    context.Request.Method, 
+                    userAgent.Platform, 
+                    userAgent.Browser, 
+                    userAgent.Mobile, 
+                    userAgent.Robot,
+                    userAgent.IsMobile, 
+                    userAgent.IsBrowser, 
+                    userAgent.IsRobot, 
+                    watch.ElapsedMilliseconds,
                     (short)context.Response.StatusCode));
 
                 return Task.CompletedTask;

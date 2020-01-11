@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
-using DiegoRangel.DotNet.Framework.CQRS.API.JWT;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.IISIntegration;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {

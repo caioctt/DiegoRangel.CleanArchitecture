@@ -8,6 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
     {
         public static void AddCacheServices(this IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddSingleton<ICacheService, CacheService>();
         }
     }
