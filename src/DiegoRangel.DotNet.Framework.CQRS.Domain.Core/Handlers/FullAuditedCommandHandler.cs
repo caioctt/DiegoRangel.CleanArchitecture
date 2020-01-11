@@ -1,9 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
@@ -15,12 +18,30 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : IFullAudited<TEntityKey, TUserKey>
         where TDelete : ICommandWithId<TEntityKey>
     {
+        private readonly IFullAuditedRepository<TEntity, TEntityKey, TUserKey> _repository;
+        private readonly CommonMessages _commonMessages;
+
         protected FullAuditedCommandHandler(
             DomainNotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IUnitOfWork uow,
             IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
+            _repository = repository;
+            _commonMessages = commonMessages;
+        }
+
+        public override async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
+        {
+            var entity = await _repository.FindByIdAsync(request.Id);
+            if (entity == null)
+                return Fail(_commonMessages.NotFound ?? "Not found");
+
+            await _repository.MoveToTrashAsync(entity);
+
+            if (await Commit())
+                return NoContent();
+            return Fail();
         }
     }
 

@@ -19,7 +19,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TDelete : ICommandWithId<TPrimaryKey>
     {
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
-        private readonly DomainNotificationContext _domainNotificationContext;
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
@@ -30,17 +29,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         {
             _repository = repository;
             _commonMessages = commonMessages;
-            _domainNotificationContext = domainNotificationContext;
         }
 
         public virtual async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
-            {
-                _domainNotificationContext.AddNotification(_commonMessages.NotFound ?? "Not found");
-                return Fail();
-            }
+                return Fail(_commonMessages.NotFound ?? "Not found");
 
             await _repository.DeleteAsync(entity);
 
@@ -60,7 +55,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     {
         private readonly IMapper _mapper;
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
-        private readonly DomainNotificationContext _domainNotificationContext;
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
@@ -72,7 +66,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         {
             _mapper = mapper;
             _repository = repository;
-            _domainNotificationContext = domainNotificationContext;
             _commonMessages = commonMessages;
         }
 
@@ -80,10 +73,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
-            {
-                _domainNotificationContext.AddNotification(_commonMessages.NotFound ?? "Not found");
-                return Fail();
-            }
+                return Fail(_commonMessages.NotFound ?? "Not found");
 
             _mapper.Map(request, entity);
 

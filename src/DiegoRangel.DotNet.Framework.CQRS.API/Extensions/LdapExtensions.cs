@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {
-    public static class HttpContextExtensions
+    public static class LdapExtensions
     {
         public static IList<string> FindAllAdGroups(this HttpContext context, string q)
         {

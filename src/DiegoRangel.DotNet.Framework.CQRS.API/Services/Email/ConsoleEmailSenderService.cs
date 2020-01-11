@@ -13,10 +13,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Services.Email
             _logger = logger;
         }
 
-        public Task Send(IEmail email, string host, short port)
+        public Task<bool> Send(IEmail email)
         {
-            _logger.LogInformation(null, $"E-mail successfully sent to: {email.To}.");
-            return Task.CompletedTask;
+            _logger.LogInformation(null, $"E-mail successfully sent to {email.To}.");
+            return Task.FromResult(true);
         }
     }
 }
