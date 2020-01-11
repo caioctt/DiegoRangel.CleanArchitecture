@@ -19,7 +19,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         }
     }
 
-    public abstract class CreationAuditedRepository<TEntity> : CreationAuditedRepository<TEntity, int, int>
+    public abstract class CreationAuditedRepository<TEntity> : 
+        CreationAuditedRepository<TEntity, int, int>
         where TEntity : CreationAuditedEntity<int, int>
     {
         protected CreationAuditedRepository(DbContext context) : base(context)

@@ -66,8 +66,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
             CommonMessages commonMessages,
-            IUnitOfWork uow,
             IMapper mapper,
+            IUnitOfWork uow,
             ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
             _mapper = mapper;
@@ -112,9 +112,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected CrudCommandHandler(
             DomainNotificationContext domainNotificationContext,
             CommonMessages commonMessages,
-            IUnitOfWork uow,
             IMapper mapper,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
+            IUnitOfWork uow,
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -145,9 +145,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected CrudCommandHandlerBase(
             DomainNotificationContext domainNotificationContext,
             CommonMessages commonMessages,
-            IUnitOfWork uow,
             IMapper mapper,
-            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, uow, mapper, repository)
+            IUnitOfWork uow,
+            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
