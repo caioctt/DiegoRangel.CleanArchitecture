@@ -1,10 +1,7 @@
-﻿namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses
-{
-    public interface IResponse
-    {
-        bool IsInvalid { get; }
-    }
+﻿using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
+namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses
+{
     public class Ok : IResponse
     {
         public object Result { get; }

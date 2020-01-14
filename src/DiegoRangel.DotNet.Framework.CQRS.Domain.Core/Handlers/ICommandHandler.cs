@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {

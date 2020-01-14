@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
@@ -17,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj" />
+    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj" />
+    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.csproj" />

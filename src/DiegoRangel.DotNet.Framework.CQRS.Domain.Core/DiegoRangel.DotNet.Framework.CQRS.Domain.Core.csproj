@@ -12,11 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.6.0" />
-    <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Stateless" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj" />
+    <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj" />
   </ItemGroup>
 

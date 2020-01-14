@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Events;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Mapping
 {

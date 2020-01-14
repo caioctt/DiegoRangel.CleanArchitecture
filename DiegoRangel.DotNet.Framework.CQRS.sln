@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB\DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.csproj", "{AC682066-49AB-44E3-97E1-E9376AC281B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj", "{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj", "{C76F283F-410F-4FA8-B3CF-77AB8EF31207}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C76F283F-410F-4FA8-B3CF-77AB8EF31207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C76F283F-410F-4FA8-B3CF-77AB8EF31207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C76F283F-410F-4FA8-B3CF-77AB8EF31207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C76F283F-410F-4FA8-B3CF-77AB8EF31207}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +89,8 @@ Global
 		{0F5672BB-2028-43A7-A5FE-A8986A9BE2E0} = {FDD0A790-F3BE-45CC-89E7-7AC1580A128F}
 		{AC682066-49AB-44E3-97E1-E9376AC281B6} = {B8BD1683-1506-40D7-8917-F704D3049964}
 		{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A} = {82F67196-9608-4EB2-B6DF-A6639EFEE571}
+		{68FB0D49-D600-41FF-A24B-52E4CDEFF45A} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
+		{C76F283F-410F-4FA8-B3CF-77AB8EF31207} = {4196CB00-8FC7-4120-9AA4-02D1B4FB75D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFECDDC6-80FD-4AF6-8A14-40503E9C8C47}

@@ -2,6 +2,7 @@
 using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers

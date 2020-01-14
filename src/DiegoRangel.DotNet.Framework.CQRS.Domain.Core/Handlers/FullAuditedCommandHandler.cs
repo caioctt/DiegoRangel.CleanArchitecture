@@ -6,7 +6,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers

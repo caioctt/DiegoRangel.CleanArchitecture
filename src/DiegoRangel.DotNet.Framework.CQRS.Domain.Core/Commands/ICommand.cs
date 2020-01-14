@@ -1,14 +1,8 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
-using MediatR;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands
 {
-    public interface ICommand : IRequest<IResponse>
-    {
-
-    }
-
     public interface ICommandMapped<T, K> : ICommand
         where K : struct
         where T : IEntity<K>
