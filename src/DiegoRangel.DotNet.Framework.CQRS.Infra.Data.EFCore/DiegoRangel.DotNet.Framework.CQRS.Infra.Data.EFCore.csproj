@@ -6,7 +6,7 @@
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A common library for implementing CQRS based EF Core layer.</Description>
-    <Version>1.0.35</Version>
+    <Version>1.0.36</Version>
   </PropertyGroup>
 
   <ItemGroup>
