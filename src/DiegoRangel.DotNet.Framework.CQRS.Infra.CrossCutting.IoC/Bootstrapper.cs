@@ -14,7 +14,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
     public static class Bootstrapper
     {
         public static void RegisterServicesBasedOn<TUserPrimaryKey>(IServiceCollection services, params Assembly[] assemblies)
-            where TUserPrimaryKey : struct
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRandomizeProvider, RandomizeProvider>();

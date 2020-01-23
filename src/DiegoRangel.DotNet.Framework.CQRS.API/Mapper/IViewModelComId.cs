@@ -3,7 +3,6 @@
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 {
     public interface IViewModelWithId<T, K> : IViewModel<T>
-        where K : struct
         where T : class, IEntity<K>
     {
         K Id { get; set; }

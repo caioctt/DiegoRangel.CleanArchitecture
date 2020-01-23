@@ -15,7 +15,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
 {
     public abstract class CrudApiController<TEntity, TEntityKey, TRepository, TAddCommandRequest, TUpdateCommand, TDeleteCommand, TViewModel, TViewModelList, TViewModelInput, TViewModelUpdate> : 
         ApiControllerBase
-        where TEntityKey : struct
         where TEntity : class, IEntity<TEntityKey>
         where TRepository : ICrudRepository<TEntity, TEntityKey>
         where TAddCommandRequest : ICommandMapped<TEntity, TEntityKey>

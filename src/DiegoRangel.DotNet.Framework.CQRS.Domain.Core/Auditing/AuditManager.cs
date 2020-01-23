@@ -5,7 +5,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     public class AuditManager<TUserPrimaryKey> : IAuditManager
-        where TUserPrimaryKey : struct
     {
         private readonly ILoggedInUserProvider<IUser<TUserPrimaryKey>, TUserPrimaryKey> _loggedInUserProvider;
         public AuditManager(ILoggedInUserProvider<IUser<TUserPrimaryKey>, TUserPrimaryKey> loggedInUserProvider)
@@ -14,7 +13,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         }
 
         public void AuditCreation<TEntityPrimaryKey>(IDomainEntity entity) 
-            where TEntityPrimaryKey : struct
         {
             if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey> creationAuditedEntity)) return;
             var user = _loggedInUserProvider.GetLoggedInUser();
@@ -27,7 +25,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         }
 
         public void AuditModification<TEntityPrimaryKey>(IDomainEntity entity)
-            where TEntityPrimaryKey : struct
         {
             if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey> modificationAuditedEntity)) return;
             var user = _loggedInUserProvider.GetLoggedInUser();
@@ -40,7 +37,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         }
 
         public void AuditDeletion<TEntityPrimaryKey>(IDomainEntity entity)
-            where TEntityPrimaryKey : struct
         {
             if (!(entity is IDeletionAudited<TEntityPrimaryKey, TUserPrimaryKey> deletionAuditedEntity)) return;
             if (!deletionAuditedEntity.IsDeleted || deletionAuditedEntity.DeletionTime.HasValue) return;

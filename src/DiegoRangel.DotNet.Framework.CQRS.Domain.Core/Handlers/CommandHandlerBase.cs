@@ -35,7 +35,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
         protected bool IsValid<T, TPrimaryKey>(T entity)
             where T : IEntity<TPrimaryKey>
-            where TPrimaryKey : struct
         {
             if (entity.IsValid()) return true;
             _notificationContext.AddNotifications(entity.ValidationResult);

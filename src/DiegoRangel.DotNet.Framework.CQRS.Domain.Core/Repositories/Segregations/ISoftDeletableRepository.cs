@@ -5,7 +5,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Segregations
 {
     public interface ISoftDeletableRepository<TEntity, in TPrimaryKey> : IRepository
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>, ISoftDelete
     {
         Task MoveToTrashAsync(TPrimaryKey id);

@@ -13,7 +13,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
     public abstract class CrudRepository<TEntity, TEntityKey> : 
         Repository<TEntity, TEntityKey>, 
         ICrudRepository<TEntity, TEntityKey>
-        where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
         protected CrudRepository(IMongoContext context) : base(context)

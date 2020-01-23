@@ -8,7 +8,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.PagedSearch;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Segregations
 {
     public interface ISearchableRepository<TEntity, in TPrimaryKey> : IRepository
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
     {
         Task<List<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> predicate);

@@ -4,7 +4,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands
 {
     public interface ICommandMapped<T, K> : ICommand
-        where K : struct
         where T : IEntity<K>
     {
 
@@ -25,7 +24,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands
     }
 
     public interface ICommandMappedWithId<T, K> : ICommandMapped<T, K>, ICommandWithId<K>
-        where K : struct
         where T : IEntity<K>
     {
 

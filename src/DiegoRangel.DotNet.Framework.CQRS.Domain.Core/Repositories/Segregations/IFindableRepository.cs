@@ -6,7 +6,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.PagedSearch;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Segregations
 {
     public interface IFindableRepository<TEntity, in TPrimaryKey> : IRepository
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
     {
         Task<TEntity> FindByIdAsync(TPrimaryKey id);

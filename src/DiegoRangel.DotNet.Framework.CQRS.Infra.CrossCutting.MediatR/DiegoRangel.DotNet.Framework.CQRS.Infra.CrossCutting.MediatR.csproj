@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.37</Version>
+    <Version>1.0.38</Version>
     <Authors>Diego Rangel</Authors>
     <Company>Diego Rangel</Company>
     <Description>A common library for implementing CQRS based CrossCutting MediatR layer.</Description>

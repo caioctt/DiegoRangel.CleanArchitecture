@@ -9,7 +9,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories
         IDeletableRepository<TEntity, TPrimaryKey>,
         IFindableRepository<TEntity, TPrimaryKey>,
         ISearchableRepository<TEntity, TPrimaryKey>
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
     {
         

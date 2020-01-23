@@ -13,8 +13,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete>
-        where TEntityKey : struct
-        where TUserKey : struct
         where TEntity : IFullAudited<TEntityKey, TUserKey>
         where TDelete : ICommandWithId<TEntityKey>
     {
@@ -47,8 +45,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete>
-        where TEntityKey : struct
-        where TUserKey : struct
         where TEntity : IFullAudited<TEntityKey, TUserKey>
         where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
         where TDelete : ICommandWithId<TEntityKey>
@@ -65,8 +61,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete>
-        where TEntityKey : struct
-        where TUserKey : struct
         where TEntity : IFullAudited<TEntityKey, TUserKey>
         where TRegister : ICommandMapped<TEntity, TEntityKey>
         where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>

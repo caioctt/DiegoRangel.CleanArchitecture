@@ -13,7 +13,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
     public abstract class CrudRepository<TEntity, TEntityKey> : 
         Repository<TEntity, TEntityKey>, 
         ICrudRepository<TEntity, TEntityKey>
-        where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
         protected CrudRepository(DbContext context) : base(context)

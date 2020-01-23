@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 {
     public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
-        where TEntityKey : struct
-        where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserPrimaryKey>
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
@@ -22,8 +20,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     }
     
     public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey, TUser> : CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
-        where TEntityKey : struct
-        where TUserPrimaryKey : struct
         where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserPrimaryKey, TUser>
         where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
     {

@@ -6,8 +6,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations
     public interface IDeletionAuditedRepository<TEntity, in TEntityKey, TUserKey> : 
         ICrudRepository<TEntity, TEntityKey>,
         ISoftDeletableRepository<TEntity, TEntityKey>
-        where TEntityKey : struct
-        where TUserKey : struct
         where TEntity : IDeletionAudited<TEntityKey, TUserKey>
     {
 

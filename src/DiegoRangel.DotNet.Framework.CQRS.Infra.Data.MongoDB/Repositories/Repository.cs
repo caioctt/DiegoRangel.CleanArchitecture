@@ -10,7 +10,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
     /// The toppest level repository which all repositories should inherit from.
     /// </summary>
     public abstract class Repository<TEntity, TEntityKey> : IRepository
-        where TEntityKey : struct
         where TEntity : Entity<TEntityKey>
     {
         protected readonly IMongoContext Context;

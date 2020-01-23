@@ -14,7 +14,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TDelete> :
         CommandHandlerBase,
         ICommandHandler<TDelete>
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
         where TDelete : ICommandWithId<TPrimaryKey>
     {
@@ -48,7 +47,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TPrimaryKey, TDelete>,
         ICommandHandler<TUpdate>
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
         where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey>
         where TDelete : ICommandWithId<TPrimaryKey>
@@ -90,7 +88,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TRegister, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete>,
         ICommandHandler<TRegister>
-        where TPrimaryKey : struct
         where TEntity : IEntity<TPrimaryKey>
         where TRegister : ICommandMapped<TEntity, TPrimaryKey>
         where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey>
