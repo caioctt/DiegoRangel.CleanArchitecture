@@ -1,8 +1,10 @@
 using System;
 using DiegoRangel.DotNet.Framework.CQRS.API.Extensions;
+using DiegoRangel.DotNet.Framework.CQRS.API.Services.Session;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 typeof(Infra.Data.EFCore.Setup.CustomDbContextOptionsBuilder).Assembly,
                 typeof(Infra.Data.MongoDB.Context.MongoDbContext).Assembly,
             };
+
+            services.AddControllers();
 
             services.AddCulture("pt-BR");
             services.AddHealthChecks();
