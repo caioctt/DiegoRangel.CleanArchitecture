@@ -1,6 +1,6 @@
 using System;
 using DiegoRangel.DotNet.Framework.CQRS.API.Extensions;
-using DiegoRangel.DotNet.Framework.CQRS.API.Services.Session;
+using DiegoRangel.DotNet.Framework.CQRS.API.Temp;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
@@ -76,6 +76,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             services.AddEfCoreServices();
             services.AddMongoDb(settings =>{});
 
+            services.AddScoped<ILoggedInUserProvider<IUser<Guid>, Guid>, TempUserLoggedInProvider>();
+            services.AddScoped<ILoggedInUserProvider<TempUser, Guid>, TempUserLoggedInProvider>();
+
             Bootstrapper.RegisterServicesBasedOn<Guid>(services, assemblies);
         }
 
@@ -84,6 +87,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
+
+            app.UseCors(c =>
+            {
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+                c.AllowAnyOrigin();
+            });
 
             app.UseRouting();
             app.UseExceptionHandlers();
