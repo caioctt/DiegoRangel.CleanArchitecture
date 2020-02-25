@@ -7,7 +7,7 @@
     <Description>A common library for implementing CQRS based Domain layer.</Description>
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.38</Version>
+    <Version>1.0.39</Version>
   </PropertyGroup>
 
   <ItemGroup>
