@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using AutoMapper;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
@@ -11,6 +12,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
         {
             var autoMapperSettings = new AutoMapperSettings();
             autoMapperSettingsBuilder(autoMapperSettings);
+            services.AddSingleton(new AutoMapperAssemblies(assemblies));
 
             services.AddAutoMapper(opt =>
             {

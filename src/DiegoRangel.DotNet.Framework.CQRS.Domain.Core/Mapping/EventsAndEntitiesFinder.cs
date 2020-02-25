@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Mapping
 {
     public static class EventsAndEntitiesFinder
     {
-        public static List<Tuple<Type, Type>> GetMappingsFrom(Type assemblyScanner)
+        public static List<Tuple<Type, Type>> GetMappingsFrom(params Assembly[] assemblies)
         {
             var mappings = new List<Tuple<Type, Type>>();
-            var types = assemblyScanner.Assembly.GetTypes().ToList();
+            var types = assemblies.SelectMany(x => x.GetTypes()).ToList();
 
             var events = types
                 .Where(x =>
