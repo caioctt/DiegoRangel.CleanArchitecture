@@ -40,9 +40,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _notificationContext.AddNotifications(entity.ValidationResult);
             return false;
         }
-        protected bool IsValid<T>(T entity) where T : IEntity<long>
+        protected bool IsValid<T>(T entity) where T : IEntity<int>
         {
-            return IsValid<T, long>(entity);
+            return IsValid<T, int>(entity);
         }
 
         protected void AddNotification(string message) => _notificationContext.AddNotification(message);

@@ -22,6 +22,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
     public abstract class IdentityUserEntity<TPrimaryKey> : IdentityUser<TPrimaryKey>, IEntity<TPrimaryKey> 
         where TPrimaryKey : IEquatable<TPrimaryKey>
     {
+        protected IdentityUserEntity()
+        {
+            ValidationResult = new ValidationResult();
+        }
+
         public ValidationResult ValidationResult { get; set; }
 
         public bool IsValid()

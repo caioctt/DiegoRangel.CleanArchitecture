@@ -26,6 +26,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.RegisterWhoImplements(typeof(IRepository), assemblies);
             services.RegisterWhoImplements(typeof(IDomainService), assemblies);
             services.RegisterWhoImplements(typeof(IService), assemblies);
+            services.RegisterWhoImplements(typeof(IUnitOfWork), assemblies);
         }
     }
 }
