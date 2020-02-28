@@ -19,6 +19,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications
         {
             _notifications.Add(new DomainNotification(message));
         }
+        public void AddNotifications(string[] messages)
+        {
+            _notifications.AddRange(messages.Select(x => new DomainNotification(x)));
+        }
         public void AddNotification(DomainNotification notification)
         {
             _notifications.Add(notification);
