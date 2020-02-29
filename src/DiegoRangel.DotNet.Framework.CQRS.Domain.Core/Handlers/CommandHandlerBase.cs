@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using Microsoft.AspNetCore.Identity;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -26,6 +28,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         {
             _notificationContext.AddNotifications(messages);
             return new Fail();
+        }
+        protected IResponse Fail(IdentityResult result)
+        {
+            return Fail(result.Errors?.Select(x => x.Code).ToArray());
         }
 
         protected CommandHandlerBase(
