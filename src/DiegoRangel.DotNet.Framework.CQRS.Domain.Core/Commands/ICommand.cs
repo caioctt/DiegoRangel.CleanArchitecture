@@ -3,18 +3,18 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands
 {
-    public interface ICommandMapped<T, K> : ICommand
-        where T : IEntity<K>
+    public interface ICommandMapped<TEntity, TKey> : ICommand
+        where TEntity : IEntity<TKey>
     {
 
     }
-    public interface ICommandMapped<T> : ICommandMapped<T, int>
-        where T : IEntity<int>
+    public interface ICommandMapped<TEntity> : ICommandMapped<TEntity, int>
+        where TEntity : IEntity<int>
     {
 
     }
 
-    public interface ICommandWithId<K> : ICommand, IMustHaveId<K>
+    public interface ICommandWithId<TKey> : ICommand, IMustHaveId<TKey>
     {
 
     }
@@ -23,13 +23,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands
 
     }
 
-    public interface ICommandMappedWithId<T, K> : ICommandMapped<T, K>, ICommandWithId<K>
-        where T : IEntity<K>
+    public interface ICommandMappedWithId<TEntity, TKey> : ICommandMapped<TEntity, TKey>, ICommandWithId<TKey>
+        where TEntity : IEntity<TKey>
     {
 
     }
-    public interface ICommandMappedWithId<T> : ICommandMappedWithId<T, int>
-        where T : IEntity<int>
+    public interface ICommandMappedWithId<TEntity> : ICommandMappedWithId<TEntity, int>
+        where TEntity : IEntity<int>
     {
 
     }

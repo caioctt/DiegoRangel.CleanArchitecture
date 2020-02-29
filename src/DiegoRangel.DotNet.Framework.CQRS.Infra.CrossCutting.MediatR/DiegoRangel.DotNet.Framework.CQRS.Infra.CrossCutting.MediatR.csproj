@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.44</Version>
+    <Version>1.0.45</Version>
     <Authors>Diego Rangel</Authors>
     <Company>Diego Rangel</Company>
     <Description>A common library for implementing CQRS based CrossCutting MediatR layer.</Description>
