@@ -76,8 +76,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             services.AddEfCoreServices();
             services.AddMongoDb(settings =>{});
 
-            services.AddScoped<ILoggedInUserProvider<IUser<Guid>, Guid>, TempUserLoggedInProvider>();
-            services.AddScoped<ILoggedInUserProvider<TempUser, Guid>, TempUserLoggedInProvider>();
+            services.AddUserSignedInServices<TempUser, Guid, TempLoggedInUserProvider, TempLoggedInUserIdProvider>();
 
             Bootstrapper.RegisterServicesBasedOn<Guid>(services, assemblies);
         }

@@ -18,10 +18,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
             _auditManager = auditManager;
         }
 
-        public override Task UpdateAsync(TEntity entity)
+        public override async Task UpdateAsync(TEntity entity)
         {
-            _auditManager.AuditModification<TEntityKey>(entity);
-            return base.UpdateAsync(entity);
+            await _auditManager.AuditModification<TEntityKey>(entity);
+            await base.UpdateAsync(entity);
         }
 
         protected override SortDefinition<TEntity> BuildDefaultSortDefinition()

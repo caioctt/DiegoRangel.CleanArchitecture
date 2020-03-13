@@ -25,13 +25,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
             await MoveToTrashAsync(entity);
         }
 
-        public virtual Task MoveToTrashAsync(TEntity entity)
+        public virtual async Task MoveToTrashAsync(TEntity entity)
         {
             entity.MoveToTrash();
-            _auditManager.AuditDeletion(entity);
+            await _auditManager.AuditDeletion(entity);
 
             Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id), entity));
-            return Task.CompletedTask;
         }
 
         public virtual async Task MoveToTrashAsync(IList<TEntity> entities)

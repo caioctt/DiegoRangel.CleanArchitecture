@@ -1,8 +1,10 @@
-﻿namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session
+﻿using System.Threading.Tasks;
+
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session
 {
-    public interface ILoggedInUserProvider<out TUser, TUserPrimaryKey>
+    public interface ILoggedInUserProvider<TUser, TUserPrimaryKey>
         where TUser : IUser<TUserPrimaryKey>
     {
-        TUser GetLoggedInUser();
+        Task<TUser> GetUserLoggedInAsync();
     }
 }
