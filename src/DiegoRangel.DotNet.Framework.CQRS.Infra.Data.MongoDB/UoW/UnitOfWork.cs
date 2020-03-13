@@ -12,7 +12,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.UoW
             _context = context;
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> CommitAsync()
         {
             var changes = await _context.SaveChangesAsync();
             return changes > 0;

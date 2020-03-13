@@ -61,7 +61,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected async Task<bool> Commit()
         {
             if (_notificationContext.HasNotifications) return false;
-            if (await _uow.Commit())
+            if (await _uow.CommitAsync())
                 return true;
 
             _notificationContext.AddNotification(_commonMessages.UnhandledOperation ?? "Oops... We could't perform this operation at this time.");

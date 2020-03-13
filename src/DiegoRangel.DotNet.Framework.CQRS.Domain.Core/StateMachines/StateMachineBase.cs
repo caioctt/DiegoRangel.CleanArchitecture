@@ -30,7 +30,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.StateMachines
         protected TStates CurrentState { get; set; }
         protected StateMachine<TStates, TTriggers> Machine { get; set; }
         protected Dictionary<TTriggers, StateMachine<TStates, TTriggers>.TriggerWithParameters> CustomTriggers { get; set; }
-        
+
+        protected abstract Task OnBeforeFire();
         protected abstract void Setup();
         protected abstract void OnTransitioned(StateMachine<TStates, TTriggers>.Transition transition);
 
@@ -38,12 +39,16 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.StateMachines
         {
             Entity = entity;
             CurrentState = currentState;
+
+            await OnBeforeFire();
             await Machine.FireAsync(trigger);
         }
         public async Task FireWithParameter<T>(TEntity entity, TStates currentState, TTriggers trigger, T value)
         {
             Entity = entity;
             CurrentState = currentState;
+
+            await OnBeforeFire();
             await Machine.FireAsync(TriggerWithParameter<T>(trigger), value);
         }
 
