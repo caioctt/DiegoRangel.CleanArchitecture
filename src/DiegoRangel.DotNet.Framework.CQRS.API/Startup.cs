@@ -1,10 +1,10 @@
 using System;
 using DiegoRangel.DotNet.Framework.CQRS.API.Extensions;
+using DiegoRangel.DotNet.Framework.CQRS.API.Filters;
 using DiegoRangel.DotNet.Framework.CQRS.API.Temp;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,8 +21,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             _env = env;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = new[]
@@ -33,7 +31,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 typeof(Infra.Data.MongoDB.Context.MongoDbContext).Assembly,
             };
 
-            services.AddControllers();
+            services.AddControllers(options => { options.Filters.Add<ResponseConsistanceFilter>(); })
+                .AddNewtonsoftJson();
 
             services.AddCulture("pt-BR");
             services.AddHealthChecks();
@@ -81,7 +80,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             Bootstrapper.RegisterServicesBasedOn<Guid>(services, assemblies);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

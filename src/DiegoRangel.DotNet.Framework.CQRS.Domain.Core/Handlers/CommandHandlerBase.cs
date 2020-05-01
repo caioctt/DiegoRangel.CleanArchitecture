@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
@@ -16,32 +15,49 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly DomainNotificationContext _notificationContext;
         private readonly CommonMessages _commonMessages;
 
-        protected IResponse Ok(object obj = null) => new Ok(obj);
-        protected IResponse NoContent() => new NoContent();
-        protected IResponse Fail() => new Fail();
-        protected IResponse Fail(string message)
-        {
-            _notificationContext.AddNotification(message);
-            return new Fail();
-        }
-        protected IResponse Fail(string[] messages)
-        {
-            _notificationContext.AddNotifications(messages);
-            return new Fail();
-        }
-        protected IResponse Fail(IdentityResult result)
-        {
-            return Fail(result.Errors?.Select(x => x.Code).ToArray());
-        }
-
         protected CommandHandlerBase(
-            DomainNotificationContext notificationContext, 
+            DomainNotificationContext notificationContext,
             CommonMessages commonMessages,
             IUnitOfWork uow)
         {
             _uow = uow;
             _commonMessages = commonMessages;
             _notificationContext = notificationContext;
+        }
+
+        protected Unit Finish() => Unit.Value;
+        protected TResponse Fail<TResponse>(TResponse response)
+        {
+            return response;
+        }
+        protected Unit Fail(string message)
+        {
+            _notificationContext.AddNotification(message);
+            return Unit.Value;
+        }
+        protected TResponse Fail<TResponse>(string message, TResponse response)
+        {
+            _notificationContext.AddNotification(message);
+            return response;
+        }
+        protected Unit Fail(string[] messages)
+        {
+            _notificationContext.AddNotifications(messages);
+            return Unit.Value;
+        }
+        protected TResponse Fail<TResponse>(string[] messages, TResponse response)
+        {
+            _notificationContext.AddNotifications(messages);
+            return response;
+        }
+        protected Unit Fail(IdentityResult result)
+        {
+            return Fail(result, Unit.Value);
+        }
+        protected TResponse Fail<TResponse>(IdentityResult result, TResponse response)
+        {
+            _notificationContext.AddNotifications(result.Errors?.Select(x => x.Code).ToArray());
+            return response;
         }
 
         protected bool IsValid<T, TPrimaryKey>(T entity)

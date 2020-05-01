@@ -10,7 +10,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
     public abstract class AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete> :
         CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete>
-        where TEntity : IAudited<TEntityKey, TUserKey>
+        where TEntity : class, IAudited<TEntityKey, TUserKey>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected AuditedCommandHandler(
@@ -24,8 +24,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete> :
         CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete>
-        where TEntity : IAudited<TEntityKey, TUserKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, IAudited<TEntityKey, TUserKey>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected AuditedCommandHandler(
@@ -40,9 +40,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete> :
         CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete>
-        where TEntity : IAudited<TEntityKey, TUserKey>
-        where TRegister : ICommandMapped<TEntity, TEntityKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, IAudited<TEntityKey, TUserKey>
+        where TRegister : ICommandMapped<TEntity, TEntityKey, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected AuditedCommandHandler(
@@ -57,9 +57,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class AuditedCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
         AuditedCommandHandler<TEntity, int, int, TRegister, TUpdate, TDelete>
-        where TEntity : IAudited<int, int>
-        where TRegister : ICommandMapped<TEntity, int>
-        where TUpdate : ICommandMappedWithId<TEntity, int>
+        where TEntity : class, IAudited<int, int>
+        where TRegister : ICommandMapped<TEntity, int, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
         where TDelete : ICommandWithId<int>
     {
         protected AuditedCommandHandlerBase(

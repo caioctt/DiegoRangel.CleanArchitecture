@@ -24,8 +24,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TEntityKey, TUpdate, TDelete>
-        where TEntity : ICreationAudited<TEntityKey, TUserKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected CreationAuditedCommandHandler(
@@ -40,9 +40,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TEntityKey, TRegister, TUpdate, TDelete>
-        where TEntity : ICreationAudited<TEntityKey, TUserKey>
-        where TRegister : ICommandMapped<TEntity, TEntityKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
+        where TRegister : ICommandMapped<TEntity, TEntityKey, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected CreationAuditedCommandHandler(
@@ -57,9 +57,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class CreationAuditedCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
         CreationAuditedCommandHandler<TEntity, int, int, TRegister, TUpdate, TDelete>
-        where TEntity : ICreationAudited<int, int>
-        where TRegister : ICommandMapped<TEntity, int>
-        where TUpdate : ICommandMappedWithId<TEntity, int>
+        where TEntity : class, ICreationAudited<int, int>
+        where TRegister : ICommandMapped<TEntity, int, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
         where TDelete : ICommandWithId<int>
     {
         protected CreationAuditedCommandHandlerBase(

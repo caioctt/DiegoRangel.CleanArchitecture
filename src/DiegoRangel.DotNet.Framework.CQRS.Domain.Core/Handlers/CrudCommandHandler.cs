@@ -6,8 +6,8 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -30,25 +30,24 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _commonMessages = commonMessages;
         }
 
-        public virtual async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
+        public virtual async Task<Unit> Handle(TDelete request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
                 return Fail(_commonMessages.NotFound ?? "Not found");
 
             await _repository.DeleteAsync(entity);
+            await Commit();
 
-            if (await Commit())
-                return NoContent();
-            return Fail();
+            return Finish();
         }
     }
 
     public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TPrimaryKey, TDelete>,
-        ICommandHandler<TUpdate>
-        where TEntity : IEntity<TPrimaryKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey>
+        ICommandHandler<TUpdate, TEntity>
+        where TEntity : class, IEntity<TPrimaryKey>
+        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
         where TDelete : ICommandWithId<TPrimaryKey>
     {
         private readonly IMapper _mapper;
@@ -67,30 +66,30 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _commonMessages = commonMessages;
         }
 
-        public virtual async Task<IResponse> Handle(TUpdate request, CancellationToken cancellationToken)
+        public virtual async Task<TEntity> Handle(TUpdate request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
-                return Fail(_commonMessages.NotFound ?? "Not found");
+                return Fail<TEntity>(_commonMessages.NotFound ?? "Not found", null);
 
             _mapper.Map(request, entity);
 
-            if (!IsValid<TEntity, TPrimaryKey>(entity)) return Fail();
+            if (!IsValid<TEntity, TPrimaryKey>(entity)) 
+                return Fail<TEntity>(null);
 
             await _repository.UpdateAsync(entity);
+            await Commit();
 
-            if (await Commit())
-                return Ok(entity);
-            return Fail();
+            return entity;
         }
     }
 
     public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TRegister, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete>,
-        ICommandHandler<TRegister>
-        where TEntity : IEntity<TPrimaryKey>
-        where TRegister : ICommandMapped<TEntity, TPrimaryKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey>
+        ICommandHandler<TRegister, TEntity>
+        where TEntity : class, IEntity<TPrimaryKey>
+        where TRegister : ICommandMapped<TEntity, TPrimaryKey, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
         where TDelete : ICommandWithId<TPrimaryKey>
     {
         private readonly IMapper _mapper;
@@ -107,26 +106,25 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _repository = repository;
         }
 
-        public virtual async Task<IResponse> Handle(TRegister request, CancellationToken cancellationToken)
+        public virtual async Task<TEntity> Handle(TRegister request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<TEntity>(request);
 
             if (!IsValid<TEntity, TPrimaryKey>(entity))
-                return Fail();
+                return Fail<TEntity>(null);
 
             await _repository.AddAsync(entity);
+            await Commit();
 
-            if (await Commit())
-                return Ok(entity);
-            return Fail();
+            return entity;
         }
     }
 
     public abstract class CrudCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
         CrudCommandHandler<TEntity, int, TRegister, TUpdate, TDelete>
-        where TEntity : IEntity
-        where TRegister : ICommandMapped<TEntity>
-        where TUpdate : ICommandMappedWithId<TEntity>
+        where TEntity : class, IEntity
+        where TRegister : ICommandMapped<TEntity, int, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
         where TDelete : ICommandWithId
     {
         protected CrudCommandHandlerBase(

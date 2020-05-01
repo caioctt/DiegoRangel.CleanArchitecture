@@ -1,91 +1,22 @@
 ﻿using System.Linq;
 using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Responses;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
 {
     public abstract class ApiControllerBase : Controller
     {
-        private readonly IMapper _mapper;
-        private readonly DomainNotificationContext _domainNotificationContext;
-        protected ApiControllerBase(DomainNotificationContext domainNotificationContext, IMapper mapper)
-        {
-            _domainNotificationContext = domainNotificationContext;
-            _mapper = mapper;
-        }
+        protected DomainNotificationContext NotificationContext => _domainNotificationContext ??= HttpContext.RequestServices.GetService<DomainNotificationContext>();
+        private DomainNotificationContext _domainNotificationContext;
 
-        protected new IActionResult Response(object data = null)
-        {
-            if (!_domainNotificationContext.HasNotifications)
-                return base.Ok(FormatSuccessResponse(data));
+        protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetService<IMapper>();
+        private IMapper _mapper;
 
-            return base.BadRequest(FormatFailResponse(_domainNotificationContext.Notifications.Select(x => x.Message).ToArray()));
-        }
-        protected new IActionResult Response(IResponse response)
-        {
-            switch (response)
-            {
-                case Ok ok:
-                    return base.Ok(FormatSuccessResponse(ok.Result));
-                case Fail _:
-                    return base.BadRequest(FormatFailResponse(_domainNotificationContext.Notifications.Select(x => x.Message).ToArray()));
-                default:
-                    return base.Ok(FormatSuccessResponse(null));
-            }
-        }
-        protected new IActionResult Response<T>(IResponse response)
-        {
-            switch (response)
-            {
-                case Ok ok:
-                    return base.Ok(FormatSuccessResponse<T>(ok.Result));
-                case Fail _:
-                    return base.BadRequest(FormatFailResponse(_domainNotificationContext.Notifications.Select(x => x.Message).ToArray()));
-                default:
-                    return base.Ok(FormatSuccessResponse<T>(null));
-            }
-        }
-
-        protected new IActionResult Ok(object data = null)
-        {
-            return base.Ok(FormatSuccessResponse(data));
-        }
-        protected IActionResult Ok<T>(object data = null)
-        {
-            return base.Ok(FormatSuccessResponse<T>(data));
-        }
-        protected new IActionResult BadRequest()
-        {
-            return base.BadRequest(FormatFailResponse(_domainNotificationContext.Notifications.Select(x => x.Message).ToArray()));
-        }
-
-        private static object FormatSuccessResponse(object data)
-        {
-            return new
-            {
-                success = true,
-                data = data
-            };
-        }
-        private object FormatSuccessResponse<T>(object data)
-        {
-            return new
-            {
-                success = true,
-                data = _mapper.Map<T>(data)
-            };
-        }
-        private static object FormatFailResponse(string[] errors)
-        {
-            return new
-            {
-                success = false,
-                errors = errors
-            };
-        }
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator _mediator;
 
         protected bool IsViewModelInvalid()
         {
@@ -95,13 +26,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
             foreach (var erro in erros)
             {
                 var erroMsg = erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message;
-                NotifyDomainError(erroMsg);
+                SetValidationError(erroMsg);
             }
 
             return true;
         }
-
-        protected void NotifyDomainError(string mensagem)
+        protected void SetValidationError(string mensagem)
         {
             _domainNotificationContext.AddNotification(mensagem);
         }

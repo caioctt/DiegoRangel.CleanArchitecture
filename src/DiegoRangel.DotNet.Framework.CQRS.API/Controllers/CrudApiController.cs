@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.API.Mapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
@@ -17,8 +14,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         ApiControllerBase
         where TEntity : class, IEntity<TEntityKey>
         where TRepository : ICrudRepository<TEntity, TEntityKey>
-        where TAddCommandRequest : ICommandMapped<TEntity, TEntityKey>
-        where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey>
+        where TAddCommandRequest : ICommandMapped<TEntity, TEntityKey, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TViewModelList : IViewModelWithId<TEntity, TEntityKey>
         where TViewModel : IViewModelWithId<TEntity, TEntityKey>
@@ -27,13 +24,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
     {
         private readonly CommonMessages _commonMessages;
         private readonly TRepository _repository;
-        private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
 
-        protected CrudApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, mapper)
+        protected CrudApiController(CommonMessages commonMessages, TRepository repository)
         {
-            _mapper = mapper;
-            _mediator = mediator;
             _repository = repository;
             _commonMessages = commonMessages;
         }
@@ -42,35 +35,35 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         public virtual async Task<IActionResult> FindAll()
         {
             var result = await _repository.FindAllAsync();
-            return Ok(_mapper.Map<IEnumerable<TViewModelList>>(result));
+            return Ok(Mapper.Map<IEnumerable<TViewModelList>>(result));
         }
 
         [HttpGet("{id}")]
         public virtual async Task<IActionResult> FindById(TEntityKey id)
         {
             var result = await _repository.FindByIdAsync(id);
-            if (result != null) return Ok(_mapper.Map<TViewModel>(result));
+            if (result != null) return Ok(Mapper.Map<TViewModel>(result));
 
-            NotifyDomainError(_commonMessages.NotFound ?? "Not found");
+            SetValidationError(_commonMessages.NotFound ?? "Not found");
             return BadRequest();
         }
 
         [HttpPost]
         public virtual async Task<IActionResult> Add([FromBody]TViewModelInput input)
         {
-            var cmd = _mapper.Map<TAddCommandRequest>(input);
-            var result = await _mediator.Send(cmd);
-            return Response<TViewModel>(result);
+            var cmd = Mapper.Map<TAddCommandRequest>(input);
+            var result = await Mediator.Send(cmd);
+            return Ok(Mapper.Map<TViewModel>(result));
         }
 
         [HttpPut("{id}")]
         public virtual async Task<IActionResult> Update(TEntityKey id, [FromBody]TViewModelUpdate input)
         {
-            var cmd = _mapper.Map<TUpdateCommand>(input);
+            var cmd = Mapper.Map<TUpdateCommand>(input);
             cmd.Id = id;
 
-            var result = await _mediator.Send(cmd);
-            return Response<TViewModel>(result);
+            var result = await Mediator.Send(cmd);
+            return Ok(Mapper.Map<TViewModel>(result));
         }
 
         [HttpDelete("{id}")]
@@ -79,8 +72,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
             var cmd = Activator.CreateInstance<TDeleteCommand>();
             cmd.Id = id;
 
-            var result = await _mediator.Send(cmd);
-            return Response(result);
+            await Mediator.Send(cmd);
+            return Ok();
         }
     }
 
@@ -88,15 +81,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
         CrudApiController<TEntity, int, TRepository, TAddCommandRequest, TUpdateCommand, TDeleteCommand, TViewModel, TViewModelList, TViewModelInput, TViewModelUpdate>
         where TEntity : class, IEntity<int>
         where TRepository : ICrudRepository<TEntity, int>
-        where TAddCommandRequest : ICommandMapped<TEntity, int>
-        where TUpdateCommand : ICommandMappedWithId<TEntity, int>
+        where TAddCommandRequest : ICommandMapped<TEntity, int, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, int, TEntity>
         where TDeleteCommand : ICommandWithId<int>
         where TViewModelList : IViewModelWithId<TEntity, int>
         where TViewModel : IViewModelWithId<TEntity, int>
         where TViewModelInput : IViewModel<TEntity>
         where TViewModelUpdate : IViewModel<TEntity>
     {
-        protected CrudApiController(DomainNotificationContext domainNotificationContext, CommonMessages commonMessages, IMapper mapper, IMediator mediator, TRepository repository) : base(domainNotificationContext, commonMessages, mapper, mediator, repository)
+        protected CrudApiController(CommonMessages commonMessages, TRepository repository) : base(commonMessages, repository)
         {
         }
     }

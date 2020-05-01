@@ -6,14 +6,14 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete>
-        where TEntity : IFullAudited<TEntityKey, TUserKey>
+        where TEntity : class, IFullAudited<TEntityKey, TUserKey>
         where TDelete : ICommandWithId<TEntityKey>
     {
         private readonly IFullAuditedRepository<TEntity, TEntityKey, TUserKey> _repository;
@@ -29,24 +29,23 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _commonMessages = commonMessages;
         }
 
-        public override async Task<IResponse> Handle(TDelete request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(TDelete request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
                 return Fail(_commonMessages.NotFound ?? "Not found");
 
             await _repository.MoveToTrashAsync(entity);
+            await Commit();
 
-            if (await Commit())
-                return NoContent();
-            return Fail();
+            return Finish();
         }
     }
 
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete>
-        where TEntity : IFullAudited<TEntityKey, TUserKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, IFullAudited<TEntityKey, TUserKey>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected FullAuditedCommandHandler(
@@ -61,9 +60,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class FullAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete> :
         AuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete>
-        where TEntity : IFullAudited<TEntityKey, TUserKey>
-        where TRegister : ICommandMapped<TEntity, TEntityKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey>
+        where TEntity : class, IFullAudited<TEntityKey, TUserKey>
+        where TRegister : ICommandMapped<TEntity, TEntityKey, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
     {
         protected FullAuditedCommandHandler(
@@ -78,9 +77,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 
     public abstract class FullAuditedCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
         FullAuditedCommandHandler<TEntity, int, int, TRegister, TUpdate, TDelete>
-        where TEntity : IFullAudited<int, int>
-        where TRegister : ICommandMapped<TEntity, int>
-        where TUpdate : ICommandMappedWithId<TEntity, int>
+        where TEntity : class, IFullAudited<int, int>
+        where TRegister : ICommandMapped<TEntity, int, TEntity>
+        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
         where TDelete : ICommandWithId<int>
     {
         protected FullAuditedCommandHandlerBase(
