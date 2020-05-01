@@ -34,9 +34,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
                         apiResponse = ApiResponseContract.From(null, _domainNotificationContext.Notifications);
                         break;
                 }
-                
-                context.HttpContext.Response.ContentType = "application/json";
-                await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse?.ToJson()));
+
+                if (apiResponse != null)
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.ToJson()));
+                }
             }
             
             await next();

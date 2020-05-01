@@ -15,7 +15,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Temp
     {
         public Task<Guid> GetUserLoggedInIdAsync()
         {
-            return Task.FromResult(new Guid());
+            return Task.FromResult(Guid.NewGuid());
+        }
+    }
+    public class TempLoggedInUserIdentifierProvider : ILoggedInUserIdentifierProvider
+    {
+        public Task<string> GetUserIdentifierAsync()
+        {
+            return Task.FromResult(Guid.NewGuid().ToString());
         }
     }
 }

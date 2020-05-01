@@ -39,7 +39,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             services.AddCacheServices();
             services.AddCompression();
             services.AddIOServices();
-            services.AddMediatr(assemblies);
+            services.AddMediatr(assemblies)
+                .AddRequestPerformanceBehavior()
+                .AddUnhandledExceptionBehavior();
 
             services.AddSwaggerDocumentation(settings =>
             {
@@ -75,7 +77,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
             services.AddEfCoreServices();
             services.AddMongoDb(settings =>{});
 
-            services.AddUserSignedInServices<TempUser, Guid, TempLoggedInUserProvider, TempLoggedInUserIdProvider>();
+            services.AddUserSignedInServices<TempUser, Guid,
+                TempLoggedInUserProvider,
+                TempLoggedInUserIdProvider,
+                TempLoggedInUserIdentifierProvider>();
 
             Bootstrapper.RegisterServicesBasedOn<Guid>(services, assemblies);
         }

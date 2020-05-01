@@ -6,4 +6,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session
     {
         Task<TUserPrimaryKey> GetUserLoggedInIdAsync();
     }
+    public interface ILoggedInUserIdentifierProvider
+    {
+        Task<string> GetUserIdentifierAsync();
+    }
 }

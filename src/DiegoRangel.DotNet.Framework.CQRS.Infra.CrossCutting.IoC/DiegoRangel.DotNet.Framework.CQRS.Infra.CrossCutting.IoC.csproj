@@ -6,10 +6,11 @@
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A common library for implementing CQRS based IoC layer.</Description>
-    <Version>1.0.51</Version>
+    <Version>1.0.52</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />

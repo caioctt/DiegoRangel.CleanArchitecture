@@ -3,12 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.51</Version>
+    <Version>1.0.52</Version>
     <Authors>Diego Rangel</Authors>
     <Company>Diego Rangel</Company>
     <Description>A common library for implementing CQRS based MongoDB layer.</Description>
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mappings\**" />
+    <EmbeddedResource Remove="Mappings\**" />
+    <None Remove="Mappings\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
@@ -20,10 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Domain.Core\DiegoRangel.DotNet.Framework.CQRS.Domain.Core.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mappings\" />
   </ItemGroup>
 
 </Project>

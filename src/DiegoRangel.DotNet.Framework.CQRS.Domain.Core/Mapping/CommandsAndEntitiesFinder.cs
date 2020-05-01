@@ -15,13 +15,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Mapping
 
             var commands = types.Where(x =>
                 x.IsClass && x.GetInterfaces()
-                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommandMapped<,>))
+                    .Where(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandMapped<,>)
+                                                    || i.GetGenericTypeDefinition() == typeof(ICommandMapped<,,>)))
                     .SelectMany(i => i.GetGenericArguments()).Any());
 
             foreach (var command in commands)
             {
                 var commandInterface = command.GetInterfaces().FirstOrDefault(x =>
-                    x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICommandMapped<,>));
+                    x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(ICommandMapped<,>)
+                                        || x.GetGenericTypeDefinition() == typeof(ICommandMapped<,,>)));
 
                 var entity = commandInterface?.GenericTypeArguments.First();
 
