@@ -21,7 +21,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var user = await _loggedInUserProvider.GetUserIdentifierAsync();
-            _logger.LogInformation($"Proccessing Request: [{typeof(TRequest).Name}] for user [{user ?? "System"}] with model: {JsonConvert.SerializeObject(request)};");
+
+            var model = JsonConvert.SerializeObject(request, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            _logger.LogInformation($"Proccessing Request: [{typeof(TRequest).Name}] for user [{user ?? "Anonymous"}] with model: {model};");
         }
     }
 }

@@ -33,7 +33,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
                         && !x.IsAbstract
                         && x.GetInterfaces().Any(i =>
                             i.IsGenericType
-                            && i.GetGenericTypeDefinition() == typeof(ICommandMapped<,>)
+                            && (i.GetGenericTypeDefinition() == typeof(ICommandMapped<,>) 
+                                || i.GetGenericTypeDefinition() == typeof(ICommandMapped<,,>))
                             && i.GetGenericArguments().FirstOrDefault() == classType)
                     ).Select(x => x).ToList();
 

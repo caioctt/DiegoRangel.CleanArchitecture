@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
 {
-    public class ResponseConsistanceFilter : IAsyncResultFilter
+    public class ResponseConsistenceFilter : IAsyncResultFilter
     {
         private readonly DomainNotificationContext _domainNotificationContext;
-        public ResponseConsistanceFilter(DomainNotificationContext domainNotificationContext)
+        public ResponseConsistenceFilter(DomainNotificationContext domainNotificationContext)
         {
             _domainNotificationContext = domainNotificationContext;
         }
@@ -38,10 +39,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
                 if (apiResponse != null)
                 {
                     context.HttpContext.Response.ContentType = "application/json";
-                    await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.ToJson()));
+                    await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.ToJson(), new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }));
                 }
             }
-            
+
             await next();
         }
     }

@@ -31,7 +31,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
             if (elapsedMilliseconds <= 500) return response;
 
             var user = await _loggedInUserProvider.GetUserIdentifierAsync();
-            _logger.LogWarning($"Long Running Request: [{typeof(TRequest).Name}] ({elapsedMilliseconds} milliseconds) for user [{user ?? "System"}] with model: {JsonConvert.SerializeObject(request)};");
+
+            var model = JsonConvert.SerializeObject(request, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            _logger.LogWarning($"Long Running Request: [{typeof(TRequest).Name}] ({elapsedMilliseconds} milliseconds) for user [{user ?? "Anonymous"}] with model: {model};");
 
             return response;
         }
