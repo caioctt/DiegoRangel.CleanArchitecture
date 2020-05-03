@@ -19,34 +19,35 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
 
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
+            var apiResponse = ApiResponseContract.From(_domainNotificationContext.Notifications);
+
             if (context.Result != null)
             {
-                ApiResponseContract apiResponse = null;
-
                 switch (context.Result)
                 {
                     case OkObjectResult ok:
-                        apiResponse = ApiResponseContract.From(ok.Value, _domainNotificationContext.Notifications);
+                        apiResponse.SetData(ok.Value);
 
                         if (!apiResponse.Success)
                             context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                         break;
                     case BadRequestObjectResult _:
-                        apiResponse = ApiResponseContract.From(null, _domainNotificationContext.Notifications);
+                        apiResponse.SetData(null);
                         break;
-                }
-
-                if (apiResponse != null)
-                {
-                    context.HttpContext.Response.ContentType = "application/json";
-                    await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse.ToJson(), new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }));
                 }
             }
 
-            await next();
+            var json = JsonConvert.SerializeObject(apiResponse.ToJson(), new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            });
+
+            context.HttpContext.Response.ContentType = "application/json";
+            await context.HttpContext.Response.WriteAsync(json);
+
+            if (!context.HttpContext.Response.HasStarted)
+                await next();
         }
     }
 }

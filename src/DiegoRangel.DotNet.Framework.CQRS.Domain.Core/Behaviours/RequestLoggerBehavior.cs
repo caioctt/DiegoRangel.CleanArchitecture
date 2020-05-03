@@ -24,7 +24,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
 
             var model = JsonConvert.SerializeObject(request, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
 
             _logger.LogInformation($"Proccessing Request: [{typeof(TRequest).Name}] for user [{user ?? "Anonymous"}] with model: {model};");

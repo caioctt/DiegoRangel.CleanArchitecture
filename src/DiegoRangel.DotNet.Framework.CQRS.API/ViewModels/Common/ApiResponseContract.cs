@@ -10,16 +10,20 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common
         public object Data { get; private set; }
         public string[] Errors { get; private set; }
 
-        public static ApiResponseContract From(object data, IReadOnlyCollection<DomainNotification> errors)
+        public static ApiResponseContract From(IReadOnlyCollection<DomainNotification> errors)
         {
             var success = errors == null || errors.Count == 0;
 
             return new ApiResponseContract
             {
                 Success = success,
-                Data = success ? data : null,
                 Errors = errors?.Select(x => x.Message).ToArray()
             };
+        }
+
+        public void SetData(object data)
+        {
+            Data = Success ? data : null;
         }
 
         public object ToJson()

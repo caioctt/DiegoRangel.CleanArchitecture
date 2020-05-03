@@ -34,7 +34,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
 
             var model = JsonConvert.SerializeObject(request, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
 
             _logger.LogWarning($"Long Running Request: [{typeof(TRequest).Name}] ({elapsedMilliseconds} milliseconds) for user [{user ?? "Anonymous"}] with model: {model};");
