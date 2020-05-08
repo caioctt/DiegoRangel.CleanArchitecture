@@ -8,7 +8,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterWhoImplements(this IServiceCollection service, Type interfaceType, params Assembly[] assemblies)
+        public static IServiceCollection RegisterWhoImplements(this IServiceCollection service, Type interfaceType, Assembly[] assemblies, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             var types = assemblies.SelectMany(x => x.GetTypes()).ToList();
 
@@ -24,7 +24,18 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
                 if (classe == null)
                     continue;
 
-                service.AddScoped(i, classe);
+                switch (lifetime)
+                {
+                    case ServiceLifetime.Singleton:
+                        service.AddSingleton(i, classe);
+                        break;
+                    case ServiceLifetime.Scoped:
+                        service.AddScoped(i, classe);
+                        break;
+                    case ServiceLifetime.Transient:
+                        service.AddTransient(i, classe);
+                        break;
+                }
             }
 
             return service;

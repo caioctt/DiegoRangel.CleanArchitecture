@@ -4,7 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.AutoInjector;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +26,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.RegisterWhoImplements(typeof(IRepository), assemblies);
             services.RegisterWhoImplements(typeof(IDomainService), assemblies);
             services.RegisterWhoImplements(typeof(IService), assemblies);
+            services.RegisterWhoImplements(typeof(ITransientService), assemblies, ServiceLifetime.Transient);
+            services.RegisterWhoImplements(typeof(ISingletonService), assemblies, ServiceLifetime.Singleton);
             services.RegisterWhoImplements(typeof(IUnitOfWork), assemblies);
         }
     }
