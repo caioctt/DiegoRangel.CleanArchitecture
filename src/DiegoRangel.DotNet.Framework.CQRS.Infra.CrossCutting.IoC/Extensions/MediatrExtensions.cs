@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours;
+using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviors;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
 using MediatR;
 using MediatR.Pipeline;

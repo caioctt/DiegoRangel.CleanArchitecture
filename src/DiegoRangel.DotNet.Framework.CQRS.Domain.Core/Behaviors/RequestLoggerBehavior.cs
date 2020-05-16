@@ -5,7 +5,7 @@ using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
+namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviors
 {
     public class RequestLoggerBehavior<TRequest> : IRequestPreProcessor<TRequest>
     {

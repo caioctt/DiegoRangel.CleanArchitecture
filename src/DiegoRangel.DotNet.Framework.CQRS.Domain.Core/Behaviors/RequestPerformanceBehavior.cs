@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviours
+namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviors
 {
     public class RequestPerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

@@ -28,8 +28,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         {
             var count = await Query.CountAsync();
             var data = await Query
-                .Take(pageSize)
                 .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return new PagedSearchList<TEntity>
@@ -58,8 +58,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
             var query = Query.Where(condition);
             var count = await query.CountAsync();
             var data = await query
-                .Take(pageSize)
                 .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return new PagedSearchList<TEntity>
