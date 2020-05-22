@@ -5,7 +5,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     /// <summary>
-    /// A shortcut of <see cref="AuditedEntity{TEntityPrimaryKey, TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="AuditedEntity{TEntityPrimaryKey, TUserKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
     public abstract class AuditedEntity : AuditedEntity<int, int>
     {
@@ -16,10 +16,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// This class can be used to simplify implementing <see cref="IAudited"/>.
     /// </summary>
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
-    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
-    public abstract class AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey> : 
-        CreationAuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
-        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey>
+    /// <typeparam name="TUserKey">The user's primary key type</typeparam>
+    public abstract class AuditedEntity<TEntityPrimaryKey, TUserKey> : 
+        CreationAuditedEntity<TEntityPrimaryKey, TUserKey>, 
+        IModificationAudited<TEntityPrimaryKey, TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Last modification date of this entity.
@@ -29,20 +30,21 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         /// <summary>
         /// Last modifier user of this entity.
         /// </summary>
-        public virtual TUserPrimaryKey LastModifierUserId { get; set; }
+        public virtual TUserKey? LastModifierUserId { get; set; }
     }
 
     /// <summary>
-    /// This class can be used to simplify implementing <see cref="IAudited{TEntityPrimaryKey, TUserPrimaryKey, TUser}"/>.
+    /// This class can be used to simplify implementing <see cref="IAudited{TEntityPrimaryKey, TUserKey, TUser}"/>.
     /// </summary>
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
-    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
+    /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
-    public abstract class AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey, TUser> : 
-        AuditedEntity<TEntityPrimaryKey, TUserPrimaryKey>, 
-        ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>, 
-        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser>
-        where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
+    public abstract class AuditedEntity<TEntityPrimaryKey, TUserKey, TUser> : 
+        AuditedEntity<TEntityPrimaryKey, TUserKey>, 
+        ICreationAudited<TEntityPrimaryKey, TUserKey, TUser>, 
+        IModificationAudited<TEntityPrimaryKey, TUserKey, TUser>
+        where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the creator user of this entity.

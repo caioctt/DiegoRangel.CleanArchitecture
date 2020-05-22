@@ -5,25 +5,27 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 {
-    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
-        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserPrimaryKey>
+    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserKey> : EntityMap<TEntity, TEntityKey>
+        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
             ConfigureAuditedEntityBuilder(builder);
 
             builder.Property(x => x.CreationTime).IsRequired();
-            builder.Property(x => x.LastModificationTime).IsRequired();
+            builder.Property(x => x.LastModificationTime).IsRequired(false);
             builder.Property(x => x.CreatorUserId).IsRequired();
-            builder.Property(x => x.LastModifierUserId).IsRequired();
+            builder.Property(x => x.LastModifierUserId).IsRequired(false);
         }
 
         public abstract void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
     
-    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey, TUser> : AuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
-        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserPrimaryKey, TUser>
-        where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
+    public abstract class AuditedEntityMap<TEntity, TEntityKey, TUserKey, TUser> : AuditedEntityMap<TEntity, TEntityKey, TUserKey>
+        where TEntity : Entity<TEntityKey>, IAudited<TEntityKey, TUserKey, TUser>
+        where TUser : Entity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {

@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
 {
-    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey> : EntityMap<TEntity, TEntityKey>
-        where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserPrimaryKey>
+    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserKey> : EntityMap<TEntity, TEntityKey>
+        where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
@@ -19,9 +20,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         public abstract void ConfigureCreationAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);
     }
     
-    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey, TUser> : CreationAuditedEntityMap<TEntity, TEntityKey, TUserPrimaryKey>
-        where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserPrimaryKey, TUser>
-        where TUser : Entity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
+    public abstract class CreationAuditedEntityMap<TEntity, TEntityKey, TUserKey, TUser> : CreationAuditedEntityMap<TEntity, TEntityKey, TUserKey>
+        where TEntity : Entity<TEntityKey>, ICreationAudited<TEntityKey, TUserKey, TUser>
+        where TUser : Entity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureCreationAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {

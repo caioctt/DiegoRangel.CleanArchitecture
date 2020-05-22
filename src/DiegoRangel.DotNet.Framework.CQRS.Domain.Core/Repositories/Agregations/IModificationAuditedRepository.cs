@@ -4,6 +4,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations
 {
     public interface IModificationAuditedRepository<TEntity, in TEntityKey, TUserKey> : ICrudRepository<TEntity, TEntityKey>
         where TEntity : IModificationAudited<TEntityKey, TUserKey>
+        where TUserKey : struct
     {
 
     }

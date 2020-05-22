@@ -1,47 +1,51 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
-    public class AuditManager<TUserPrimaryKey> : IAuditManager
+    public class AuditManager<TUserKey> : IAuditManager
+        where TUserKey : struct
     {
-        private readonly ILoggedInUserIdProvider<TUserPrimaryKey> _loggedInUserIdProvider;
-        public AuditManager(ILoggedInUserIdProvider<TUserPrimaryKey> loggedInUserIdProvider)
+        private readonly ILoggedInUserIdProvider<TUserKey> _loggedInUserIdProvider;
+        public AuditManager(ILoggedInUserIdProvider<TUserKey> loggedInUserIdProvider)
         {
             _loggedInUserIdProvider = loggedInUserIdProvider;
         }
 
         public async Task AuditCreation<TEntityPrimaryKey>(IDomainEntity entity) 
         {
-            if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserPrimaryKey> creationAuditedEntity)) return;
+            if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserKey> creationAuditedEntity)) return;
             var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
             creationAuditedEntity.CreationTime = DateTime.Now;
             creationAuditedEntity.CreatorUserId = userId;
         }
         public Task AuditCreation(IDomainEntity entity, params Type[] keyTypes)
         {
-            GetType().GetMethod("AuditCreation")?.MakeGenericMethod(keyTypes).Invoke(null, new object[] {entity});
+            var method = GetType().GetMethods().FirstOrDefault(x => x.Name.Equals("AuditCreation") && x.ContainsGenericParameters);
+            method?.MakeGenericMethod(keyTypes).Invoke(this, new object[] { entity });
             return Task.CompletedTask;
         }
 
         public async Task AuditModification<TEntityPrimaryKey>(IDomainEntity entity)
         {
-            if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey> modificationAuditedEntity)) return;
+            if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserKey> modificationAuditedEntity)) return;
             var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
             modificationAuditedEntity.LastModificationTime = DateTime.Now;
             modificationAuditedEntity.LastModifierUserId = userId;
         }
         public Task AuditModification(IDomainEntity entity, params Type[] keyTypes)
         {
-            GetType().GetMethod("AuditModification")?.MakeGenericMethod(keyTypes).Invoke(null, new object[] { entity });
+            var method = GetType().GetMethods().FirstOrDefault(x => x.Name.Equals("AuditModification") && x.ContainsGenericParameters);
+            method?.MakeGenericMethod(keyTypes).Invoke(this, new object[] { entity });
             return Task.CompletedTask;
         }
 
         public async Task AuditDeletion<TEntityPrimaryKey>(IDomainEntity entity)
         {
-            if (!(entity is IDeletionAudited<TEntityPrimaryKey, TUserPrimaryKey> deletionAuditedEntity)) return;
+            if (!(entity is IDeletionAudited<TEntityPrimaryKey, TUserKey> deletionAuditedEntity)) return;
             if (!deletionAuditedEntity.IsDeleted || deletionAuditedEntity.DeletionTime.HasValue) return;
 
             var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
@@ -50,7 +54,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         }
         public Task AuditDeletion(IDomainEntity entity, params Type[] keyTypes)
         {
-            GetType().GetMethod("AuditDeletion")?.MakeGenericMethod(keyTypes).Invoke(null, new object[] { entity });
+            var method = GetType().GetMethods().FirstOrDefault(x => x.Name.Equals("AuditDeletion") && x.ContainsGenericParameters);
+            method?.MakeGenericMethod(keyTypes).Invoke(this, new object[] { entity });
             return Task.CompletedTask;
         }
     }

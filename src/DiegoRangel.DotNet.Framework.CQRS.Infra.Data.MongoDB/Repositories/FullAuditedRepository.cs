@@ -11,6 +11,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         AuditedRepository<TEntity, TEntityKey, TUserKey>,
         IFullAuditedRepository<TEntity, TEntityKey, TUserKey>
         where TEntity : FullAuditedEntity<TEntityKey, TUserKey>
+        where TUserKey : struct
     {
         private readonly IAuditManager _auditManager;
 

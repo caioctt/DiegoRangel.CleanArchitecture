@@ -12,6 +12,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         CrudCommandHandler<TEntity, TEntityKey, TDelete>
         where TEntity : ICreationAudited<TEntityKey, TUserKey>
         where TDelete : ICommandWithId<TEntityKey>
+        where TUserKey : struct
     {
         protected CreationAuditedCommandHandler(
             DomainNotificationContext domainNotificationContext, 
@@ -27,6 +28,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
         where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
+        where TUserKey : struct
     {
         protected CreationAuditedCommandHandler(
             DomainNotificationContext domainNotificationContext,
@@ -44,6 +46,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TRegister : ICommandMapped<TEntity, TEntityKey, TEntity>
         where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDelete : ICommandWithId<TEntityKey>
+        where TUserKey : struct
     {
         protected CreationAuditedCommandHandler(
             DomainNotificationContext domainNotificationContext,

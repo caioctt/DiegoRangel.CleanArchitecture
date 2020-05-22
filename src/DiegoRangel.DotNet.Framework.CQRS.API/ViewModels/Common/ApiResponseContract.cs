@@ -7,7 +7,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common
     public class ApiResponseContract
     {
         public bool Success { get; private set; }
-        public object Data { get; private set; }
         public string[] Errors { get; private set; }
 
         public static ApiResponseContract From(IReadOnlyCollection<DomainNotification> errors)
@@ -21,17 +20,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common
             };
         }
 
-        public void SetData(object data)
-        {
-            Data = Success ? data : null;
-        }
-
         public object ToJson()
         {
             return new
             {
                 success = Success,
-                data = Data,
                 errors = Errors,
             };
         }

@@ -4,7 +4,7 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     /// <summary>
-    /// A shortcut of <see cref="IModificationAudited{TEntityPrimaryKey, TUserPrimaryKey}"/> for most used primary key type (<see cref="int"/>).
+    /// A shortcut of <see cref="IModificationAudited{TEntityPrimaryKey, TUserKey}"/> for most used primary key type (<see cref="int"/>).
     /// </summary>
     public interface IModificationAudited : IModificationAudited<int, int>
     {
@@ -16,25 +16,25 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// Properties are automatically set when updating the <see cref="IEntity"/>.
     /// </summary>
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
-    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
-    public interface IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey> : 
-        IEntity<TEntityPrimaryKey>, IHasModificationTime
+    /// <typeparam name="TUserKey">The user's primary key type</typeparam>
+    public interface IModificationAudited<TEntityPrimaryKey, TUserKey> : IEntity<TEntityPrimaryKey>, IHasModificationTime
+        where TUserKey : struct
     {
         /// <summary>
         /// Last modifier user for this entity.
         /// </summary>
-        TUserPrimaryKey LastModifierUserId { get; set; }
+        TUserKey? LastModifierUserId { get; set; }
     }
 
     /// <summary>
-    /// Adds navigation properties to <see cref="IModificationAudited{TUser,TUserPrimaryKey}"/> interface for user.
+    /// Adds navigation properties to <see cref="IModificationAudited{TUser,TUserKey}"/> interface for user.
     /// </summary>
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
-    /// <typeparam name="TUserPrimaryKey">The user's primary key type</typeparam>
+    /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
-    public interface IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey, TUser> : 
-        IModificationAudited<TEntityPrimaryKey, TUserPrimaryKey>
-        where TUser : IEntity<TUserPrimaryKey>, IUser<TUserPrimaryKey>
+    public interface IModificationAudited<TEntityPrimaryKey, TUserKey, TUser> : IModificationAudited<TEntityPrimaryKey, TUserKey>
+        where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the last modifier user of this entity.

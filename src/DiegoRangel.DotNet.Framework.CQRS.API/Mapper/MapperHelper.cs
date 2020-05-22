@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.AutoMapper;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 {
     public static class MapperHelper
     {
-        public static List<Tuple<Type, Type>> GetViewModelMappings(params Assembly[] assemblies)
+        public static void ApplyViewModelMappings(this Profile profile, params Assembly[] assemblies)
         {
-            var mappings = new List<Tuple<Type, Type>>();
             var types = assemblies.SelectMany(x => x.GetTypes()).ToList();
 
             var viewModels = types
@@ -24,8 +24,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 
                 var classType = viewModelInterface?.GenericTypeArguments.First();
 
-                mappings.Add(new Tuple<Type, Type>(classType, viewModel));
-                mappings.Add(new Tuple<Type, Type>(viewModel, classType));
+                profile.CreateMap(classType, viewModel).ReverseMap();
 
                 var commands = types
                     .Where(x =>
@@ -40,11 +39,28 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
 
                 foreach (var command in commands)
                 {
-                    mappings.Add(new Tuple<Type, Type>(viewModel, command));
+                    profile.CreateMap(viewModel, command);
                 }
             }
+        }
 
-            return mappings;
+        public static void ApplyAutoMappings(this Profile profile, params Assembly[] assemblies)
+        {
+            var types = assemblies
+                .SelectMany(x => x.GetTypes())
+                .Where(t => t.GetInterfaces().Any(i =>
+                    i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
+                .ToList();
+
+            foreach (var type in types)
+            {
+                var instance = Activator.CreateInstance(type);
+
+                var methodInfo = type.GetMethod("Mapping")
+                                 ?? type.GetInterface("IMapFrom`1")?.GetMethod("Mapping");
+
+                methodInfo?.Invoke(instance, new object[] { profile });
+            }
         }
     }
 }

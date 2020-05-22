@@ -31,7 +31,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 typeof(Infra.Data.MongoDB.Context.MongoDbContext).Assembly,
             };
 
-            services.AddControllers(options => { options.Filters.Add<ResponseConsistenceFilter>(); })
+            services.AddControllers(options => { options.Filters.Add<ResponseValidationFilter>(); })
                 .AddNewtonsoftJson();
 
             services.AddCulture("pt-BR");
