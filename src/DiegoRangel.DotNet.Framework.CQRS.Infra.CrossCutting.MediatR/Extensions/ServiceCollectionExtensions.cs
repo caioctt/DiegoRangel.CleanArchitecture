@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviors;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.Behaviors;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.Extensions
 {
-    public static class MediatrExtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddMediatr(this IServiceCollection services, params Assembly[] assemblies)
         {

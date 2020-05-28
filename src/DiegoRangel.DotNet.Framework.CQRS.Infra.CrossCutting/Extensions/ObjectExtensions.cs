@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Extensions
 {
@@ -42,6 +46,41 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Extensions
         public static bool IsIn<T>(this T item, params T[] list)
         {
             return list.Contains(item);
+        }
+
+        public static ExpandoObject ToExpando(this object model)
+        {
+            if (model is ExpandoObject exp)
+            {
+                return exp;
+            }
+
+            IDictionary<string, object> expando = new ExpandoObject();
+            foreach (var propertyDescriptor in model.GetType().GetTypeInfo().GetProperties())
+            {
+                var obj = propertyDescriptor.GetValue(model);
+
+                if (obj != null && IsAnonymousType(obj.GetType()))
+                {
+                    obj = ToExpando(obj);
+                }
+
+                expando.Add(propertyDescriptor.Name, obj);
+            }
+
+            return (ExpandoObject)expando;
+        }
+
+        private static bool IsAnonymousType(Type type)
+        {
+            var hasCompilerGeneratedAttribute = type.GetTypeInfo()
+                .GetCustomAttributes(typeof(CompilerGeneratedAttribute), false)
+                .Any();
+
+            var nameContainsAnonymousType = type.FullName != null && type.FullName.Contains("AnonymousType");
+            var isAnonymousType = hasCompilerGeneratedAttribute && nameContainsAnonymousType;
+
+            return isAnonymousType;
         }
     }
 }

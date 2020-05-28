@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common
 {
@@ -9,7 +9,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common
         public bool Success { get; private set; }
         public string[] Errors { get; private set; }
 
-        public static ApiResponseContract From(IReadOnlyCollection<DomainNotification> errors)
+        public static ApiResponseContract From(IReadOnlyCollection<Notification> errors)
         {
             var success = errors == null || errors.Count == 0;
 

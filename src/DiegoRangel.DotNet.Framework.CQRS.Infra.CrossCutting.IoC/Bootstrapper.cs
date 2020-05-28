@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.AutoInjector;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +21,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddSingleton<ITokenProvider, TokenProvider>();
 
             services.AddScoped<IAuditManager, AuditManager<TUserKey>>();
-            services.AddScoped<DomainNotificationContext>();
+            services.AddScoped<NotificationContext>();
 
             services.RegisterStateMachines(assemblies);
             services.RegisterWhoImplements(typeof(IRepository), assemblies);

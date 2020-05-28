@@ -1,5 +1,5 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.API;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Email;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Mailing;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

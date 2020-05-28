@@ -2,9 +2,9 @@
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
@@ -15,7 +15,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUserKey : struct
     {
         protected AuditedCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IUnitOfWork uow,
             IAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
@@ -31,7 +31,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUserKey : struct
     {
         protected AuditedCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,
@@ -49,7 +49,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUserKey : struct
     {
         protected AuditedCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,
@@ -66,7 +66,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TDelete : ICommandWithId<int>
     {
         protected AuditedCommandHandlerBase(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,

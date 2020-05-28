@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Behaviors
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.Behaviors
 {
     public class UnhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

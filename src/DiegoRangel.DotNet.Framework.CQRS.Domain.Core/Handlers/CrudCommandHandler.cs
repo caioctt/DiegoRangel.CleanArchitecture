@@ -4,9 +4,9 @@ using AutoMapper;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Commands;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 using MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
@@ -21,7 +21,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
-            DomainNotificationContext domainNotificationContext, 
+            NotificationContext domainNotificationContext, 
             CommonMessages commonMessages,
             IUnitOfWork uow,
             ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow)
@@ -55,7 +55,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,
@@ -96,7 +96,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
 
         protected CrudCommandHandler(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,
@@ -128,7 +128,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TDelete : ICommandWithId
     {
         protected CrudCommandHandlerBase(
-            DomainNotificationContext domainNotificationContext,
+            NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             IUnitOfWork uow,

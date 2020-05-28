@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,8 +9,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
 {
     public abstract class ApiControllerBase : Controller
     {
-        protected DomainNotificationContext NotificationContext => _domainNotificationContext ??= HttpContext.RequestServices.GetService<DomainNotificationContext>();
-        private DomainNotificationContext _domainNotificationContext;
+        protected NotificationContext NotificationContext => _domainNotificationContext ??= HttpContext.RequestServices.GetService<NotificationContext>();
+        private NotificationContext _domainNotificationContext;
 
         protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetService<IMapper>();
         private IMapper _mapper;

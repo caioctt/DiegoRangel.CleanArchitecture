@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,11 +12,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
     public abstract class CommandHandlerBase
     {
         private readonly IUnitOfWork _uow;
-        private readonly DomainNotificationContext _notificationContext;
+        private readonly NotificationContext _notificationContext;
         private readonly CommonMessages _commonMessages;
 
         protected CommandHandlerBase(
-            DomainNotificationContext notificationContext,
+            NotificationContext notificationContext,
             CommonMessages commonMessages,
             IUnitOfWork uow)
         {

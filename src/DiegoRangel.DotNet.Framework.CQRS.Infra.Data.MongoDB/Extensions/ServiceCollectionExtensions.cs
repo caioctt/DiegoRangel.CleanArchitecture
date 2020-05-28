@@ -2,20 +2,15 @@
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Interfaces;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Settings;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Context;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.UoW;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Extensions
 {
-    public static class DatabaseExtensions
+    public static class ServiceCollectionExtensions
     {
-        public static void AddEfCoreServices(this IServiceCollection services)
-        {
-            services.AddScoped<IChangeTrackerAuditer, ChangeTrackerAuditer>();
-        }
         public static void AddMongoDb(this IServiceCollection services, Action<MongoSettings> settingsAction)
         {
             services.AddScoped<IMongoClient, MongoClient>();

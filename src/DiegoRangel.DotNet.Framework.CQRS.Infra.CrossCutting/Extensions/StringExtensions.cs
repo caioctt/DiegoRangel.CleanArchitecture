@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -444,6 +446,57 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Extensions
         public static string ToUnicode(this string str)
         {
             return str.IsNullOrEmpty() ? null : Encoding.Unicode.GetString(Encoding.Default.GetBytes(str));
+        }
+
+        /// <summary>
+        /// Returns the string text Encoded to Base64
+        /// </summary>
+        /// <param name="str"></param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
+        public static string ToBase64(this string str)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
+        }
+
+        /// <summary>
+        /// Returns the string text Dencoded from Base64
+        /// </summary>
+        /// <param name="str"></param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
+        public static string FromBase64(this string str)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(str));
+        }
+
+        /// <summary>
+        /// Returns the string text Formated as a Key
+        /// </summary>
+        /// <param name="unformattedKey"></param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="unformattedKey"/> is null</exception>
+        public static string ToFormatedKey(this string unformattedKey)
+        {
+            var result = new StringBuilder();
+            var currentPosition = 0;
+
+            while (currentPosition + 4 < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                currentPosition += 4;
+            }
+
+            if (currentPosition < unformattedKey.Length)
+                result.Append(unformattedKey.Substring(currentPosition));
+
+            return result.ToString().ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Returns the queryString text Formated as a Dictionary
+        /// </summary>
+        /// <param name="queryString"></param>
+        public static Dictionary<string, string> FromQueryStringToDictionary(this string queryString)
+        {
+            return queryString.Replace("?", "").Split('&').ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);
         }
     }
 }

@@ -8,10 +8,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {
     public static class SwaggerExtensions
     {
-        public static void AddSwaggerDocumentation(this IServiceCollection services, Action<SwaggerSettings> swaggerSettingsBuilder)
+        public static void AddSwaggerDocumentation(this IServiceCollection services, Func<SwaggerSettings> swaggerSettingsBuilder)
         {
-            var swaggerSettings = new SwaggerSettings();
-            swaggerSettingsBuilder(swaggerSettings);
+            var swaggerSettings = swaggerSettingsBuilder();
 
             services.AddSwaggerGen(c =>
             {
@@ -48,10 +47,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
             });
         }
 
-        public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app, Action<SwaggerUiSettings> swaggerUiSettingsBuilder)
+        public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app, Func<SwaggerUiSettings> swaggerUiSettingsBuilder)
         {
-            var swaggerUiSettings = new SwaggerUiSettings();
-            swaggerUiSettingsBuilder(swaggerUiSettings);
+            var swaggerUiSettings = swaggerUiSettingsBuilder();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

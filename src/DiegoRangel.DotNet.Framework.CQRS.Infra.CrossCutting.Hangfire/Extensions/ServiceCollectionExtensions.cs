@@ -1,14 +1,13 @@
 ﻿using System;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire;
 using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.Extensions
 {
-    public static class HangfireExtensions
+    public static class ServiceCollectionExtensions
     {
         public static void AddMediatrSupportToHangfire(this IServiceCollection services)
         {
@@ -25,7 +24,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions
             {
                 config.UseMongoStorage(
                     databaseSettings.ConnectionString,
-                    new MongoStorageOptions {
+                    new MongoStorageOptions
+                    {
                         MigrationOptions = new MongoMigrationOptions
                         {
                             Strategy = MongoMigrationStrategy.Migrate,

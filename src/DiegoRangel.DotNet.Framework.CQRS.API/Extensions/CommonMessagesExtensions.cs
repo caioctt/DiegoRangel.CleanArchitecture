@@ -6,10 +6,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
 {
     public static class CommonMessagesExtensions
     {
-        public static void AddCommonMessages(this IServiceCollection services,  Action<CommonMessages> action)
+        public static void AddCommonMessages(this IServiceCollection services,  Func<CommonMessages> action)
         {
-            var commomMessages = new CommonMessages();
-            action(commomMessages);
+            var commomMessages = action();
             services.AddSingleton(commomMessages);
         }
     }

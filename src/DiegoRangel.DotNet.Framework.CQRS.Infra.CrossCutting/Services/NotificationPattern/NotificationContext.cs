@@ -2,40 +2,40 @@
 using System.Linq;
 using FluentValidation.Results;
 
-namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications
+namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern
 {
-    public class DomainNotificationContext
+    public class NotificationContext
     {
-        private readonly List<DomainNotification> _notifications;
-        public IReadOnlyCollection<DomainNotification> Notifications => _notifications;
+        private readonly List<Notification> _notifications;
+        public IReadOnlyCollection<Notification> Notifications => _notifications;
         public bool HasNotifications => _notifications.Any();
 
-        public DomainNotificationContext()
+        public NotificationContext()
         {
-            _notifications = new List<DomainNotification>();
+            _notifications = new List<Notification>();
         }
 
         public void AddNotification(string message)
         {
-            _notifications.Add(new DomainNotification(message));
+            _notifications.Add(new Notification(message));
         }
         public void AddNotifications(string[] messages)
         {
-            _notifications.AddRange(messages.Select(x => new DomainNotification(x)));
+            _notifications.AddRange(messages.Select(x => new Notification(x)));
         }
-        public void AddNotification(DomainNotification notification)
+        public void AddNotification(Notification notification)
         {
             _notifications.Add(notification);
         }
-        public void AddNotifications(IReadOnlyCollection<DomainNotification> notifications)
+        public void AddNotifications(IReadOnlyCollection<Notification> notifications)
         {
             _notifications.AddRange(notifications);
         }
-        public void AddNotifications(IList<DomainNotification> notifications)
+        public void AddNotifications(IList<Notification> notifications)
         {
             _notifications.AddRange(notifications);
         }
-        public void AddNotifications(ICollection<DomainNotification> notifications)
+        public void AddNotifications(ICollection<Notification> notifications)
         {
             _notifications.AddRange(notifications);
         }

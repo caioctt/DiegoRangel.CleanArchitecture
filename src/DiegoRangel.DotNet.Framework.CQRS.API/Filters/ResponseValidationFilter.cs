@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DiegoRangel.DotNet.Framework.CQRS.API.ViewModels.Common;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Notifications;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.NotificationPattern;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,8 +11,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
 {
     public class ResponseValidationFilter : IAsyncResultFilter
     {
-        private readonly DomainNotificationContext _domainNotificationContext;
-        public ResponseValidationFilter(DomainNotificationContext domainNotificationContext)
+        private readonly NotificationContext _domainNotificationContext;
+        public ResponseValidationFilter(NotificationContext domainNotificationContext)
         {
             _domainNotificationContext = domainNotificationContext;
         }

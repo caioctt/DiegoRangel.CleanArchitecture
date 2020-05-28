@@ -3,8 +3,10 @@ using DiegoRangel.DotNet.Framework.CQRS.API.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.API.Filters;
 using DiegoRangel.DotNet.Framework.CQRS.API.Temp;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC.Extensions;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.Extensions;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Messages;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Extensions;
+using DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +17,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
-        public Startup(IWebHostEnvironment env)
-        {
-            _env = env;
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = new[]
@@ -43,30 +39,19 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 .AddRequestPerformanceBehavior()
                 .AddUnhandledExceptionBehavior();
 
-            services.AddSwaggerDocumentation(settings =>
+            services.AddSwaggerDocumentation(() => new SwaggerSettings
             {
-                settings.ApiTitle = "My test api Title";
-                settings.ApiDescription = "My test api description";
-                settings.ApiContactInfo = "no-reply@gmail.com";
-                settings.SecureWithUseJwtAuth = false;
+                ApiTitle = "My test api Title",
+                ApiDescription = "My test api description",
+                ApiContactInfo = "no-reply@gmail.com",
+                SecureWithUseJwtAuth = false
             });
 
-            services.AddCommonMessages(messages =>
+            services.AddCommonMessages(() => new CommonMessages
             {
-                messages.NotFound = "Oops! Recurso não encontrado.";
-                messages.InvalidOperation = "Oops! Operação inválida. Recarregue sua tela e tente novamente.";
-                messages.UnhandledOperation = "Oops! Não foi possível processar a sua solicitação no momento, tente novamente mais tarde.";
-            });
-
-            services.AddEmailServices(_env, settings =>
-            {
-                settings.Host = "smtp.gmail.com";
-                settings.NoReplyMail = "no-reply@gmail.com";
-                settings.UserName = "no-reply@gmail.com";
-                settings.Password = "123456";
-                settings.Port = 587;
-                settings.EnableSsl = true;
-                settings.UseDefaultCredentials = false;
+                NotFound = "Oops! Not found.",
+                InvalidOperation = "Oops! Invalid operation.",
+                UnhandledOperation = "Oops! We were unable to process your request at this time, please try again later."
             });
 
             services.AddAutoMapperWithSettings(settings =>
@@ -107,10 +92,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 endpoints.MapHealthChecks("/health");
             });
 
-            app.UseSwaggerDocumentation(settings =>
+            app.UseSwaggerDocumentation(() => new SwaggerUiSettings
             {
-                settings.ApiTitle = "My test api Title";
-                settings.ApiDocExpansion = DocExpansion.Full;
+                ApiTitle = "My test api Title",
+                ApiDocExpansion = DocExpansion.Full
             });
         }
     }
