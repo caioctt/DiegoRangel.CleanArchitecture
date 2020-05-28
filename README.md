@@ -1,2 +1,3 @@
 # DiegoRangel.CleanArchitecture
-A Dotnet architecture based on CQRS implementation
+A DotNet Clean Architecture Nuget Packages based on CQRS implementation
+
