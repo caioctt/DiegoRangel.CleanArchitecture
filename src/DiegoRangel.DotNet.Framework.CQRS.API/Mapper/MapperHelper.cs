@@ -58,8 +58,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
                                 && !t.IsAbstract
                                 && t.GetInterfaces()
                                     .Any(i => i.IsCommandInterface()
-                                              && t.GetEntityTypeFromGenericTypeArgumentsOf(
-                                                  typeof(ICommandMapped<>)) == entity))
+                                              && (t.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<>)) == entity
+                                                  || t.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<,>)) == entity
+                                                  || t.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<,,>)) == entity)))
                     .ToList();
 
                 foreach (var command in commands)
@@ -90,7 +91,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
                                         && !x.IsAbstract
                                         && x.GetInterfaces().Any(i =>
                                             i.IsCommandInterface()
-                                            && x.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<>)) == entity));
+                                            && (x.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<>)) == entity 
+                                                || x.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<,>)) == entity
+                                                || x.GetEntityTypeFromGenericTypeArgumentsOf(typeof(ICommandMapped<,,>)) == entity)));
 
             return result;
         }
@@ -110,8 +113,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Mapper
         private static bool IsCommandInterface(this Type type)
         {
             var result = type.IsInterface
-                   && type.IsGenericType
-                   && type.GetGenericTypeDefinition() == typeof(ICommandMapped<>);
+                         && type.IsGenericType
+                         && (type.GetGenericTypeDefinition() == typeof(ICommandMapped<>)
+                             || type.GetGenericTypeDefinition() == typeof(ICommandMapped<,>)
+                             || type.GetGenericTypeDefinition() == typeof(ICommandMapped<,,>));
 
             return result;
         }
