@@ -8,68 +8,72 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Notification
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
-    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDelete> :
-        CrudCommandHandler<TEntity, TEntityKey, TDelete>
+    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, TEntityKey, TDeleteCommand, TUnitOfWork>
         where TEntity : ICreationAudited<TEntityKey, TUserKey>
-        where TDelete : ICommandWithId<TEntityKey>
+        where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUserKey : struct
+        where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
             NotificationContext domainNotificationContext, 
-            CommonMessages commonMessages, 
-            IUnitOfWork uow,
+            CommonMessages commonMessages,
+            TUnitOfWork uow,
             ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
         }
     }
 
-    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdate, TDelete> :
-        CrudCommandHandler<TEntity, TEntityKey, TUpdate, TDelete>
+    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, TEntityKey, TUpdateCommand, TDeleteCommand, TUnitOfWork>
         where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
-        where TDelete : ICommandWithId<TEntityKey>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
+        where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUserKey : struct
+        where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
 
-    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegister, TUpdate, TDelete> :
-        CrudCommandHandler<TEntity, TEntityKey, TRegister, TUpdate, TDelete>
+    public abstract class CreationAuditedCommandHandler<TEntity, TEntityKey, TUserKey, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, TEntityKey, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork>
         where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
-        where TRegister : ICommandMapped<TEntity, TEntityKey, TEntity>
-        where TUpdate : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
-        where TDelete : ICommandWithId<TEntityKey>
+        where TRegisterCommand : ICommandMapped<TEntity, TEntityKey, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
+        where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUserKey : struct
+        where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
 
-    public abstract class CreationAuditedCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
-        CreationAuditedCommandHandler<TEntity, int, int, TRegister, TUpdate, TDelete>
+    public abstract class CreationAuditedCommandHandlerBase<TEntity, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CreationAuditedCommandHandler<TEntity, int, int, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork>
         where TEntity : class, ICreationAudited<int, int>
-        where TRegister : ICommandMapped<TEntity, int, TEntity>
-        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
-        where TDelete : ICommandWithId<int>
+        where TRegisterCommand : ICommandMapped<TEntity, int, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, int, TEntity>
+        where TDeleteCommand : ICommandWithId<int>
+        where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandlerBase(
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICreationAuditedRepository<TEntity, int, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
         }

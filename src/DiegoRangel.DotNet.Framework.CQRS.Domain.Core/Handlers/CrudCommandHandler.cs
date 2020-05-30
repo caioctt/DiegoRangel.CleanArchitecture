@@ -11,11 +11,12 @@ using MediatR;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
-    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TDelete> :
-        CommandHandlerBase,
-        ICommandHandler<TDelete>
+    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TDeleteCommand, TUnitOfWork> :
+        CommandHandlerBase<TUnitOfWork>,
+        ICommandHandler<TDeleteCommand>
         where TEntity : IEntity<TPrimaryKey>
-        where TDelete : ICommandWithId<TPrimaryKey>
+        where TDeleteCommand : ICommandWithId<TPrimaryKey>
+        where TUnitOfWork : IUnitOfWork
     {
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
         private readonly CommonMessages _commonMessages;
@@ -23,14 +24,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         protected CrudCommandHandler(
             NotificationContext domainNotificationContext, 
             CommonMessages commonMessages,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow)
         {
             _repository = repository;
             _commonMessages = commonMessages;
         }
 
-        public virtual async Task<Unit> Handle(TDelete request, CancellationToken cancellationToken)
+        public virtual async Task<Unit> Handle(TDeleteCommand request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
@@ -43,12 +44,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         }
     }
 
-    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete> :
-        CrudCommandHandler<TEntity, TPrimaryKey, TDelete>,
-        ICommandHandler<TUpdate, TEntity>
+    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, TPrimaryKey, TDeleteCommand, TUnitOfWork>,
+        ICommandHandler<TUpdateCommand, TEntity>
         where TEntity : class, IEntity<TPrimaryKey>
-        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
-        where TDelete : ICommandWithId<TPrimaryKey>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
+        where TDeleteCommand : ICommandWithId<TPrimaryKey>
+        where TUnitOfWork : IUnitOfWork
     {
         private readonly IMapper _mapper;
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
@@ -58,7 +60,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
         {
             _mapper = mapper;
@@ -66,7 +68,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             _commonMessages = commonMessages;
         }
 
-        public virtual async Task<TEntity> Handle(TUpdate request, CancellationToken cancellationToken)
+        public virtual async Task<TEntity> Handle(TUpdateCommand request, CancellationToken cancellationToken)
         {
             var entity = await _repository.FindByIdAsync(request.Id);
             if (entity == null)
@@ -84,13 +86,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         }
     }
 
-    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TRegister, TUpdate, TDelete> :
-        CrudCommandHandler<TEntity, TPrimaryKey, TUpdate, TDelete>,
-        ICommandHandler<TRegister, TEntity>
+    public abstract class CrudCommandHandler<TEntity, TPrimaryKey, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, TPrimaryKey, TUpdateCommand, TDeleteCommand, TUnitOfWork>,
+        ICommandHandler<TRegisterCommand, TEntity>
         where TEntity : class, IEntity<TPrimaryKey>
-        where TRegister : ICommandMapped<TEntity, TPrimaryKey, TEntity>
-        where TUpdate : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
-        where TDelete : ICommandWithId<TPrimaryKey>
+        where TRegisterCommand : ICommandMapped<TEntity, TPrimaryKey, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, TPrimaryKey, TEntity>
+        where TDeleteCommand : ICommandWithId<TPrimaryKey>
+        where TUnitOfWork : IUnitOfWork
     {
         private readonly IMapper _mapper;
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
@@ -99,14 +102,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
             _mapper = mapper;
             _repository = repository;
         }
 
-        public virtual async Task<TEntity> Handle(TRegister request, CancellationToken cancellationToken)
+        public virtual async Task<TEntity> Handle(TRegisterCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<TEntity>(request);
 
@@ -120,18 +123,19 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         }
     }
 
-    public abstract class CrudCommandHandlerBase<TEntity, TRegister, TUpdate, TDelete> :
-        CrudCommandHandler<TEntity, int, TRegister, TUpdate, TDelete>
+    public abstract class CrudCommandHandlerBase<TEntity, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork> :
+        CrudCommandHandler<TEntity, int, TRegisterCommand, TUpdateCommand, TDeleteCommand, TUnitOfWork>
         where TEntity : class, IEntity
-        where TRegister : ICommandMapped<TEntity, int, TEntity>
-        where TUpdate : ICommandMappedWithId<TEntity, int, TEntity>
-        where TDelete : ICommandWithId
+        where TRegisterCommand : ICommandMapped<TEntity, int, TEntity>
+        where TUpdateCommand : ICommandMappedWithId<TEntity, int, TEntity>
+        where TDeleteCommand : ICommandWithId
+        where TUnitOfWork : IUnitOfWork
     {
         protected CrudCommandHandlerBase(
             NotificationContext domainNotificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
-            IUnitOfWork uow,
+            TUnitOfWork uow,
             ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
         {
         }

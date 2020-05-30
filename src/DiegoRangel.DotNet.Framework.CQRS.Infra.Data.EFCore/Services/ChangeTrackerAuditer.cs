@@ -16,7 +16,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services
             _auditManager = auditManager;
         }
 
-        public async Task Audit(ChangeTracker changeTracker)
+        public async Task AuditAsync(ChangeTracker changeTracker)
         {
             var entries = changeTracker.Entries()
                 .Where(x => x.Entity.GetType().IsClass
@@ -28,21 +28,22 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Services
             if (entries.Count == 0) return;
 
             var creationAuditedInterface = typeof(ICreationAudited<,>);
-            var creationAudits = entries.Where(x => IsElegibleToAuditByInterface(x, EntityState.Added, creationAuditedInterface));
+            var creationAudits = entries.Where(x => IsElegibleToAuditByInterface(x, EntityState.Added, creationAuditedInterface)).ToList();
 
             foreach (var entry in creationAudits)
                 await _auditManager.AuditCreation(entry.Entity as IDomainEntity, GetAuditableInterfaceArguments(entry, creationAuditedInterface));
 
             var modificationAuditedInterface = typeof(IModificationAudited<,>);
-            var modificationAudits = entries.Where(x => IsElegibleToAuditByInterface(x, EntityState.Modified, modificationAuditedInterface));
+            var modificationAudits = entries.Where(x => IsElegibleToAuditByInterface(x, EntityState.Modified, modificationAuditedInterface)).ToList();
 
             foreach (var entry in modificationAudits)
                 await _auditManager.AuditModification(entry.Entity as IDomainEntity, GetAuditableInterfaceArguments(entry, modificationAuditedInterface));
 
             var deletionAuditedInterface = typeof(IDeletionAudited<,>);
-            var deletionAudits = entries.Where(x => 
-                IsElegibleToAuditByInterface(x, EntityState.Modified, deletionAuditedInterface)
-                && (bool?)x.Entity.GetType().GetProperty("IsDeleted")?.GetValue(x.Entity) == true);
+            var deletionAudits = entries.Where(x =>
+                    IsElegibleToAuditByInterface(x, EntityState.Modified, deletionAuditedInterface)
+                    && (bool?) x.Entity.GetType().GetProperty("IsDeleted")?.GetValue(x.Entity) == true)
+                .ToList();
 
             foreach (var entry in deletionAudits)
                 await _auditManager.AuditDeletion(entry.Entity as IDomainEntity, GetAuditableInterfaceArguments(entry, deletionAuditedInterface));

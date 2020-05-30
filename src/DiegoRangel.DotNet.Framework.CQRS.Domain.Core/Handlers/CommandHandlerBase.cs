@@ -9,16 +9,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
 {
-    public abstract class CommandHandlerBase
+    public abstract class CommandHandlerBase<TUnitOfWork>
+        where TUnitOfWork : IUnitOfWork
     {
-        private readonly IUnitOfWork _uow;
+        private readonly TUnitOfWork _uow;
         private readonly NotificationContext _notificationContext;
         private readonly CommonMessages _commonMessages;
 
         protected CommandHandlerBase(
             NotificationContext notificationContext,
             CommonMessages commonMessages,
-            IUnitOfWork uow)
+            TUnitOfWork uow)
         {
             _uow = uow;
             _commonMessages = commonMessages;
