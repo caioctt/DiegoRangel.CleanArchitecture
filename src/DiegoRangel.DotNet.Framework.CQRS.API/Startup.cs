@@ -21,6 +21,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
         {
             var assemblies = new[]
             {
+                typeof(Startup).Assembly,
                 typeof(CommonMessages).Assembly,
                 typeof(Domain.Core.Entities.Entity).Assembly,
                 typeof(Infra.Data.EFCore.Setup.CustomDbContextOptionsBuilder).Assembly,
