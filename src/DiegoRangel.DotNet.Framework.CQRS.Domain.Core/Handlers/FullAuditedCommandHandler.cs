@@ -22,10 +22,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected FullAuditedCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             TUnitOfWork uow,
-            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
+            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, uow, repository)
         {
             _repository = repository;
             _commonMessages = commonMessages;
@@ -53,11 +53,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected FullAuditedCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
@@ -72,11 +72,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected FullAuditedCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            IFullAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
@@ -90,11 +90,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected FullAuditedCommandHandlerBase(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            IFullAuditedRepository<TEntity, int, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            IFullAuditedRepository<TEntity, int, int> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }

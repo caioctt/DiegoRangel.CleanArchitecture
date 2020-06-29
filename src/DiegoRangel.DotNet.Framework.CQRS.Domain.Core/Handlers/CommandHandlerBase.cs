@@ -13,11 +13,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         private readonly TUnitOfWork _uow;
-        private readonly NotificationContext _notificationContext;
+        private readonly INotificationContext _notificationContext;
         private readonly CommonMessages _commonMessages;
 
         protected CommandHandlerBase(
-            NotificationContext notificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             TUnitOfWork uow)
         {

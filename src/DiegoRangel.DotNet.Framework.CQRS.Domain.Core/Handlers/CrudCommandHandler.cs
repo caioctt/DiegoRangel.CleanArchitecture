@@ -22,10 +22,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
-            NotificationContext domainNotificationContext, 
+            INotificationContext notificationContext, 
             CommonMessages commonMessages,
             TUnitOfWork uow,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(notificationContext, commonMessages, uow)
         {
             _repository = repository;
             _commonMessages = commonMessages;
@@ -57,11 +57,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected CrudCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(notificationContext, commonMessages, uow, repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -99,11 +99,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly ICrudRepository<TEntity, TPrimaryKey> _repository;
 
         protected CrudCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -132,11 +132,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected CrudCommandHandlerBase(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICrudRepository<TEntity, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            ICrudRepository<TEntity, int> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }

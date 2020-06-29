@@ -8,14 +8,14 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Mailing
 {
     public class EmailSender : IEmailSender
     {
-        private readonly NotificationContext _notificationContext;
+        private readonly INotificationContext _notificationContext;
         private readonly MailTemplatingSettings _mailSettings;
         private readonly IFluentEmail _fluentEmail;
         private readonly IEmailQueue _emailQueue;
 
         private EmailData _emailData;
 
-        public EmailSender(NotificationContext notificationContext, MailTemplatingSettings mailSettings, IFluentEmail fluentEmail, IEmailQueue emailQueue)
+        public EmailSender(INotificationContext notificationContext, MailTemplatingSettings mailSettings, IFluentEmail fluentEmail, IEmailQueue emailQueue)
         {
             _notificationContext = notificationContext;
             _fluentEmail = fluentEmail;

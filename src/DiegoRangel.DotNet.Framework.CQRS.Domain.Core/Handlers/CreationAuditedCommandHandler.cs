@@ -16,10 +16,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
-            NotificationContext domainNotificationContext, 
+            INotificationContext notificationContext, 
             CommonMessages commonMessages,
             TUnitOfWork uow,
-            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, uow, repository)
+            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, uow, repository)
         {
         }
     }
@@ -33,11 +33,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
@@ -52,11 +52,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            ICreationAuditedRepository<TEntity, TEntityKey, TUserKey> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }
@@ -70,11 +70,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandlerBase(
-            NotificationContext domainNotificationContext,
+            INotificationContext notificationContext,
             CommonMessages commonMessages,
             IMapper mapper,
             TUnitOfWork uow,
-            ICreationAuditedRepository<TEntity, int, int> repository) : base(domainNotificationContext, commonMessages, mapper, uow, repository)
+            ICreationAuditedRepository<TEntity, int, int> repository) : base(notificationContext, commonMessages, mapper, uow, repository)
         {
         }
     }

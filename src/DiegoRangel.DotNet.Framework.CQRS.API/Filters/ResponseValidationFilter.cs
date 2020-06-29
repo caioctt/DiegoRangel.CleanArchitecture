@@ -11,15 +11,15 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
 {
     public class ResponseValidationFilter : IAsyncResultFilter
     {
-        private readonly NotificationContext _domainNotificationContext;
-        public ResponseValidationFilter(NotificationContext domainNotificationContext)
+        private readonly INotificationContext _notificationContext;
+        public ResponseValidationFilter(INotificationContext notificationContext)
         {
-            _domainNotificationContext = domainNotificationContext;
+            _notificationContext = notificationContext;
         }
 
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            var apiResponse = ApiResponseContract.From(_domainNotificationContext.Notifications);
+            var apiResponse = ApiResponseContract.From(_notificationContext.Notifications);
 
             if (context.Result is OkObjectResult && !apiResponse.Success)
             {

@@ -21,7 +21,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.IoC
             services.AddSingleton<ITokenProvider, TokenProvider>();
 
             services.AddScoped<IAuditManager, AuditManager<TUserKey>>();
-            services.AddScoped<NotificationContext>();
+            services.AddScoped<INotificationContext, NotificationContext>();
 
             services.RegisterStateMachines(assemblies);
             services.RegisterWhoImplements(typeof(IRepository), assemblies);

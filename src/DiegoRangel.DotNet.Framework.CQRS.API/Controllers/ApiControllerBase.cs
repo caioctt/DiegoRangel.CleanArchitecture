@@ -9,8 +9,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Controllers
 {
     public abstract class ApiControllerBase : Controller
     {
-        protected NotificationContext NotificationContext => _domainNotificationContext ??= HttpContext.RequestServices.GetService<NotificationContext>();
-        private NotificationContext _domainNotificationContext;
+        protected INotificationContext NotificationContext => _domainNotificationContext ??= HttpContext.RequestServices.GetService<INotificationContext>();
+        private INotificationContext _domainNotificationContext;
 
         protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetService<IMapper>();
         private IMapper _mapper;

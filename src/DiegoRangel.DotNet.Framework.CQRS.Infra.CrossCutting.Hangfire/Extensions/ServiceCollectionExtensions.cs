@@ -1,6 +1,8 @@
 ﻿using System;
 using Hangfire;
 using Hangfire.Mongo;
+using Hangfire.Mongo.Migration.Strategies;
+using Hangfire.Mongo.Migration.Strategies.Backup;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +30,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.Extensio
                     {
                         MigrationOptions = new MongoMigrationOptions
                         {
-                            Strategy = MongoMigrationStrategy.Migrate,
-                            BackupStrategy = MongoBackupStrategy.None
+                            BackupStrategy = new NoneMongoBackupStrategy(),
+                            MigrationStrategy = new MigrateMongoMigrationStrategy()
                         }
                     });
             });
