@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.API", "src\DiegoRangel.DotNet.Framework.CQRS.API\DiegoRangel.DotNet.Framework.CQRS.API.csproj", "{9B2B892C-D84F-4E2C-A1FF-833B70A8B25A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj", "{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj", "{68FB0D49-D600-41FF-A24B-52E4CDEFF45A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj", "{C76F283F-410F-4FA8-B3CF-77AB8EF31207}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR", "src\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj", "{C76F283F-410F-4FA8-B3CF-77AB8EF31207}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

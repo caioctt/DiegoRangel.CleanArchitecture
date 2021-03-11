@@ -1,5 +1,5 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.API;
-using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Mailing;
+using DiegoRangel.DotNet.Framework.CQRS.API.Services.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Test
         public void StartupTest()
         {
             Assert.IsNotNull(_webHost);
-            Assert.IsNotNull(_webHost.Services.GetRequiredService<IEmailQueue>());
+            Assert.IsNotNull(_webHost.Services.GetRequiredService<IFilesService>());
         }
     }
 }
