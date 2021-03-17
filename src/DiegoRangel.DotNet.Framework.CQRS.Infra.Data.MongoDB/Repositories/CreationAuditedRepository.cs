@@ -10,7 +10,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.MongoDB.Repositories
         CrudRepository<TEntity, TEntityKey>,
         ICreationAuditedRepository<TEntity, TEntityKey, TUserKey>
         where TEntity : CreationAuditedEntity<TEntityKey, TUserKey>
-        where TUserKey : struct
     {
         private readonly IAuditManager _auditManager;
         

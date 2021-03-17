@@ -21,7 +21,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     public interface IAudited<TEntityPrimaryKey, TUserKey> : 
         ICreationAudited<TEntityPrimaryKey, TUserKey>, 
         IModificationAudited<TEntityPrimaryKey, TUserKey>
-        where TUserKey : struct
     {
 
     }
@@ -37,7 +36,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         ICreationAudited<TEntityPrimaryKey, TUserKey, TUser>, 
         IModificationAudited<TEntityPrimaryKey, TUserKey, TUser>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
-        where TUserKey : struct
     {
 
     }

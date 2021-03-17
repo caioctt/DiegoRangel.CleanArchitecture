@@ -9,7 +9,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         CreationAuditedRepository<TEntity, TEntityKey, TUserKey>,
         IAuditedRepository<TEntity, TEntityKey, TUserKey>
         where TEntity : AuditedEntity<TEntityKey, TUserKey>, IAudited<TEntityKey, TUserKey>
-        where TUserKey : struct
     {
         protected override IQueryable<TEntity> Query => DbSet
             .OrderByDescending(x => x.CreationTime)

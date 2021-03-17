@@ -7,7 +7,6 @@ using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 {
     public class AuditManager<TUserKey> : IAuditManager
-        where TUserKey : struct
     {
         private readonly ILoggedInUserIdProvider<TUserKey> _loggedInUserIdProvider;
         public AuditManager(ILoggedInUserIdProvider<TUserKey> loggedInUserIdProvider)

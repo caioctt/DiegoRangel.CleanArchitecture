@@ -20,7 +20,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     public abstract class FullAuditedEntity<TEntityPrimaryKey, TUserKey> : 
         AuditedEntity<TEntityPrimaryKey, TUserKey>, 
         IFullAudited<TEntityPrimaryKey, TUserKey>
-        where TUserKey : struct
     {
         /// <summary>
         /// Is this entity Deleted?
@@ -35,7 +34,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         /// <summary>
         /// Which user deleted this entity?
         /// </summary>
-        public virtual TUserKey? DeleterUserId { get; set; }
+        public virtual TUserKey DeleterUserId { get; set; }
 
         /// <summary>
         /// Deletion time of this entity.
@@ -53,7 +52,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         FullAuditedEntity<TEntityPrimaryKey, TUserKey>, 
         IFullAudited<TEntityPrimaryKey, TUserKey, TUser>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
-        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the creator user of this entity.

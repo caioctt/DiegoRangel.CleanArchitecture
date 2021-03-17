@@ -12,7 +12,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         CrudCommandHandler<TEntity, TEntityKey, TDeleteCommand, TUnitOfWork>
         where TEntity : ICreationAudited<TEntityKey, TUserKey>
         where TDeleteCommand : ICommandWithId<TEntityKey>
-        where TUserKey : struct
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
@@ -29,7 +28,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : class, ICreationAudited<TEntityKey, TUserKey>
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
-        where TUserKey : struct
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(
@@ -48,7 +46,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TRegisterCommand : ICommandMapped<TEntity, TEntityKey, TEntity>
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
-        where TUserKey : struct
         where TUnitOfWork : IUnitOfWork
     {
         protected CreationAuditedCommandHandler(

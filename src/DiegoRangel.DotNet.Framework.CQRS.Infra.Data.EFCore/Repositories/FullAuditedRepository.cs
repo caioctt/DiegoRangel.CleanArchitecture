@@ -11,7 +11,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Repositories
         AuditedRepository<TEntity, TEntityKey, TUserKey>,
         IFullAuditedRepository<TEntity, TEntityKey, TUserKey>
         where TEntity : FullAuditedEntity<TEntityKey, TUserKey>
-        where TUserKey : struct
     {
         protected override IQueryable<TEntity> Query => DbSet
             .Where(x => !x.IsDeleted)

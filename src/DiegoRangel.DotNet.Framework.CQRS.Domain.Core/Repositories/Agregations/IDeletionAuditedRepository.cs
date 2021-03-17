@@ -7,7 +7,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Repositories.Agregations
         ICrudRepository<TEntity, TEntityKey>,
         ISoftDeletableRepository<TEntity, TEntityKey>
         where TEntity : IDeletionAudited<TEntityKey, TUserKey>
-        where TUserKey : struct
     {
 
     }
