@@ -49,12 +49,13 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.Extensio
                     .UseRecommendedSerializerSettings()
                     .UseSqlServerStorage(databaseSettings.ConnectionString, new SqlServerStorageOptions
                     {
+                        SchemaName = databaseSettings.Schema ?? "hangfire",
                         CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                         SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
                         QueuePollInterval = TimeSpan.Zero,
                         UseRecommendedIsolationLevel = true,
                         UsePageLocksOnDequeue = true,
-                        DisableGlobalLocks = true
+                        DisableGlobalLocks = true,
                     });
             });
         }
@@ -68,5 +69,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.Extensio
     public class HangfireDatabaseSettings
     {
         public string ConnectionString { get; set; }
+        public string Schema { get; set; }
     }
 }
