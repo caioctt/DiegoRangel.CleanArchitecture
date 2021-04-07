@@ -1,4 +1,5 @@
-﻿using GlobalExceptionHandler.WebApi;
+﻿using System.Threading.Tasks;
+using GlobalExceptionHandler.WebApi;
 using Microsoft.AspNetCore.Builder;
 using Newtonsoft.Json;
 
@@ -10,6 +11,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Extensions
         {
             app.UseGlobalExceptionHandler(x => {
                 x.ContentType = "application/json";
+                x.OnError((exception, context) =>
+                {
+
+                    return Task.CompletedTask;
+                });
                 x.ResponseBody(s => JsonConvert.SerializeObject(new
                 {
                     success = false,

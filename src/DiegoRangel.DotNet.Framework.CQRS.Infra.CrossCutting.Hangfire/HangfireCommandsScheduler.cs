@@ -36,7 +36,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire
         public void ScheduleRecurring(ICommand request, string cronExpression)
         {
             var mediatorSerializedObject = SerializeObject(request);
-            RecurringJob.AddOrUpdate(() => _commandsExecutor.ExecuteCommand(mediatorSerializedObject), cronExpression);
+            RecurringJob.AddOrUpdate(request.GetType().Name, () => _commandsExecutor.ExecuteCommand(mediatorSerializedObject), cronExpression);
         }
 
         private static MediatorSerializedObject SerializeObject(object mediatorObject)
