@@ -19,7 +19,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     public abstract class AuditedEntity<TEntityPrimaryKey, TUserKey> : 
         CreationAuditedEntity<TEntityPrimaryKey, TUserKey>, 
-        IModificationAudited<TEntityPrimaryKey, TUserKey>
+        IAudited<TEntityPrimaryKey, TUserKey>
     {
         /// <summary>
         /// Last modification date of this entity.
@@ -39,9 +39,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     /// <typeparam name="TUser">Type of the user</typeparam>
     public abstract class AuditedEntity<TEntityPrimaryKey, TUserKey, TUser> : 
-        AuditedEntity<TEntityPrimaryKey, TUserKey>, 
-        ICreationAudited<TEntityPrimaryKey, TUserKey, TUser>, 
-        IModificationAudited<TEntityPrimaryKey, TUserKey, TUser>
+        AuditedEntity<TEntityPrimaryKey, TUserKey>,
+        IAudited<TEntityPrimaryKey, TUserKey, TUser>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
     {
         /// <summary>
