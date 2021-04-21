@@ -13,9 +13,9 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
             ConfigureAuditedEntityBuilder(builder);
 
             builder.Property(x => x.CreationTime).IsRequired();
-            builder.Property(x => x.LastModificationTime).IsRequired(false);
+            builder.Property(x => x.LastModificationTime).IsRequired();
             builder.Property(x => x.CreatorUserId).IsRequired();
-            builder.Property(x => x.LastModifierUserId).IsRequired(false);
+            builder.Property(x => x.LastModifierUserId).IsRequired();
         }
 
         public abstract void ConfigureAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder);

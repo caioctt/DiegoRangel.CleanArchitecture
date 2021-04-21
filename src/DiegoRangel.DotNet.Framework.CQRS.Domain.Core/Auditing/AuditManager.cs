@@ -14,12 +14,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
             _loggedInUserIdProvider = loggedInUserIdProvider;
         }
 
-        public async Task AuditCreation<TEntityPrimaryKey>(IDomainEntity entity) 
+        public async Task AuditCreation<TEntityPrimaryKey>(IDomainEntity entity)
         {
-            if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserKey> creationAuditedEntity)) return;
-            var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
-            creationAuditedEntity.CreationTime = DateTime.Now;
-            creationAuditedEntity.CreatorUserId = userId;
+            await TrySetCreationAuditsFor<TEntityPrimaryKey>(entity);
+            await TrySetModificationAuditsFor<TEntityPrimaryKey>(entity);
         }
         public Task AuditCreation(IDomainEntity entity, params Type[] keyTypes)
         {
@@ -30,10 +28,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
 
         public async Task AuditModification<TEntityPrimaryKey>(IDomainEntity entity)
         {
-            if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserKey> modificationAuditedEntity)) return;
-            var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
-            modificationAuditedEntity.LastModificationTime = DateTime.Now;
-            modificationAuditedEntity.LastModifierUserId = userId;
+            await TrySetModificationAuditsFor<TEntityPrimaryKey>(entity);
         }
         public Task AuditModification(IDomainEntity entity, params Type[] keyTypes)
         {
@@ -56,6 +51,21 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
             var method = GetType().GetMethods().FirstOrDefault(x => x.Name.Equals("AuditDeletion") && x.ContainsGenericParameters);
             method?.MakeGenericMethod(keyTypes).Invoke(this, new object[] { entity });
             return Task.CompletedTask;
+        }
+
+        private async Task TrySetCreationAuditsFor<TEntityPrimaryKey>(IDomainEntity entity)
+        {
+            if (!(entity is ICreationAudited<TEntityPrimaryKey, TUserKey> creationAuditedEntity)) return;
+            var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
+            creationAuditedEntity.CreationTime = DateTime.Now;
+            creationAuditedEntity.CreatorUserId = userId;
+        }
+        private async Task TrySetModificationAuditsFor<TEntityPrimaryKey>(IDomainEntity entity)
+        {
+            if (!(entity is IModificationAudited<TEntityPrimaryKey, TUserKey> modificationAuditedEntity)) return;
+            var userId = await _loggedInUserIdProvider.GetUserLoggedInIdAsync();
+            modificationAuditedEntity.LastModificationTime = DateTime.Now;
+            modificationAuditedEntity.LastModifierUserId = userId;
         }
     }
 }

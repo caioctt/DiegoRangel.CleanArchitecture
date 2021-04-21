@@ -13,10 +13,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
             ConfigureFullAuditedEntityBuilder(builder);
 
             builder.Property(x => x.CreationTime).IsRequired();
-            builder.Property(x => x.LastModificationTime).IsRequired(false);
+            builder.Property(x => x.LastModificationTime).IsRequired();
             builder.Property(x => x.DeletionTime).IsRequired(false);
             builder.Property(x => x.CreatorUserId).IsRequired();
-            builder.Property(x => x.LastModifierUserId).IsRequired(false);
+            builder.Property(x => x.LastModifierUserId).IsRequired();
             builder.Property(x => x.DeleterUserId).IsRequired(false);
         }
 

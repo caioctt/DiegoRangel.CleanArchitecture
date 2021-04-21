@@ -12,6 +12,6 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         /// <summary>
         /// The last modified time for this entity.
         /// </summary>
-        DateTime? LastModificationTime { get; set; }
+        DateTime LastModificationTime { get; set; }
     }
 }
