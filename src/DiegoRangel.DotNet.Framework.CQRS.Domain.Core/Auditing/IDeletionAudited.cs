@@ -1,5 +1,4 @@
-﻿using System;
-using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
+﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing

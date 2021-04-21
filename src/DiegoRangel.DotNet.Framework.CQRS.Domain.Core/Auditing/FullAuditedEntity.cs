@@ -9,7 +9,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// </summary>
     public abstract class FullAuditedEntity : FullAuditedEntity<int, int>
     {
-
+        
     }
 
     /// <summary>
