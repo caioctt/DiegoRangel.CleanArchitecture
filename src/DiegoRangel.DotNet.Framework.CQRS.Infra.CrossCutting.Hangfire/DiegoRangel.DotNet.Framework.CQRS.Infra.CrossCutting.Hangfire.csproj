@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.0.8</Version>
+    <Version>5.0.10</Version>
     <Authors>Diego Rangel</Authors>
     <Company>Diego Rangel</Company>
     <Description>A common library for implementing CQRS based CrossCutting Hangfire layer.</Description>

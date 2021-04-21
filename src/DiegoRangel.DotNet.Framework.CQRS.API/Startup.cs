@@ -46,7 +46,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API
                 ApiDescription = "My test api description",
                 ApiContactInfo = "no-reply@gmail.com",
                 SecureWithUseJwtAuth = false
-            });
+            }, options => {});
 
             services.AddCommonMessages(() => new CommonMessages
             {

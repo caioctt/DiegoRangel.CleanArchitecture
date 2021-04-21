@@ -1,6 +1,7 @@
 ﻿using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing;
 using DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities;
 using DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Services.Session;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
@@ -31,8 +32,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         {
             ConfigureAuditedEntityWithUserBuilder(builder);
 
-            builder.HasOne(x => x.CreatorUser).WithMany();
-            builder.HasOne(x => x.LastModifierUser).WithMany();
+            builder.HasOne(x => x.CreatorUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.LastModifierUser).WithMany().OnDelete(DeleteBehavior.Restrict);
         }
 
         public abstract void ConfigureAuditedEntityWithUserBuilder(EntityTypeBuilder<TEntity> builder);
