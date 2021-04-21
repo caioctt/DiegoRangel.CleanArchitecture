@@ -13,6 +13,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : class, IAudited<TEntityKey, TUserKey>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         protected AuditedCommandHandler(
             INotificationContext notificationContext,
@@ -29,6 +30,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         protected AuditedCommandHandler(
             INotificationContext notificationContext,
@@ -47,6 +49,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         protected AuditedCommandHandler(
             INotificationContext notificationContext,

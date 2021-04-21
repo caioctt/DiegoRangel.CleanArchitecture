@@ -17,11 +17,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
     /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     public interface IDeletionAudited<TEntityPrimaryKey, TUserKey> : IEntity<TEntityPrimaryKey>, IHasDeletionTime
+        where TUserKey : struct
     {
         /// <summary>
         /// Which user deleted this entity?
         /// </summary>
-        TUserKey DeleterUserId { get; set; }
+        TUserKey? DeleterUserId { get; set; }
     }
 
     /// <summary>
@@ -32,6 +33,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TUser">Type of the user</typeparam>
     public interface IDeletionAudited<TEntityPrimaryKey, TUserKey, TUser> : IDeletionAudited<TEntityPrimaryKey, TUserKey>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the deleter user of this entity.

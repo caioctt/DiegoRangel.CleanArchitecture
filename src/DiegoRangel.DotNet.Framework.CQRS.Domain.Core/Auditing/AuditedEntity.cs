@@ -20,16 +20,17 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     public abstract class AuditedEntity<TEntityPrimaryKey, TUserKey> : 
         CreationAuditedEntity<TEntityPrimaryKey, TUserKey>, 
         IAudited<TEntityPrimaryKey, TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Last modification date of this entity.
         /// </summary>
-        public virtual DateTime LastModificationTime { get; set; }
+        public virtual DateTime? LastModificationTime { get; set; }
 
         /// <summary>
         /// Last modifier user of this entity.
         /// </summary>
-        public virtual TUserKey LastModifierUserId { get; set; }
+        public virtual TUserKey? LastModifierUserId { get; set; }
     }
 
     /// <summary>
@@ -42,6 +43,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
         AuditedEntity<TEntityPrimaryKey, TUserKey>,
         IAudited<TEntityPrimaryKey, TUserKey, TUser>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the creator user of this entity.

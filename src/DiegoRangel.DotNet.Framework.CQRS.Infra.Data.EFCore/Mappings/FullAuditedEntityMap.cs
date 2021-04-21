@@ -8,16 +8,17 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
     public abstract class FullAuditedEntityMap<TEntity, TEntityKey, TUserKey> : 
         EntityMap<TEntity, TEntityKey>
         where TEntity : Entity<TEntityKey>, IFullAudited<TEntityKey, TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {
             ConfigureFullAuditedEntityBuilder(builder);
 
             builder.Property(x => x.CreationTime).IsRequired();
-            builder.Property(x => x.LastModificationTime).IsRequired();
+            builder.Property(x => x.LastModificationTime).IsRequired(false);
             builder.Property(x => x.DeletionTime).IsRequired(false);
             builder.Property(x => x.CreatorUserId).IsRequired();
-            builder.Property(x => x.LastModifierUserId).IsRequired();
+            builder.Property(x => x.LastModifierUserId).IsRequired(false);
             builder.Property(x => x.DeleterUserId).IsRequired(false);
         }
 
@@ -28,6 +29,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Mappings
         FullAuditedEntityMap<TEntity, TEntityKey, TUserKey>
         where TEntity : Entity<TEntityKey>, IFullAudited<TEntityKey, TUserKey, TUser>
         where TUser : Entity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         public override void ConfigureFullAuditedEntityBuilder(EntityTypeBuilder<TEntity> builder)
         {

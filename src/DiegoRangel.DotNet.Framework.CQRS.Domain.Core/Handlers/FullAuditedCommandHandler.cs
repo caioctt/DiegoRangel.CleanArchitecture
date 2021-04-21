@@ -16,6 +16,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TEntity : class, IFullAudited<TEntityKey, TUserKey>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         private readonly IFullAuditedRepository<TEntity, TEntityKey, TUserKey> _repository;
         private readonly CommonMessages _commonMessages;
@@ -49,6 +50,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         protected FullAuditedCommandHandler(
             INotificationContext notificationContext,
@@ -67,6 +69,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         where TUpdateCommand : ICommandMappedWithId<TEntity, TEntityKey, TEntity>
         where TDeleteCommand : ICommandWithId<TEntityKey>
         where TUnitOfWork : IUnitOfWork
+        where TUserKey : struct
     {
         protected FullAuditedCommandHandler(
             INotificationContext notificationContext,

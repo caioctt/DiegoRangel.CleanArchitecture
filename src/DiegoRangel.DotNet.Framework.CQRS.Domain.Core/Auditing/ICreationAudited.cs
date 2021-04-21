@@ -18,6 +18,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
     /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     public interface ICreationAudited<TEntityPrimaryKey, TUserKey> : IEntity<TEntityPrimaryKey>, IHasCreationTime
+        where TUserKey : struct
     {
         /// <summary>
         /// Id of the creator user of this entity.
@@ -34,6 +35,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     public interface ICreationAudited<TEntityPrimaryKey, TUserKey, TUser> : 
         ICreationAudited<TEntityPrimaryKey, TUserKey>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the creator user of this entity.

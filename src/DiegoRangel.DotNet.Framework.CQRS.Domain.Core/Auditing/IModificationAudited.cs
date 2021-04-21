@@ -18,11 +18,12 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TEntityPrimaryKey">The entity's key type</typeparam>
     /// <typeparam name="TUserKey">The user's primary key type</typeparam>
     public interface IModificationAudited<TEntityPrimaryKey, TUserKey> : IEntity<TEntityPrimaryKey>, IHasModificationTime
+        where TUserKey : struct
     {
         /// <summary>
         /// Last modifier user for this entity.
         /// </summary>
-        TUserKey LastModifierUserId { get; set; }
+        TUserKey? LastModifierUserId { get; set; }
     }
 
     /// <summary>
@@ -33,6 +34,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Auditing
     /// <typeparam name="TUser">Type of the user</typeparam>
     public interface IModificationAudited<TEntityPrimaryKey, TUserKey, TUser> : IModificationAudited<TEntityPrimaryKey, TUserKey>
         where TUser : IEntity<TUserKey>, IUser<TUserKey>
+        where TUserKey : struct
     {
         /// <summary>
         /// Reference to the last modifier user of this entity.
