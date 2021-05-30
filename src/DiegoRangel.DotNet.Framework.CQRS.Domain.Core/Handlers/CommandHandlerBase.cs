@@ -17,8 +17,8 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
         private readonly CommonMessages _commonMessages;
 
         protected CommandHandlerBase(
-            INotificationContext notificationContext,
             CommonMessages commonMessages,
+            INotificationContext notificationContext,
             TUnitOfWork uow)
         {
             _uow = uow;

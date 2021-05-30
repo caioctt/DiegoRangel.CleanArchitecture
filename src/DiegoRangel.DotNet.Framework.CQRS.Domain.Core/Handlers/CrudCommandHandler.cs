@@ -25,7 +25,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Handlers
             INotificationContext notificationContext, 
             CommonMessages commonMessages,
             TUnitOfWork uow,
-            ICrudRepository<TEntity, TPrimaryKey> repository) : base(notificationContext, commonMessages, uow)
+            ICrudRepository<TEntity, TPrimaryKey> repository) : base(commonMessages, notificationContext, uow)
         {
             _repository = repository;
             _commonMessages = commonMessages;
