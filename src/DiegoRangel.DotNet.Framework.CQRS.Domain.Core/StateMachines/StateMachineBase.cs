@@ -7,8 +7,8 @@ using Stateless.Reflection;
 
 namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.StateMachines
 {
-    public abstract class StateMachineBase<TEntity, TStates, TTriggers> : IStateMachine
-        where TEntity : IEntity
+    public abstract class StateMachineBase<TEntity, TKey, TStates, TTriggers> : IStateMachine
+        where TEntity : IEntity<TKey>
         where TStates : struct
         where TTriggers : struct
     {
@@ -20,7 +20,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.StateMachines
             Machine.OnTransitioned(OnTransitioned);
             Machine.OnUnhandledTrigger((state, trigger) =>
             {
-                Entity.AddValidationError("Status", "Invalid operation.");
+                Entity.AddValidationError("Status", "Operação inválida.");
             });
 
             Setup();
@@ -68,4 +68,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.StateMachines
             return newCustomTrigger;
         }
     }
+
+    public abstract class StateMachineBase<TEntity, TStates, TTriggers> : 
+        StateMachineBase<TEntity, int, TStates, TTriggers>
+        where TEntity : IEntity
+        where TStates : struct
+        where TTriggers : struct
+    {}
 }

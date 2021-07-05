@@ -6,7 +6,7 @@
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A common library for implementing CQRS based IoC layer.</Description>
-    <Version>5.0.12</Version>
+    <Version>5.0.13</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,8 +7,14 @@
     <Description>A common library for implementing CQRS based Domain layer.</Description>
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.0.12</Version>
+    <Version>5.0.13</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Notifications\**" />
+    <EmbeddedResource Remove="Notifications\**" />
+    <None Remove="Notifications\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Stateless" Version="5.10.1" />
@@ -18,10 +24,6 @@
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.Hangfire.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.MediatR.csproj" />
     <ProjectReference Include="..\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting\DiegoRangel.DotNet.Framework.CQRS.Infra.CrossCutting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Notifications\" />
   </ItemGroup>
 
 </Project>
