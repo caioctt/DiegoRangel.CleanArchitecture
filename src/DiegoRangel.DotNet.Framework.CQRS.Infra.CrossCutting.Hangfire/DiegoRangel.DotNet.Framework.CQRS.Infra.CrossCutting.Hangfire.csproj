@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.0.13</Version>
+    <Version>5.0.15</Version>
     <Authors>Diego Rangel</Authors>
     <Company>Diego Rangel</Company>
     <Description>A common library for implementing CQRS based CrossCutting Hangfire layer.</Description>
@@ -11,10 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.19" />
-    <PackageReference Include="HangFire.Core" Version="1.7.19" />
-    <PackageReference Include="HangFire.Mongo" Version="0.7.19" />
-    <PackageReference Include="HangFire.SqlServer" Version="1.7.19" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.24" />
+    <PackageReference Include="HangFire.Core" Version="1.7.24" />
+    <PackageReference Include="HangFire.Mongo" Version="0.7.24" />
+    <PackageReference Include="HangFire.SqlServer" Version="1.7.24" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 

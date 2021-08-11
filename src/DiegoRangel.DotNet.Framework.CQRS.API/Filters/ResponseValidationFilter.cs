@@ -25,8 +25,7 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
             {
                 var json = JsonConvert.SerializeObject(apiResponse.ToJson(), new JsonSerializerSettings
                 {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    DateTimeZoneHandling = DateTimeZoneHandling.Utc
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
 
                 context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
