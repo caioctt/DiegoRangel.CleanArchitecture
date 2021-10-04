@@ -21,7 +21,10 @@ namespace DiegoRangel.DotNet.Framework.CQRS.API.Filters
         {
             var apiResponse = ApiResponseContract.From(_notificationContext.Notifications);
 
-            if (context.Result is OkObjectResult && !apiResponse.Success)
+            if ((context.Result is OkObjectResult
+                 || context.Result is NoContentResult
+                 || context.Result is CreatedResult) 
+                && !apiResponse.Success)
             {
                 var json = JsonConvert.SerializeObject(apiResponse.ToJson(), new JsonSerializerSettings
                 {

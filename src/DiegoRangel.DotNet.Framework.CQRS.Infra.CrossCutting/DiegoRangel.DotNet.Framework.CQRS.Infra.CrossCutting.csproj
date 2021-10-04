@@ -6,7 +6,7 @@
     <RepositoryUrl>https://github.com/diego-rangel/DiegoRangel.DotNet.Framework.CQRS</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A common library for implementing CQRS based CrossCutting layer.</Description>
-    <Version>5.0.15</Version>
+    <Version>5.0.16</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
     <PackageReference Include="FluentValidation" Version="8.6.3" />
     <PackageReference Include="Humanizer.Core" Version="2.11.10" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Twilio" Version="5.64.1" />
+    <PackageReference Include="Twilio" Version="5.65.0" />
     <PackageReference Include="UAParser" Version="3.1.47" />
   </ItemGroup>
 
