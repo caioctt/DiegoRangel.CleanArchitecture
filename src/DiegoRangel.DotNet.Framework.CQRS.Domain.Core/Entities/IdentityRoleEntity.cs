@@ -31,7 +31,11 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Domain.Core.Entities
 
         public bool IsValid()
         {
-            var validador = ValidatorHelper.GetFrom(GetType());
+            var type = GetType();
+            var validador = ValidatorHelper.GetFrom(type);
+            if (validador == null)
+                throw new ArgumentException($"Validator not found for {type.Name}");
+
             var validationResult = validador.Validate(this);
 
             if (!validationResult.Errors.Any()) return ValidationResult.IsValid;
