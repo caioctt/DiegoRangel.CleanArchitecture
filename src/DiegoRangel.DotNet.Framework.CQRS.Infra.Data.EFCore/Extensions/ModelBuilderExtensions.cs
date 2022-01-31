@@ -48,13 +48,21 @@ namespace DiegoRangel.DotNet.Framework.CQRS.Infra.Data.EFCore.Extensions
 
             foreach (var type in mappingClasses)
             {
-                var interfaceType = type.GetInterfaces()
-                    .FirstOrDefault(i => i.IsConstructedGenericType 
-                                && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>));
+                try
+                {
+                    Console.WriteLine($"Mapping type {type.Name}");
+                    var interfaceType = type.GetInterfaces()
+                        .FirstOrDefault(i => i.IsConstructedGenericType
+                                             && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>));
 
-                if (interfaceType == null) continue;
-                var applyConcreteMethod = applyGenericMethod?.MakeGenericMethod(interfaceType.GenericTypeArguments[0]);
-                applyConcreteMethod?.Invoke(modelBuilder, new[] { Activator.CreateInstance(type) });
+                    if (interfaceType == null) continue;
+                    var applyConcreteMethod = applyGenericMethod?.MakeGenericMethod(interfaceType.GenericTypeArguments[0]);
+                    applyConcreteMethod?.Invoke(modelBuilder, new[] { Activator.CreateInstance(type) });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
